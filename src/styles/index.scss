@@ -1,0 +1,21 @@
+@import "./_colors";
+@import "./_presets";
+@import "./_variables";
+
+.small {
+    font-size: 0.7rem;
+}
+
+.normal {
+    font-size: 0.85rem;
+}
+
+.large {
+    font-size: 1.2rem;
+}
+
+.transition {
+    &:hover {
+        transition: 0.4s ease-out;
+    }
+}

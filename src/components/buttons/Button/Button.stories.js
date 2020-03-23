@@ -2,15 +2,34 @@ import React from "react"
 import Button from "./Button"
 
 export default {
-    title: "NavButton",
+    title: "Default Button",
     component: Button
 }
 
-export const Variations = () => (
+export const Default = () => (
     <>
-        {/* <h2>Color variations with transition (default setup)</h2> */}
         <Button variation="grey">Default</Button>
         <Button variation="purple">Default</Button>
+    </>
+)
+
+export const Sizes = () => (
+    <>
+        <Button variation="grey" size="small">
+            Small
+        </Button>
+        <Button variation="grey">Default</Button>
+        <Button variation="grey" size="large">
+            Large
+        </Button>
+        <br /> <br />
+        <Button variation="purple" size="small">
+            Small
+        </Button>
+        <Button variation="purple">Default</Button>
+        <Button variation="purple" size="large">
+            Large
+        </Button>
     </>
 )
 

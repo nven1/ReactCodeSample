@@ -1,24 +1,30 @@
 %buttonPreset {
-  outline: none;
-  border: none;
-  height: max-content;
-  border-radius: 100px;
+    outline: none;
+    border: none;
+    height: max-content;
+    border-radius: 100px;
 
-  &:hover {
-    cursor: pointer;
-  }
+    &:hover {
+        cursor: pointer;
+    }
 }
 
 %mainButtonPreset {
-  @extend %buttonPreset;
-  padding: 0.6rem 1.5rem;
-  font-weight: bold;
-  text-decoration: none;
-  margin: 0 0.5em 0 0;
+    @extend %buttonPreset;
+    padding: 0.6em 1.5em;
+    font-weight: bold;
+    text-decoration: none;
+    margin: 0 0.5em 0 0;
+}
+
+%textButtonPreset {
+    @extend %mainButtonPreset;
+    padding: 0;
+    margin: 0 1em 0 0;
 }
 
 %center {
-  display: flex;
-  justify-content: center;
-  align-items: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }

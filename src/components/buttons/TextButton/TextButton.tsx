@@ -1,10 +1,10 @@
 import React from "react"
-import styles from "./Button.module.scss"
+import styles from "./TextButton.module.scss"
 import { ButtonProps } from "../../../types/ElementProps"
 import { buttonClassName } from "../../../utils/classNameHelpers"
 
-const Button: React.FC<ButtonProps> = props => {
-    const classProps: string = buttonClassName(styles, props)
+const TextButton: React.FC<ButtonProps> = props => {
+    const classProps = buttonClassName(styles, props)
 
     return (
         <button className={classProps} onClick={props.onClick}>
@@ -12,5 +12,4 @@ const Button: React.FC<ButtonProps> = props => {
         </button>
     )
 }
-
-export default Button
+export default TextButton

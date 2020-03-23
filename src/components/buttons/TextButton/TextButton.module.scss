@@ -1,0 +1,30 @@
+@import "../../../styles/index.scss";
+
+.Button {
+    @extend %textButtonPreset;
+    span {
+        @extend %center;
+    }
+}
+
+.grey {
+    background-color: transparent;
+    color: $greySecondary;
+}
+
+.purple {
+    background-color: transparent;
+    color: $purplePrimary;
+}
+
+.hover--grey {
+    &:hover {
+        color: $purplePrimary;
+    }
+}
+
+.hover--purple {
+    &:hover {
+        color: $purpleSecondary;
+    }
+}

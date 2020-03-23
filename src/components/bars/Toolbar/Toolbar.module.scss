@@ -1,0 +1,15 @@
+@import "../../../styles/index.scss";
+
+.Toolbar {
+    top: 5rem;
+    position: sticky;
+    display: flex;
+
+    align-items: center;
+    padding: $paddingHorizontal;
+    height: 4rem;
+
+    :last-child {
+        margin: 0 0 0 auto;
+    }
+}

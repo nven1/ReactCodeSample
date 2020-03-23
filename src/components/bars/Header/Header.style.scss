@@ -1,0 +1,22 @@
+@import "../../../styles/index.scss";
+
+.Header {
+    top: 0;
+    position: sticky;
+    display: flex;
+    box-sizing: border-box;
+
+    height: 5em;
+    border-bottom: 1px solid $greyPrimary;
+    background-color: white;
+    padding: 0 4em;
+
+    align-items: center;
+
+    :nth-child(4) {
+        margin-right: auto;
+    }
+    :last-child {
+        margin-right: 0;
+    }
+}

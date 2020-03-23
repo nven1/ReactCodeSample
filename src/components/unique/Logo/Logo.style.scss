@@ -1,23 +1,23 @@
 @import "../../../styles/__colors.scss";
 
 .Logo-Container {
-  display: flex;
-  justify-content: center;
-  align-items: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 
-  background-color: $greyPrimary;
-  height: 3em;
-  width: 3em;
-  border-radius: 100%;
-  margin: 0 2em 0 0.5em;
+    background-color: $greyPrimary;
+    height: 3em;
+    width: 3em;
+    border-radius: 100%;
+    margin: 0 2em 0 0;
 
-  img {
-    height: 2em;
-    cursor: pointer;
-    transition: transform 0.4s;
+    img {
+        height: 2em;
+        cursor: pointer;
+        transition: transform 0.4s;
 
-    &:hover {
-      transform: rotate(360deg) scale(1.1);
+        &:hover {
+            transform: rotate(360deg) scale(1.1);
+        }
     }
-  }
 }
