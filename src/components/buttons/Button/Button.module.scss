@@ -1,0 +1,38 @@
+@import "../../../styles/_colors";
+@import "../../../styles/_presets";
+
+.Button {
+  @extend %mainButtonPreset;
+  span {
+    @extend %center;
+  }
+}
+
+.grey {
+  background-color: $greyPrimary;
+  color: $purplePrimary;
+}
+
+.purple {
+  background-color: $purplePrimary;
+  color: $greyPrimary;
+}
+
+.hover--grey {
+  &:hover {
+    background-color: $purplePrimary;
+    color: $greyPrimary;
+  }
+}
+
+.hover--purple {
+  &:hover {
+    background-color: $purpleSecondary;
+  }
+}
+
+.transition {
+  &:hover {
+    transition: 0.4s ease-out;
+  }
+}
