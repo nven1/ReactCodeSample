@@ -1,0 +1,11 @@
+@import "../../../styles/index.scss";
+
+.container {
+    height: 0;
+    width: 0;
+    border-top: 5px solid transparent;
+    border-bottom: 5px solid transparent;
+    border-left: 8px solid $purplePrimary;
+
+    margin-left: 0.5em;
+}

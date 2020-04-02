@@ -2,8 +2,10 @@ import React from "react"
 import styles from "./Toolbar.module.scss"
 import TextButton from "../../buttons/TextButton/TextButton"
 import Button from "../../buttons/Button/Button"
+import HierarchyArrow from "../../indicators/HierarchyArrow/HierarchyArrow"
 
 interface ToolbarProps {
+    parent: string
     buttons: Array<any>
     indexActive?: number
     onClick: (index?: number) => void
@@ -11,11 +13,13 @@ interface ToolbarProps {
 }
 
 const Toolbar: React.FC<ToolbarProps> = props => {
-    const handleClick = (index: number) => (e: React.MouseEvent<HTMLButtonElement>) => {
-        if (index !== props.indexActive) {
-            props.onClick(index)
-        } else {
-            props.onClick(undefined)
+    const handleButtonClick = (index?: number) => (e: React.MouseEvent<HTMLButtonElement>) => {
+        props.onClick(index)
+    }
+
+    const handleActionClick = () => {
+        if (props.onAction) {
+            props.onAction()
         }
     }
 
@@ -26,7 +30,7 @@ const Toolbar: React.FC<ToolbarProps> = props => {
                 <TextButton
                     key={button.id}
                     variation={isActive ? "purple" : "grey"}
-                    onClick={handleClick(button.id)}
+                    onClick={handleButtonClick(button.id)}
                     noHover={isActive}
                 >
                     {button.name}
@@ -35,12 +39,19 @@ const Toolbar: React.FC<ToolbarProps> = props => {
         })
         return buttons
     }
+
     return (
         <div className={styles.Toolbar}>
+            <TextButton variation="purple" onClick={handleButtonClick()}>
+                {props.parent} <HierarchyArrow />
+            </TextButton>
+
             {renderButtons()}
-            <Button variation="purple" size="small">
-                Add department
-            </Button>
+            {props.onAction && (
+                <Button variation="purple" size="small" onClick={handleActionClick}>
+                    Add department
+                </Button>
+            )}
         </div>
     )
 }

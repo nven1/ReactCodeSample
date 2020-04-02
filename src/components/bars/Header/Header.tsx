@@ -18,7 +18,7 @@ const Header: React.FC<HeaderProps> = props => {
                 Departments
             </NavButton>
             <NavButton to={Endpoints.appEndpoints.staff}>Staff</NavButton>
-            <NavButton to={Endpoints.appEndpoints.leave}>Annual Leave</NavButton>
+            <NavButton to={Endpoints.appEndpoints.calendar}>Calendar</NavButton>
             <NavButton to={Endpoints.extEndpoints.wiki} external>
                 Wiki
             </NavButton>

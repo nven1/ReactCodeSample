@@ -1,10 +1,11 @@
 @import "../../../styles/index.scss";
 
-.Button {
-    @extend %mainButtonPreset;
-    span {
-        @extend %center;
-    }
+.container {
+    @extend %buttonPreset;
+    padding: 0.6em 1.5em;
+    margin: 0 0.5em 0 0;
+    font-weight: bold;
+    line-height: 100%;
 }
 
 .grey {

@@ -1,10 +1,10 @@
 @import "../../../styles/index.scss";
 
-.Button {
-    @extend %textButtonPreset;
-    span {
-        @extend %center;
-    }
+.container {
+    @extend %buttonPreset;
+    padding: 0;
+    margin: 0 1em 0 0;
+    font-weight: bold;
 }
 
 .grey {

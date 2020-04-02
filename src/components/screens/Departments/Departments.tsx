@@ -1,40 +1,84 @@
-import React, { useState, useEffect } from "react"
+import React, { useState, useEffect, ChangeEvent } from "react"
 import styles from "./Departments.module.scss"
 import Toolbar from "../../bars/Toolbar/Toolbar"
-
-const departments = [
-    {
-        id: 0,
-        name: "Frontend",
-        members: ["Neven", "Matej", "Nino"]
-    },
-    {
-        id: 1,
-        name: "Backend",
-        members: ["Luka", "Kec", "Matija"]
-    }
-]
+import IllustrationButton from "../../buttons/IllustrationButton/IllustrationButton"
+import Button from "../../buttons/Button/Button"
+import { useSelector, useDispatch } from "react-redux"
+import { selectDepartments, addDepartment, editDepartment } from "../../../reducers/DepartmentReducer"
+import Department from "../../subscreens/Department/Department"
+import DepartmentDataAccess from "../../../data_access/DepartmentDataAccess"
+import OverflowButton from "../../buttons/OverflowButton/OverflowButton"
 
 interface DepartmentsProps {}
 
 const Departments: React.FC<DepartmentsProps> = props => {
-    const [activeTab, setActiveTab] = useState<number | undefined>(undefined)
+    const departments = useSelector(selectDepartments)
+    const dispatch = useDispatch()
 
-    const handleClick = (index?: number) => {
+    const [activeTab, setActiveTab] = useState<number | undefined>(undefined)
+    const [viewEdit, setViewEdit] = useState<boolean>(false)
+    const [input, setInput] = useState<string>("")
+
+    const handleInput = (e: ChangeEvent<HTMLInputElement>) => {
+        setInput(e.currentTarget.value)
+    }
+
+    const dispatchActions = {
+        addDepartment: () => {
+            if (input.length > 2) {
+                dispatch(addDepartment([{ id: 2, name: input, image: "", members: [] }]))
+                //DepartmentDataAccess.getDepartments(dispatch)()
+            }
+        },
+
+        editDepartment: () => {
+            dispatch(editDepartment({ targetId: 0, department: { id: 0, name: "ayy lmao", image: "", members: [] } }))
+        }
+    }
+
+    const setTab = (index?: number) => {
         setActiveTab(index)
+        if (viewEdit) {
+            setViewEdit(false)
+        }
+    }
+
+    const toolbarAction = () => {
+        setViewEdit(true)
+        setActiveTab(undefined)
     }
 
     const renderView = () => {
-        if (activeTab === undefined) {
-            return "All departments"
+        if (!viewEdit) {
+            if (activeTab === undefined) {
+                const dpButtons = departments.map(dp => <OverflowButton department={dp} onClick={setTab} />)
+                return dpButtons
+            }
+            return <Department department={departments[activeTab]} />
         }
-        return departments[activeTab].members
+        return (
+            <>
+                <input value={input} onChange={handleInput} />
+                <Button variation="purple" onClick={dispatchActions.addDepartment}>
+                    Add departments
+                </Button>
+                <Button variation="purple" onClick={dispatchActions.editDepartment}>
+                    Edit Frontend
+                </Button>
+            </>
+        )
     }
 
     return (
         <div className={styles.Departments}>
-            <Toolbar buttons={departments} indexActive={activeTab} onClick={handleClick} />
-            {renderView()}
+            <Toolbar
+                parent="Departments"
+                buttons={departments}
+                indexActive={activeTab}
+                onClick={setTab}
+                onAction={toolbarAction}
+            />
+            <div className={styles.content}>{renderView()}</div>
         </div>
     )
 }

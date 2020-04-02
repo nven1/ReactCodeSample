@@ -1,9 +1,9 @@
-import React from "react";
-import "./RedDot.style.scss";
+import React from "react"
+import styles from "./RedDot.module.scss"
 
 interface RedDotProps {}
 
 const RedDot: React.FC<RedDotProps> = props => {
-  return <div className="RedDot"></div>;
-};
-export default RedDot;
+    return <div className={styles.container}></div>
+}
+export default RedDot

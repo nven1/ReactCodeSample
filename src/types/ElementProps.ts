@@ -3,5 +3,5 @@ export interface ButtonProps {
     size?: "small" | "normal" | "large"
     noHover?: boolean
     noTransition?: boolean
-    onClick?: (data: any) => void
+    onClick?: (data?: any) => void
 }

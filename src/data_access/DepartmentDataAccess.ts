@@ -1,18 +1,13 @@
 import { Dispatch } from "redux"
+import axios from "axios"
+import Endpoints from "../environments/endpoints"
+import { addDepartment } from "../reducers/DepartmentReducer"
 
-const departments = [
-    {
-        id: 0,
-        name: "Frontend",
-        members: ["Neven", "Matej", "Nino"]
-    },
-    {
-        id: 1,
-        name: "Backend",
-        members: ["Luka", "Kec", "Matija"]
-    }
-]
-
-const getDepartments = (dispath: Dispatch<any>) => () => {}
+const getDepartments = (dispath: Dispatch<any>) => () => {
+    axios
+        .get("")
+        .then(response => {})
+        .catch(error => {})
+}
 
 export default { getDepartments }
