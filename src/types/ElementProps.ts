@@ -1,5 +1,5 @@
 export interface ButtonProps {
-    variation: "grey" | "purple"
+    color: "grey" | "purple" | "red"
     size?: "small" | "normal" | "large"
     noHover?: boolean
     noTransition?: boolean

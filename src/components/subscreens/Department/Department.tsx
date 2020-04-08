@@ -5,9 +5,11 @@ import Container from "../../containers/Container/Container"
 import { UserTypeResponse } from "../../../types/UserTypes"
 import Circle from "../../indicators/Circle/Circle"
 import Illustration from "../../indicators/Illustration/Illustration"
+import Button from "../../buttons/Button/Button"
 
 interface DepartmentProps {
     department: DepartmentType
+    edit?: boolean
 }
 
 const Department: React.FC<DepartmentProps> = (props) => {
@@ -26,6 +28,16 @@ const Department: React.FC<DepartmentProps> = (props) => {
     }, [props.department])
 
     const renderPeople = (people: Array<UserTypeResponse>) => {
+        if (props.edit) {
+            return people.map((person) => (
+                <div className={styles.personEdit}>
+                    <span>{`${person.firstName} ${person.lastName}`}</span>
+                    <Button color="red" size="small">
+                        Reassign
+                    </Button>
+                </div>
+            ))
+        }
         return people.map((person) => <div className={styles.person}>{`${person.firstName} ${person.lastName}`}</div>)
     }
 

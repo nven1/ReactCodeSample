@@ -30,7 +30,7 @@ const Toolbar: React.FC<ToolbarProps> = (props) => {
             return (
                 <TextButton
                     key={index}
-                    variation={isActive ? "purple" : "grey"}
+                    color={isActive ? "purple" : "grey"}
                     onClick={handleButtonClick(index)}
                     noHover={isActive}
                 >
@@ -44,7 +44,7 @@ const Toolbar: React.FC<ToolbarProps> = (props) => {
     const renderActionButton = () => {
         if (props.onAction && props.actionLabel) {
             return (
-                <Button variation="purple" size="small" onClick={handleActionClick}>
+                <Button color="purple" size="small" onClick={handleActionClick}>
                     {props.actionLabel}
                 </Button>
             )
@@ -53,7 +53,7 @@ const Toolbar: React.FC<ToolbarProps> = (props) => {
 
     return (
         <div className={styles.container}>
-            <TextButton variation="purple" onClick={handleButtonClick()}>
+            <TextButton color="purple" onClick={handleButtonClick()}>
                 {props.label} <HierarchyArrow />
             </TextButton>
 

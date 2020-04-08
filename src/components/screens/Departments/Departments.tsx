@@ -53,16 +53,23 @@ const Departments: React.FC<DepartmentsProps> = (props) => {
                     <OverflowButton key={dp.id} index={index} department={dp} onClick={setTab} />
                 ))
                 return <div className={styles.all}>{dpButtons}</div>
+            case "edit":
             case "single":
-                return activeTab !== undefined ? <Department department={departments[activeTab]} /> : ""
+                if (activeTab !== undefined) {
+                    return <Department department={departments[activeTab]} edit={mode === "edit"} />
+                } else {
+                    setMode("all")
+                    break
+                }
+
             case "add":
                 return (
                     <>
                         <input value={input} onChange={handleInput} />
-                        <Button variation="purple" onClick={dispatchActions.addDepartment}>
+                        <Button color="purple" onClick={dispatchActions.addDepartment}>
                             Add departments
                         </Button>
-                        <Button variation="purple" onClick={dispatchActions.editDepartment}>
+                        <Button color="purple" onClick={dispatchActions.editDepartment}>
                             Edit Frontend
                         </Button>
                     </>

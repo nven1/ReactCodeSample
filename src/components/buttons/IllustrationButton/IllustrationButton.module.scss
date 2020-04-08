@@ -1,8 +1,0 @@
-@import "../../../styles/index.scss";
-
-.container {
-    @extend %buttonPreset;
-    padding: 0.6em 1.5em;
-    margin: 0 0.5em 0 0;
-    font-weight: bold;
-}

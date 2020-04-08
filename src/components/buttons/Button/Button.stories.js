@@ -3,31 +3,24 @@ import Button from "./Button"
 
 export default {
     title: "Default Button",
-    component: Button
+    component: Button,
 }
 
 export const Default = () => (
     <>
-        <Button variation="grey">Default</Button>
-        <Button variation="purple">Default</Button>
+        <Button color="grey">Default</Button>
+        <Button color="purple">Default</Button>
+        <Button color="red">Default</Button>
     </>
 )
 
 export const Sizes = () => (
     <>
-        <Button variation="grey" size="small">
+        <Button color="grey" size="small">
             Small
         </Button>
-        <Button variation="grey">Default</Button>
-        <Button variation="grey" size="large">
-            Large
-        </Button>
-        <br /> <br />
-        <Button variation="purple" size="small">
-            Small
-        </Button>
-        <Button variation="purple">Default</Button>
-        <Button variation="purple" size="large">
+        <Button color="purple">Default</Button>
+        <Button color="red" size="large">
             Large
         </Button>
     </>
@@ -35,22 +28,28 @@ export const Sizes = () => (
 
 export const noTransition = () => (
     <>
-        <Button variation="grey" noTransition>
-            No transition effect
+        <Button color="grey" noTransition>
+            No
         </Button>
-        <Button variation="purple" noTransition>
-            No transition effect
+        <Button color="purple" noTransition>
+            transition
+        </Button>
+        <Button color="red" noTransition>
+            effect
         </Button>
     </>
 )
 
 export const noHover = () => (
     <>
-        <Button variation="grey" noHover>
-            No hover effect
+        <Button color="grey" noHover>
+            No
         </Button>
-        <Button variation="purple" noHover>
-            No hover effect
+        <Button color="purple" noHover>
+            hover
+        </Button>
+        <Button color="red" noHover>
+            effect
         </Button>
     </>
 )
