@@ -5,12 +5,13 @@ import businessMan from "../../../assets/illustration_businessman.svg"
 
 interface OverflowButtonProps {
     department: DepartmentType
+    index: number
     onClick: (id?: number) => void
 }
 
-const OverflowButton: React.FC<OverflowButtonProps> = props => {
+const OverflowButton: React.FC<OverflowButtonProps> = (props) => {
     const handleClick = () => {
-        props.onClick(props.department.id)
+        props.onClick(props.index)
     }
     return (
         <div className={styles.container} onClick={handleClick}>

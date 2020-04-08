@@ -1,6 +1,6 @@
 @import "../../../styles/index.scss";
 
-.Toolbar {
+.container {
     top: 5rem;
     position: sticky;
     display: flex;
@@ -8,6 +8,10 @@
     align-items: center;
     padding: $paddingHorizontal;
     height: 4rem;
+
+    div {
+        display: flex;
+    }
 
     button:last-child {
         margin: 0 0 0 auto;

@@ -1,0 +1,29 @@
+@import "../../../styles/index.scss";
+
+.container {
+    display: grid;
+    grid-template-columns: max-content max-content max-content;
+    column-gap: 2em;
+    color: $purplePrimary;
+}
+
+.title {
+    display: grid;
+    grid-template-columns: 1fr max-content;
+    align-items: center;
+    font-size: 2em;
+    padding: 1.5rem 2rem 0;
+    font-weight: 700;
+}
+
+.subtitle {
+    font-size: 1.5em;
+    padding: 1.5rem 2rem 1.5rem;
+    font-weight: 600;
+}
+
+.person {
+    font-size: 1em;
+    padding: 0 2em 1em;
+    font-weight: 400;
+}

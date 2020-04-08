@@ -5,14 +5,15 @@ import Button from "../../buttons/Button/Button"
 import HierarchyArrow from "../../indicators/HierarchyArrow/HierarchyArrow"
 
 interface ToolbarProps {
-    parent: string
+    label: string
+    actionLabel?: string
     buttons: Array<any>
     indexActive?: number
     onClick: (index?: number) => void
     onAction?: () => void
 }
 
-const Toolbar: React.FC<ToolbarProps> = props => {
+const Toolbar: React.FC<ToolbarProps> = (props) => {
     const handleButtonClick = (index?: number) => (e: React.MouseEvent<HTMLButtonElement>) => {
         props.onClick(index)
     }
@@ -24,34 +25,40 @@ const Toolbar: React.FC<ToolbarProps> = props => {
     }
 
     const renderButtons = () => {
-        const buttons = props.buttons.map(button => {
-            const isActive = props.indexActive === button.id
+        const buttons = props.buttons.map((button, index) => {
+            const isActive = props.indexActive === index
             return (
                 <TextButton
-                    key={button.id}
+                    key={index}
                     variation={isActive ? "purple" : "grey"}
-                    onClick={handleButtonClick(button.id)}
+                    onClick={handleButtonClick(index)}
                     noHover={isActive}
                 >
                     {button.name}
                 </TextButton>
             )
         })
-        return buttons
+        return <div>{buttons}</div>
+    }
+
+    const renderActionButton = () => {
+        if (props.onAction && props.actionLabel) {
+            return (
+                <Button variation="purple" size="small" onClick={handleActionClick}>
+                    {props.actionLabel}
+                </Button>
+            )
+        }
     }
 
     return (
-        <div className={styles.Toolbar}>
+        <div className={styles.container}>
             <TextButton variation="purple" onClick={handleButtonClick()}>
-                {props.parent} <HierarchyArrow />
+                {props.label} <HierarchyArrow />
             </TextButton>
 
             {renderButtons()}
-            {props.onAction && (
-                <Button variation="purple" size="small" onClick={handleActionClick}>
-                    Add department
-                </Button>
-            )}
+            {renderActionButton()}
         </div>
     )
 }

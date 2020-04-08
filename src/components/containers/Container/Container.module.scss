@@ -1,0 +1,17 @@
+@import "../../../styles/index.scss";
+
+.container {
+    height: 24em;
+    width: 20em;
+    box-shadow: $shadow;
+    overflow-y: auto;
+    background-color: white;
+}
+
+.double {
+    width: 30em;
+}
+
+.dynamic {
+    width: 100%;
+}

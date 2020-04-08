@@ -7,44 +7,7 @@ export interface DepartmentsState {
 }
 
 const initialState: DepartmentsState = {
-    departments: [
-        {
-            id: 0,
-            name: "Frontend",
-            image: "",
-            members: []
-        },
-        {
-            id: 1,
-            name: "Backend",
-            image: "",
-            members: []
-        },
-        {
-            id: 2,
-            name: "Human Resources",
-            image: "",
-            members: []
-        },
-        {
-            id: 3,
-            name: "Backend",
-            image: "",
-            members: []
-        },
-        {
-            id: 4,
-            name: "Frontend",
-            image: "",
-            members: []
-        },
-        {
-            id: 5,
-            name: "Frontend",
-            image: "",
-            members: []
-        }
-    ]
+    departments: [],
 }
 
 export const slice = createSlice({
@@ -56,8 +19,8 @@ export const slice = createSlice({
         },
         editDepartment: (state, action: PayloadAction<DepartmentEditAction>) => {
             state.departments[action.payload.targetId] = action.payload.department
-        }
-    }
+        },
+    },
 })
 
 export const { addDepartment, editDepartment } = slice.actions

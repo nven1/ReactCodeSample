@@ -3,11 +3,14 @@ import axios from "axios"
 import Endpoints from "../environments/endpoints"
 import { addDepartment } from "../reducers/DepartmentReducer"
 
-const getDepartments = (dispath: Dispatch<any>) => () => {
+const getDepartments = (dispatch: Dispatch<any>) => () => {
     axios
-        .get("")
-        .then(response => {})
-        .catch(error => {})
+        .get(`${Endpoints.apiEndpoint}/departments`)
+        .then((response) => {
+            console.log(response)
+            dispatch(addDepartment(response.data))
+        })
+        .catch((error) => {})
 }
 
 export default { getDepartments }
