@@ -8,6 +8,11 @@
     background-color: white;
 }
 
+.closeContainer {
+    display: flex;
+    justify-content: flex-end;
+}
+
 .double {
     width: 30em;
 }

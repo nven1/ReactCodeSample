@@ -7,6 +7,7 @@ import { selectDepartments, editDepartment } from "../../../reducers/DepartmentR
 import Department from "../../subscreens/Department/Department"
 import DepartmentDataAccess from "../../../data_access/DepartmentDataAccess"
 import OverflowButton from "../../buttons/OverflowButton/OverflowButton"
+import AddDepartment from "../../subscreens/AddDepartment/AddDepartment"
 
 interface DepartmentsProps {}
 
@@ -63,17 +64,7 @@ const Departments: React.FC<DepartmentsProps> = (props) => {
                 }
 
             case "add":
-                return (
-                    <>
-                        <input value={input} onChange={handleInput} />
-                        <Button color="purple" onClick={dispatchActions.addDepartment}>
-                            Add departments
-                        </Button>
-                        <Button color="purple" onClick={dispatchActions.editDepartment}>
-                            Edit Frontend
-                        </Button>
-                    </>
-                )
+                return <AddDepartment />
             default:
                 break
         }

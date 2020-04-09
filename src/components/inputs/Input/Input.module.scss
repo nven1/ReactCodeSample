@@ -1,0 +1,29 @@
+@import "../../../styles/index.scss";
+
+.container {
+    @extend .normal;
+    height: max-content;
+    padding: 0.6rem 0em;
+    margin: 0 3em;
+    border-radius: 300px;
+    background-color: $greyPrimary;
+    display: grid;
+    grid-template-columns: max-content 1fr 1em;
+    align-items: center;
+    color: $purplePrimary;
+
+    span {
+        padding: 0 1em;
+        opacity: 0.8;
+    }
+    input {
+        @extend %strip;
+        color: $purplePrimary;
+        font-weight: 600;
+        height: 100%;
+        background-color: transparent;
+        &:hover {
+            cursor: initial;
+        }
+    }
+}

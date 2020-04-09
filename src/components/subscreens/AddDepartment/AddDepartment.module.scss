@@ -1,0 +1,21 @@
+@import "../../../styles/index.scss";
+
+.container {
+    display: grid;
+    grid-template-columns: max-content max-content;
+    column-gap: 2em;
+}
+
+.form {
+    padding-top: 2em;
+    display: flex;
+    flex-direction: column;
+
+    div {
+        margin: 0 3em 1em;
+    }
+
+    button {
+        margin: 0 8em 1em;
+    }
+}
