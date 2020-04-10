@@ -14,16 +14,16 @@ export const slice = createSlice({
     name: "departments",
     initialState,
     reducers: {
-        addDepartment: (state, action: PayloadAction<DepartmentType[]>) => {
+        addDepartmentAction: (state, action: PayloadAction<DepartmentType[]>) => {
             state.departments = [...state.departments, ...action.payload]
         },
-        editDepartment: (state, action: PayloadAction<DepartmentEditAction>) => {
+        editDepartmentAction: (state, action: PayloadAction<DepartmentEditAction>) => {
             state.departments[action.payload.targetId] = action.payload.department
         },
     },
 })
 
-export const { addDepartment, editDepartment } = slice.actions
+export const { addDepartmentAction, editDepartmentAction } = slice.actions
 
 export const selectDepartments = (state: RootState) => state.departments.departments
 

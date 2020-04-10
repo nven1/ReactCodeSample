@@ -4,7 +4,7 @@ import { DepartmentType } from "../../../types/DepartmentTypes"
 import Container from "../../containers/Container/Container"
 import { UserTypeResponse } from "../../../types/UserTypes"
 import Circle from "../../indicators/Circle/Circle"
-import Illustration from "../../indicators/Illustration/Illustration"
+import BackgroundImage from "../../indicators/Illustration/BackgroundImage"
 import Button from "../../buttons/Button/Button"
 
 interface DepartmentProps {
@@ -30,7 +30,7 @@ const Department: React.FC<DepartmentProps> = (props) => {
     const renderPeople = (people: Array<UserTypeResponse>) => {
         if (props.edit) {
             return people.map((person) => (
-                <div className={styles.personEdit}>
+                <div key={person.id} className={styles.personEdit}>
                     <span>{`${person.firstName} ${person.lastName}`}</span>
                     <Button color="red" size="small">
                         Reassign
@@ -38,7 +38,9 @@ const Department: React.FC<DepartmentProps> = (props) => {
                 </div>
             ))
         }
-        return people.map((person) => <div className={styles.person}>{`${person.firstName} ${person.lastName}`}</div>)
+        return people.map((person) => (
+            <div key={person.id} className={styles.person}>{`${person.firstName} ${person.lastName}`}</div>
+        ))
     }
 
     return (
@@ -51,13 +53,15 @@ const Department: React.FC<DepartmentProps> = (props) => {
                 {heads.length > 0 && <div className={styles.subtitle}>Heads</div>}
                 {renderPeople(heads)}
             </Container>
+
             {staff.length > 0 && (
                 <Container>
                     <div className={styles.subtitle}>Staff</div>
                     {renderPeople(staff)}
                 </Container>
             )}
-            <Illustration />
+
+            <BackgroundImage image="git" />
         </div>
     )
 }

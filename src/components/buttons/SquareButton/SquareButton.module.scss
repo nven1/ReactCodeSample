@@ -1,0 +1,17 @@
+@import "../../../styles/index.scss";
+
+.container {
+    @extend %center;
+    /* height: 7em;
+    width: 7em; */
+    border-radius: 10px;
+    cursor: pointer;
+    box-shadow: $shadow;
+    &:hover {
+        box-shadow: $shadowHover;
+    }
+    img {
+        height: 80%;
+        width: 80%;
+    }
+}

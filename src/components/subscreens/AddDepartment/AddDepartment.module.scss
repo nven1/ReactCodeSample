@@ -2,7 +2,7 @@
 
 .container {
     display: grid;
-    grid-template-columns: max-content max-content;
+    grid-template-columns: max-content max-content max-content;
     column-gap: 2em;
 }
 
@@ -16,6 +16,19 @@
     }
 
     button {
-        margin: 0 8em 1em;
+        margin: 1em 8em;
     }
+
+    button:last-of-type {
+        margin-top: 6em;
+    }
+}
+
+.imagesContainer {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, 6em);
+    grid-auto-rows: 6em;
+    gap: 2em;
+    justify-content: center;
+    margin: 1em 0 2em;
 }

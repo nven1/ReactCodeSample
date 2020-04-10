@@ -11,6 +11,12 @@
 .closeContainer {
     display: flex;
     justify-content: flex-end;
+    position: sticky;
+    top: 0;
+    pointer-events: none;
+    svg {
+        pointer-events: all;
+    }
 }
 
 .double {

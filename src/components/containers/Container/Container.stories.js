@@ -23,3 +23,9 @@ export const Dynamic = () => (
         <Container variation="dynamic" />
     </>
 )
+
+export const WithClose = () => (
+    <>
+        <Container onClose={() => {}} />
+    </>
+)

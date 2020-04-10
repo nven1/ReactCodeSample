@@ -5,6 +5,7 @@ import Header from "./bars/Header/Header"
 import Departments from "./screens/Departments/Departments"
 import DepartmentDataAccess from "../data_access/DepartmentDataAccess"
 import { useDispatch } from "react-redux"
+import UserDataAccess from "../data_access/UserDataAccess"
 
 interface AppHolderProps extends RouteComponentProps {}
 
@@ -14,7 +15,9 @@ const AppHolder: React.FC<AppHolderProps> = (props) => {
     useEffect(() => {
         props.history.push(Endpoints.appEndpoints.departments)
 
+        UserDataAccess.getMyUser(dispatch)()
         DepartmentDataAccess.getDepartments(dispatch)()
+
         // eslint-disable-next-line
     }, [])
 
