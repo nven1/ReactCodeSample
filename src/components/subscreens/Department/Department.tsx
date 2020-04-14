@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react"
 import styles from "./Department.module.scss"
 import { DepartmentType } from "../../../types/DepartmentTypes"
-import Container from "../../containers/Container/Container"
+import Card from "../../containers/Container/Card"
 import { UserTypeResponse } from "../../../types/UserTypes"
 import Circle from "../../indicators/Circle/Circle"
 import BackgroundImage from "../../indicators/Illustration/BackgroundImage"
@@ -45,20 +45,20 @@ const Department: React.FC<DepartmentProps> = (props) => {
 
     return (
         <div className={styles.container}>
-            <Container>
+            <Card>
                 <div className={styles.title}>
                     {props.department.name}
                     <Circle color="red">{props.department.members.length}</Circle>
                 </div>
                 {heads.length > 0 && <div className={styles.subtitle}>Heads</div>}
                 {renderPeople(heads)}
-            </Container>
+            </Card>
 
             {staff.length > 0 && (
-                <Container>
+                <Card>
                     <div className={styles.subtitle}>Staff</div>
                     {renderPeople(staff)}
-                </Container>
+                </Card>
             )}
 
             <BackgroundImage image="git" />

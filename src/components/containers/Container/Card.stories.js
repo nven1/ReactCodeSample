@@ -1,31 +1,31 @@
 import React from "react"
-import Container from "./Container"
+import Card from "./Card"
 
 export default {
-    title: "Container",
-    component: Container,
+    title: "Card",
+    component: Card,
 }
 
 export const Default = () => (
     <>
-        <Container />
+        <Card />
     </>
 )
 
 export const Double = () => (
     <>
-        <Container variation="double" />
+        <Card variation="double" />
     </>
 )
 
 export const Dynamic = () => (
     <>
-        <Container variation="dynamic" />
+        <Card variation="dynamic" />
     </>
 )
 
 export const WithClose = () => (
     <>
-        <Container onClose={() => {}} />
+        <Card onClose={() => {}} />
     </>
 )

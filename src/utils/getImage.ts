@@ -1,4 +1,4 @@
-import businessMan from "../assets/illustration_businessman.svg"
+import businessman from "../assets/illustration_businessman.svg"
 import board from "../assets/illustration_board.svg"
 import git from "../assets/illustration_git.svg"
 import hacker from "../assets/illustration_hacker.svg"
@@ -20,25 +20,13 @@ export const imageTypes: Array<ImageType> = [
     "design",
 ]
 
-export const getImage = (image: ImageType): string => {
-    switch (image) {
-        case "businessman":
-            return businessMan
-        case "board":
-            return board
-        case "git":
-            return git
-        case "hacker":
-            return hacker
-        case "review":
-            return review
-        case "version_control":
-            return version_control
-        case "design":
-            return design
-        case "react":
-            return react
-        default:
-            return ""
-    }
+export const getImage = {
+    businessman,
+    board,
+    git,
+    hacker,
+    review,
+    version_control,
+    design,
+    react,
 }

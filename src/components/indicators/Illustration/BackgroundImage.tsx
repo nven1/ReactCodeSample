@@ -9,7 +9,7 @@ interface BackgroundImageProps {
 const BackgroundImage: React.FC<BackgroundImageProps> = (props) => {
     return (
         <div className={styles.container}>
-            <img src={getImage(props.image)} alt="Department BackgroundImage" />
+            <img src={getImage[props.image]} alt="Department BackgroundImage" />
         </div>
     )
 }

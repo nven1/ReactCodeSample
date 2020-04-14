@@ -1,6 +1,6 @@
 import React, { useState } from "react"
 import styles from "./AddDepartment.module.scss"
-import Container from "../../containers/Container/Container"
+import Card from "../../containers/Container/Card"
 import Title from "../../text/Title/Title"
 import Input from "../../inputs/Input/Input"
 import { useForm, Controller } from "react-hook-form"
@@ -44,7 +44,7 @@ const AddDepartment: React.FC<AddDepartmentProps> = (props) => {
 
     return (
         <div className={styles.container}>
-            <Container variation="dynamic">
+            <Card variation="dynamic">
                 <Title>Add department</Title>
                 <form className={styles.form} onSubmit={handleSubmit(onSubmit)}>
                     <Controller
@@ -65,15 +65,15 @@ const AddDepartment: React.FC<AddDepartmentProps> = (props) => {
                         Submit
                     </Button>
                 </form>
-            </Container>
+            </Card>
             {pictureMode && (
-                <Container onClose={handlePictureMode}>
+                <Card onClose={handlePictureMode}>
                     <div className={styles.imagesContainer}>
                         {imageTypes.map((image, index) => (
                             <SquareButton key={index} image={image} onClick={handlePictureChange} />
                         ))}
                     </div>
-                </Container>
+                </Card>
             )}
             {getValues().picture && <BackgroundImage image={getValues().picture} />}
         </div>

@@ -1,14 +1,14 @@
 import React from "react"
-import styles from "./Container.module.scss"
+import styles from "./Card.module.scss"
 import classnames from "classnames"
 import CloseButton from "../../buttons/CloseButton/CloseButton"
 
-export interface ContainerProps {
+export interface CardProps {
     variation?: "double" | "dynamic"
     onClose?: () => void
 }
 
-const Container: React.FC<ContainerProps> = (props) => {
+const Card: React.FC<CardProps> = (props) => {
     const classProps: string = classnames(styles.container, {
         [styles.double]: props.variation === "double",
         [styles.dynamic]: props.variation === "dynamic",
@@ -25,4 +25,4 @@ const Container: React.FC<ContainerProps> = (props) => {
         </div>
     )
 }
-export default Container
+export default Card

@@ -14,7 +14,7 @@ const SquareButton: React.FC<SquareButtonProps> = (props) => {
 
     return (
         <div className={styles.container} onClick={handleClick}>
-            <img src={getImage(props.image)} alt="Department" />
+            <img src={getImage[props.image]} alt="Department" />
         </div>
     )
 }
