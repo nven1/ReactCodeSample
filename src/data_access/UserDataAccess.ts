@@ -2,6 +2,8 @@ import { Dispatch } from "redux"
 import axios from "axios"
 import Endpoints from "../environments/endpoints"
 import { getMyUserAction } from "../reducers/UserReducer"
+import { UserDepartmentAndRoleType } from "../types/UserTypes"
+import DepartmentDataAccess from "./DepartmentDataAccess"
 
 const getMyUser = (dispatch: Dispatch<any>) => () => {
     axios
@@ -12,4 +14,18 @@ const getMyUser = (dispatch: Dispatch<any>) => () => {
         .catch((error) => {})
 }
 
-export default { getMyUser }
+const reassignUser = (dispatch: Dispatch<any>) => (
+    userId: number,
+    userDepartmentAndRole: UserDepartmentAndRoleType,
+    onSuccess: () => void
+) => {
+    axios
+        .post(`${Endpoints.apiEndpoint}/users/${userId}`, userDepartmentAndRole)
+        .then((response) => {
+            DepartmentDataAccess.getDepartments(dispatch)
+            onSuccess()
+        })
+        .catch((error) => {})
+}
+
+export default { getMyUser, reassignUser }

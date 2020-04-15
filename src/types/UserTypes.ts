@@ -21,3 +21,8 @@ export interface UserMeType extends UserTypeResponse {
     dateOfEmployment: string
     roles: Array<RoleType>
 }
+
+export interface UserDepartmentAndRoleType {
+    departmentId: number
+    isManager: boolean
+}

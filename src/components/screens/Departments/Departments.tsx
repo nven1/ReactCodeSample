@@ -39,7 +39,7 @@ const Departments: React.FC<DepartmentsProps> = (props) => {
             case "edit":
             case "single":
                 if (activeTab !== undefined) {
-                    return <Department department={departments[activeTab]} edit={mode === "edit"} />
+                    return <Department department={departments[activeTab]} edit={mode === "edit"} index={activeTab} />
                 } else {
                     setMode("all")
                     break
