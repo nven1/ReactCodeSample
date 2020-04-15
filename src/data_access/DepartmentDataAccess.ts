@@ -1,14 +1,14 @@
 import { Dispatch } from "redux"
 import axios from "axios"
 import Endpoints from "../environments/endpoints"
-import { addDepartmentAction } from "../reducers/DepartmentReducer"
+import { addDepartmentAction, getAllDepartmentsAction } from "../reducers/DepartmentReducer"
 import { DepartmentRequestType } from "../types/DepartmentTypes"
 
 const getDepartments = (dispatch: Dispatch<any>) => () => {
     axios
         .get(`${Endpoints.apiEndpoint}/departments`)
         .then((response) => {
-            dispatch(addDepartmentAction(response.data))
+            dispatch(getAllDepartmentsAction(response.data))
         })
         .catch((error) => {})
 }
@@ -26,3 +26,7 @@ const createDepartment = (dispatch: Dispatch<any>) => (department: DepartmentReq
 }
 
 export default { getDepartments, createDepartment }
+
+/* 
+    
+*/
