@@ -18,8 +18,8 @@ export const slice = createSlice({
             state.departments = action.payload
         },
 
-        addDepartmentAction: (state, action: PayloadAction<DepartmentType[]>) => {
-            state.departments = [...state.departments, ...action.payload]
+        addDepartmentAction: (state, action: PayloadAction<DepartmentType>) => {
+            state.departments = [...state.departments, action.payload]
         },
     },
 })

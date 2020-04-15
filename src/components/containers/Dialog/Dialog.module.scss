@@ -1,9 +1,9 @@
 @import "../../../styles/index.scss";
 
 .container {
+    @extend %center;
     position: absolute;
     display: flex;
-    @extend %center;
     top: 0;
     left: 0;
     height: 100%;

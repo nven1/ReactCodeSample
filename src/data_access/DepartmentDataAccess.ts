@@ -17,7 +17,7 @@ const createDepartment = (dispatch: Dispatch<any>) => (department: DepartmentReq
     axios
         .post(`${Endpoints.apiEndpoint}/departments`, department)
         .then((response) => {
-            dispatch(addDepartmentAction([response.data]))
+            dispatch(addDepartmentAction(response.data))
             if (onSuccess) {
                 onSuccess()
             }
@@ -26,7 +26,3 @@ const createDepartment = (dispatch: Dispatch<any>) => (department: DepartmentReq
 }
 
 export default { getDepartments, createDepartment }
-
-/* 
-    
-*/
