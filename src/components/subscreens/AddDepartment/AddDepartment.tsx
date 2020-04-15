@@ -1,6 +1,6 @@
 import React, { useState } from "react"
 import styles from "./AddDepartment.module.scss"
-import Card from "../../containers/Container/Card"
+import Card from "../../containers/Card/Card"
 import Title from "../../text/Title/Title"
 import Input from "../../inputs/Input/Input"
 import { useForm, Controller } from "react-hook-form"

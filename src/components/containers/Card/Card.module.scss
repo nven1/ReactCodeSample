@@ -8,6 +8,11 @@
     background-color: white;
 }
 
+.containerWithClose {
+    display: grid;
+    grid-template-rows: max-content 1fr;
+}
+
 .closeContainer {
     display: flex;
     justify-content: flex-end;

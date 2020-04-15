@@ -10,6 +10,7 @@ export interface CardProps {
 
 const Card: React.FC<CardProps> = (props) => {
     const classProps: string = classnames(styles.container, {
+        [styles.containerWithClose]: props.onClose,
         [styles.double]: props.variation === "double",
         [styles.dynamic]: props.variation === "dynamic",
     })
@@ -21,7 +22,7 @@ const Card: React.FC<CardProps> = (props) => {
                     <CloseButton onClick={props.onClose} />
                 </div>
             )}
-            {props.children}
+            <div>{props.children}</div>
         </div>
     )
 }
