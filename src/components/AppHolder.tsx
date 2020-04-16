@@ -12,7 +12,6 @@ const AppHolder: React.FC<AppHolderProps> = (props) => {
     const dispatch = useDispatch()
 
     useEffect(() => {
-        props.history.push(Endpoints.appEndpoints.departments)
         UserDataAccess.getMyUser(dispatch)()
 
         // eslint-disable-next-line
