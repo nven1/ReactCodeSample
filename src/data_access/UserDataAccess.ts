@@ -2,12 +2,12 @@ import { Dispatch } from "redux"
 import axios from "axios"
 import Endpoints from "../environments/endpoints"
 import { getMyUserAction } from "../reducers/UserReducer"
-import { UserDepartmentAndRoleType } from "../types/UserTypes"
+import { UserDepartmentAndRoleType, UserMeType } from "../types/UserTypes"
 import DepartmentDataAccess from "./DepartmentDataAccess"
 
 const getMyUser = (dispatch: Dispatch<any>) => () => {
     axios
-        .get(`${Endpoints.apiEndpoint}/users/me`)
+        .get<UserMeType>(`${Endpoints.apiEndpoint}/users/me`)
         .then((response) => {
             dispatch(getMyUserAction(response.data))
         })

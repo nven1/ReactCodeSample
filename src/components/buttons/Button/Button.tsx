@@ -12,7 +12,7 @@ const Button: React.FC<FormButton> = (props) => {
 
     return (
         <button className={classProps} onClick={props.onClick} type={props.submit ? "submit" : "button"}>
-            <span>{props.children}</span>
+            {props.children}
         </button>
     )
 }

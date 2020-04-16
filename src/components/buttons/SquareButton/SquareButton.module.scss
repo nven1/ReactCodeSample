@@ -2,8 +2,6 @@
 
 .container {
     @extend %center;
-    /* height: 7em;
-    width: 7em; */
     border-radius: 10px;
     cursor: pointer;
     box-shadow: $shadow;

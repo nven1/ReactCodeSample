@@ -1,23 +1,31 @@
-import React, { useState } from "react"
+import React, { useState, useEffect } from "react"
 import styles from "./Departments.module.scss"
 import Toolbar from "../../bars/Toolbar/Toolbar"
-import { useSelector } from "react-redux"
+import { useSelector, useDispatch } from "react-redux"
 import { selectDepartments } from "../../../reducers/DepartmentReducer"
 import Department from "../../subscreens/Department/Department"
 import OverflowButton from "../../buttons/OverflowButton/OverflowButton"
 import AddDepartment from "../../subscreens/AddDepartment/AddDepartment"
 import { selectIsAdmin } from "../../../reducers/UserReducer"
+import DepartmentDataAccess from "../../../data_access/DepartmentDataAccess"
 
 interface DepartmentsProps {}
 
 type Mode = "edit" | "single" | "all" | "add"
 
 const Departments: React.FC<DepartmentsProps> = (props) => {
+    const dispatch = useDispatch()
+
     const departments = useSelector(selectDepartments)
     const isAdmin = useSelector(selectIsAdmin)
 
     const [activeTab, setActiveTab] = useState<number | undefined>(undefined)
     const [mode, setMode] = useState<Mode>("all")
+
+    useEffect(() => {
+        DepartmentDataAccess.getDepartments(dispatch)()
+        // eslint-disable-next-line
+    }, [])
 
     const setTab = (index?: number) => {
         setActiveTab(index)

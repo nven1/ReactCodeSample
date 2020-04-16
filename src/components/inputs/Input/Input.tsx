@@ -11,7 +11,7 @@ const Input: React.FC<InputProps & React.HTMLProps<HTMLInputElement>> = (props) 
     const classProps = classNames(styles.container, { [styles.error]: props.error })
     return (
         <div className={classProps}>
-            <span>{props.label}</span>
+            <label>{props.label}</label>
             <input {...props} />
         </div>
     )
