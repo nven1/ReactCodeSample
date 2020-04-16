@@ -1,10 +1,10 @@
 import { UserTypeResponse } from "./UserTypes"
-import { ImageType } from "../utils/getImage"
+import { DepartmentImage } from "../utils/getImage"
 
 export interface DepartmentMinimalType {
     id: number
     name: string
-    image: ImageType
+    image: DepartmentImage
 }
 
 export interface DepartmentType extends DepartmentMinimalType {
@@ -13,5 +13,5 @@ export interface DepartmentType extends DepartmentMinimalType {
 
 export interface DepartmentRequestType {
     name: string
-    image: ImageType
+    image: DepartmentImage
 }

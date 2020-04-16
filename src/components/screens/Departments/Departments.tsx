@@ -24,6 +24,7 @@ const Departments: React.FC<DepartmentsProps> = (props) => {
 
     useEffect(() => {
         DepartmentDataAccess.getDepartments(dispatch)()
+
         // eslint-disable-next-line
     }, [])
 

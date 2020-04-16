@@ -1,10 +1,10 @@
 import React from "react"
 import styles from "./SquareButton.module.scss"
-import { getImage, ImageType } from "../../../utils/getImage"
+import { getImage, DepartmentImage } from "../../../utils/getImage"
 
 interface SquareButtonProps {
-    image: ImageType
-    onClick: (image: ImageType) => void
+    image: DepartmentImage
+    onClick: (image: DepartmentImage) => void
 }
 
 const SquareButton: React.FC<SquareButtonProps> = (props) => {

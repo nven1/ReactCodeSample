@@ -1,9 +1,9 @@
 import React from "react"
 import styles from "./BackgroundImage.module.scss"
-import { ImageType, getImage } from "../../../utils/getImage"
+import { DepartmentImage, getImage } from "../../../utils/getImage"
 
 interface BackgroundImageProps {
-    image: ImageType
+    image: DepartmentImage
 }
 
 const BackgroundImage: React.FC<BackgroundImageProps> = (props) => {

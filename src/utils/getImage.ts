@@ -7,9 +7,17 @@ import version_control from "../assets/illustration_version_control.svg"
 import design from "../assets/illustration_design.svg"
 import react from "../assets/illustration_react.svg"
 
-export type ImageType = "businessman" | "board" | "git" | "hacker" | "review" | "version_control" | "design" | "react"
+export type DepartmentImage =
+    | "businessman"
+    | "board"
+    | "git"
+    | "hacker"
+    | "review"
+    | "version_control"
+    | "design"
+    | "react"
 
-export const imageTypes: Array<ImageType> = [
+export const departmentImages: Array<DepartmentImage> = [
     "businessman",
     "board",
     "git",

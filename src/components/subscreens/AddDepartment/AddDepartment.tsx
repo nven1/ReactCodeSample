@@ -5,7 +5,7 @@ import Title from "../../text/Title/Title"
 import Input from "../../inputs/Input/Input"
 import { useForm, Controller } from "react-hook-form"
 import Button from "../../buttons/Button/Button"
-import { imageTypes, ImageType } from "../../../utils/getImage"
+import { departmentImages, DepartmentImage } from "../../../utils/getImage"
 import SquareButton from "../../buttons/SquareButton/SquareButton"
 import BackgroundImage from "../../indicators/Illustration/BackgroundImage"
 import * as yup from "yup"
@@ -33,7 +33,7 @@ const AddDepartment: React.FC<AddDepartmentProps> = (props) => {
         DepartmentDataAccess.createDepartment(dispatch)(data as DepartmentRequestType, props.onSubmit)
     }
 
-    const handlePictureChange = (image: ImageType) => {
+    const handlePictureChange = (image: DepartmentImage) => {
         setPictureMode(!pictureMode)
         setValue("picture", image)
     }
@@ -69,7 +69,7 @@ const AddDepartment: React.FC<AddDepartmentProps> = (props) => {
             {pictureMode && (
                 <Card onClose={handlePictureMode}>
                     <div className={styles.imagesContainer}>
-                        {imageTypes.map((image, index) => (
+                        {departmentImages.map((image, index) => (
                             <SquareButton key={index} image={image} onClick={handlePictureChange} />
                         ))}
                     </div>

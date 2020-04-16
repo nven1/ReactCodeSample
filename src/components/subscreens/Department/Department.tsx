@@ -48,6 +48,7 @@ const Department: React.FC<DepartmentProps> = (props) => {
 
         setStaff(staff)
         setHeads(heads)
+
         // eslint-disable-next-line
     }, [props.department])
 
