@@ -1,0 +1,12 @@
+@import "../../../styles/index.scss";
+
+.container {
+    height: 2em;
+    width: 2em;
+    cursor: pointer;
+    color: $greyPrimary;
+    &:hover {
+        @extend .transition;
+        color: $purplePrimary;
+    }
+}

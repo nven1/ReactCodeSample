@@ -1,40 +1,32 @@
-import React, { useState, useEffect, ChangeEvent } from "react"
+import React, { useState, useEffect } from "react"
 import styles from "./Departments.module.scss"
 import Toolbar from "../../bars/Toolbar/Toolbar"
-import Button from "../../buttons/Button/Button"
 import { useSelector, useDispatch } from "react-redux"
-import { selectDepartments, editDepartment } from "../../../reducers/DepartmentReducer"
+import { selectDepartments } from "../../../reducers/DepartmentReducer"
 import Department from "../../subscreens/Department/Department"
-import DepartmentDataAccess from "../../../data_access/DepartmentDataAccess"
 import OverflowButton from "../../buttons/OverflowButton/OverflowButton"
+import AddDepartment from "../../subscreens/AddDepartment/AddDepartment"
+import { selectIsAdmin } from "../../../reducers/UserReducer"
+import DepartmentDataAccess from "../../../data_access/DepartmentDataAccess"
 
 interface DepartmentsProps {}
 
 type Mode = "edit" | "single" | "all" | "add"
 
 const Departments: React.FC<DepartmentsProps> = (props) => {
-    const departments = useSelector(selectDepartments)
     const dispatch = useDispatch()
 
+    const departments = useSelector(selectDepartments)
+    const isAdmin = useSelector(selectIsAdmin)
+
     const [activeTab, setActiveTab] = useState<number | undefined>(undefined)
-    const [input, setInput] = useState<string>("")
     const [mode, setMode] = useState<Mode>("all")
 
-    const handleInput = (e: ChangeEvent<HTMLInputElement>) => {
-        setInput(e.currentTarget.value)
-    }
+    useEffect(() => {
+        DepartmentDataAccess.getDepartments(dispatch)()
 
-    const dispatchActions = {
-        addDepartment: () => {
-            if (input.length > 2) {
-                DepartmentDataAccess.getDepartments(dispatch)()
-            }
-        },
-
-        editDepartment: () => {
-            dispatch(editDepartment({ targetId: 0, department: { id: 0, name: "ayy lmao", image: "", members: [] } }))
-        },
-    }
+        // eslint-disable-next-line
+    }, [])
 
     const setTab = (index?: number) => {
         setActiveTab(index)
@@ -53,23 +45,25 @@ const Departments: React.FC<DepartmentsProps> = (props) => {
                     <OverflowButton key={dp.id} index={index} department={dp} onClick={setTab} />
                 ))
                 return <div className={styles.all}>{dpButtons}</div>
+            case "edit":
             case "single":
-                return activeTab !== undefined ? <Department department={departments[activeTab]} /> : ""
+                if (activeTab !== undefined) {
+                    return <Department department={departments[activeTab]} edit={mode === "edit"} index={activeTab} />
+                } else {
+                    setMode("all")
+                    break
+                }
+
             case "add":
-                return (
-                    <>
-                        <input value={input} onChange={handleInput} />
-                        <Button variation="purple" onClick={dispatchActions.addDepartment}>
-                            Add departments
-                        </Button>
-                        <Button variation="purple" onClick={dispatchActions.editDepartment}>
-                            Edit Frontend
-                        </Button>
-                    </>
-                )
+                return <AddDepartment onSubmit={handleAddDepartment} />
             default:
                 break
         }
+    }
+
+    const handleAddDepartment = () => {
+        setActiveTab(departments.length)
+        setMode("single")
     }
 
     const toolbarResolver = {
@@ -88,16 +82,19 @@ const Departments: React.FC<DepartmentsProps> = (props) => {
     }
 
     const toolbarActionButtonLabel = (): string | undefined => {
-        switch (mode) {
-            case "edit":
-                return "Stop editing"
-            case "single":
-                return "Edit department"
-            case "all":
-                return "Add department"
-            default:
-                return undefined
+        if (isAdmin) {
+            switch (mode) {
+                case "all":
+                    return "Add department"
+                case "single":
+                    return "Edit department"
+                case "edit":
+                    return "Stop editing"
+                default:
+                    return undefined
+            }
         }
+        return undefined
     }
 
     return (

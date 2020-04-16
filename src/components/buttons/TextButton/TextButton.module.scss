@@ -5,16 +5,19 @@
     padding: 0;
     margin: 0 1em 0 0;
     font-weight: bold;
+    background-color: transparent;
 }
 
 .grey {
-    background-color: transparent;
     color: $greySecondary;
 }
 
 .purple {
-    background-color: transparent;
     color: $purplePrimary;
+}
+
+.red {
+    color: $redPrimary;
 }
 
 .hover--grey {
@@ -26,5 +29,11 @@
 .hover--purple {
     &:hover {
         color: $purpleSecondary;
+    }
+}
+
+.hover--red {
+    &:hover {
+        color: $purplePrimary;
     }
 }

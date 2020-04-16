@@ -18,6 +18,11 @@
     color: $greyPrimary;
 }
 
+.red {
+    background-color: $redPrimary;
+    color: $white;
+}
+
 .hover--grey {
     &:hover {
         background-color: $purplePrimary;
@@ -28,5 +33,12 @@
 .hover--purple {
     &:hover {
         background-color: $purpleSecondary;
+    }
+}
+
+.hover--red {
+    &:hover {
+        background-color: $purplePrimary;
+        color: $greyPrimary;
     }
 }

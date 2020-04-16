@@ -1,6 +1,10 @@
-%buttonPreset {
+%strip {
     outline: none;
     border: none;
+}
+
+%buttonPreset {
+    @extend %strip;
     height: max-content;
     border-radius: 100px;
     text-decoration: none;
@@ -8,7 +12,6 @@
     &:hover {
         cursor: pointer;
     }
-
     span {
         @extend %center;
     }

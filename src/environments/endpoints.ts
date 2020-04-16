@@ -7,11 +7,11 @@ const Endpoints = {
         departments: "/departments",
         staff: "/staff",
         calendar: "/calendar",
-        user: "/user"
+        user: "/user",
     },
     extEndpoints: {
-        wiki: "https://sr.wikipedia.org/wiki/Mica_Trofrtaljka"
-    }
+        wiki: "https://sr.wikipedia.org/wiki/Mica_Trofrtaljka",
+    },
 }
 
 export default Endpoints

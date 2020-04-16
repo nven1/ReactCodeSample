@@ -1,13 +1,17 @@
 import { UserTypeResponse } from "./UserTypes"
+import { DepartmentImage } from "../utils/getImage"
 
-export interface DepartmentType {
+export interface DepartmentMinimalType {
     id: number
     name: string
-    image: string
+    image: DepartmentImage
+}
+
+export interface DepartmentType extends DepartmentMinimalType {
     members: Array<UserTypeResponse>
 }
 
-export interface DepartmentEditAction {
-    targetId: number
-    department: DepartmentType
+export interface DepartmentRequestType {
+    name: string
+    image: DepartmentImage
 }

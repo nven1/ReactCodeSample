@@ -12,18 +12,25 @@
     grid-template-columns: 1fr max-content;
     align-items: center;
     font-size: 2em;
-    padding: 1.5rem 2rem 0;
+    padding: 1.5rem 3rem 0;
     font-weight: 700;
 }
 
 .subtitle {
     font-size: 1.5em;
-    padding: 1.5rem 2rem 1.5rem;
+    padding: 1.5rem 3rem 1.5rem;
     font-weight: 600;
 }
 
 .person {
+    display: flex;
     font-size: 1em;
-    padding: 0 2em 1em;
+    padding: 0 3em 1em;
     font-weight: 400;
+    transition: ease 1s;
+}
+
+.personEdit {
+    @extend .person;
+    justify-content: space-between;
 }

@@ -3,31 +3,24 @@ import TextButton from "./TextButton"
 
 export default {
     title: "Text Button",
-    component: TextButton
+    component: TextButton,
 }
 
 export const Default = () => (
     <>
-        <TextButton variation="grey">Default</TextButton>
-        <TextButton variation="purple">Default</TextButton>
+        <TextButton color="grey">Default</TextButton>
+        <TextButton color="purple">Default</TextButton>
+        <TextButton color="red">Default</TextButton>
     </>
 )
 
 export const Sizes = () => (
     <>
-        <TextButton variation="grey" size="small">
+        <TextButton color="grey" size="small">
             Small
         </TextButton>
-        <TextButton variation="grey">Default</TextButton>
-        <TextButton variation="grey" size="large">
-            Large
-        </TextButton>
-        <br /> <br />
-        <TextButton variation="purple" size="small">
-            Small
-        </TextButton>
-        <TextButton variation="purple">Default</TextButton>
-        <TextButton variation="purple" size="large">
+        <TextButton color="purple">Default</TextButton>
+        <TextButton color="red" size="large">
             Large
         </TextButton>
     </>
@@ -35,22 +28,28 @@ export const Sizes = () => (
 
 export const noTransition = () => (
     <>
-        <TextButton variation="grey" noTransition>
-            No transition effect
+        <TextButton color="grey" noTransition>
+            No
         </TextButton>
-        <TextButton variation="purple" noTransition>
-            No transition effect
+        <TextButton color="purple" noTransition>
+            transition
+        </TextButton>
+        <TextButton color="red" noTransition>
+            effect
         </TextButton>
     </>
 )
 
 export const noHover = () => (
     <>
-        <TextButton variation="grey" noHover>
-            No hover effect
+        <TextButton color="grey" noHover>
+            No
         </TextButton>
-        <TextButton variation="purple" noHover>
-            No hover effect
+        <TextButton color="purple" noHover>
+            hover
+        </TextButton>
+        <TextButton color="red" noHover>
+            effect
         </TextButton>
     </>
 )

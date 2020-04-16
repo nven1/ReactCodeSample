@@ -9,7 +9,7 @@ interface NavButtonProps extends RouteComponentProps {
     external?: boolean
 }
 
-const NavButton: React.FC<NavButtonProps> = props => {
+const NavButton: React.FC<NavButtonProps> = (props) => {
     const handleClick = () => {
         if (props.external) {
             window.open(props.to)
@@ -19,7 +19,7 @@ const NavButton: React.FC<NavButtonProps> = props => {
     }
 
     const renderButton = ({ match, location }: any) => (
-        <Button variation={match ? "purple" : "grey"} noHover={Boolean(match)} onClick={handleClick}>
+        <Button color={match ? "purple" : "grey"} noHover={Boolean(match)} onClick={handleClick}>
             {props.children}
         </Button>
     )

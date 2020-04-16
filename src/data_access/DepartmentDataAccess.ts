@@ -1,16 +1,26 @@
 import { Dispatch } from "redux"
 import axios from "axios"
 import Endpoints from "../environments/endpoints"
-import { addDepartment } from "../reducers/DepartmentReducer"
+import { addDepartmentAction, getAllDepartmentsAction } from "../reducers/DepartmentReducer"
+import { DepartmentRequestType, DepartmentType } from "../types/DepartmentTypes"
 
 const getDepartments = (dispatch: Dispatch<any>) => () => {
     axios
-        .get(`${Endpoints.apiEndpoint}/departments`)
+        .get<Array<DepartmentType>>(`${Endpoints.apiEndpoint}/departments`)
         .then((response) => {
-            console.log(response)
-            dispatch(addDepartment(response.data))
+            dispatch(getAllDepartmentsAction(response.data))
         })
         .catch((error) => {})
 }
 
-export default { getDepartments }
+const createDepartment = (dispatch: Dispatch<any>) => (department: DepartmentRequestType, onSuccess: () => void) => {
+    axios
+        .post<DepartmentType>(`${Endpoints.apiEndpoint}/departments`, department)
+        .then((response) => {
+            dispatch(addDepartmentAction(response.data))
+            onSuccess()
+        })
+        .catch((error) => {})
+}
+
+export default { getDepartments, createDepartment }
