@@ -7,14 +7,14 @@ export interface RoleType {
     name: RoleTypes
 }
 
-export interface UserTypeResponse {
+export interface UserMinType {
     id: number
     firstName: string
     lastName: string
     isManager: boolean
 }
 
-export interface UserMeType extends UserTypeResponse {
+export interface UserType extends UserMinType {
     email: string
     department: DepartmentMinimalType
     isActive: boolean

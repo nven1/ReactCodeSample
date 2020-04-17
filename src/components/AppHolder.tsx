@@ -6,6 +6,7 @@ import Departments from "./screens/Departments/Departments"
 import { useDispatch } from "react-redux"
 import UserDataAccess from "../data_access/UserDataAccess"
 import Login from "./screens/Login/Login"
+import Staff from "./screens/Staff/Staff"
 
 interface AppHolderProps extends RouteComponentProps {
     authenticated: boolean
@@ -34,6 +35,7 @@ const AppHolder: React.FC<AppHolderProps> = (props) => {
                 <Redirect to={Endpoints.appEndpoints.departments} />
             </Route>
             <Route exact path={Endpoints.appEndpoints.departments} component={Departments} />
+            <Route exact path={Endpoints.appEndpoints.staff} component={Staff} />
         </>
     )
 

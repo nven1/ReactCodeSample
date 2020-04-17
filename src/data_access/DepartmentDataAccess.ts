@@ -3,10 +3,11 @@ import axios from "axios"
 import Endpoints from "../environments/endpoints"
 import { addDepartmentAction, getAllDepartmentsAction } from "../reducers/DepartmentReducer"
 import { DepartmentRequestType, DepartmentType } from "../types/DepartmentTypes"
+import { AuthHeader } from "../utils/authHeader"
 
 const getDepartments = (dispatch: Dispatch<any>) => () => {
     axios
-        .get<Array<DepartmentType>>(`${Endpoints.apiEndpoint}/departments`)
+        .get<Array<DepartmentType>>(`${Endpoints.apiEndpoint}/departments`, AuthHeader)
         .then((response) => {
             dispatch(getAllDepartmentsAction(response.data))
         })

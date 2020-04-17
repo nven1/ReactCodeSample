@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react"
 import styles from "./Department.module.scss"
 import { DepartmentType } from "../../../types/DepartmentTypes"
 import Card from "../../containers/Card/Card"
-import { UserTypeResponse } from "../../../types/UserTypes"
+import { UserMinType } from "../../../types/UserTypes"
 import Circle from "../../indicators/Circle/Circle"
 import BackgroundImage from "../../indicators/Illustration/BackgroundImage"
 import Button from "../../buttons/Button/Button"
@@ -17,15 +17,15 @@ interface DepartmentProps {
 
 export interface ReassignDialogProps {
     open: boolean
-    user?: UserTypeResponse
+    user?: UserMinType
     rootDepartmentId?: number
     targetDepartmentId?: number
     onClose: () => void
 }
 
 const Department: React.FC<DepartmentProps> = (props) => {
-    const [heads, setHeads] = useState<Array<UserTypeResponse>>([])
-    const [staff, setStaff] = useState<Array<UserTypeResponse>>([])
+    const [heads, setHeads] = useState<Array<UserMinType>>([])
+    const [staff, setStaff] = useState<Array<UserMinType>>([])
 
     const handleDialogClose = () => {
         setDialogState((prev) => {
@@ -39,8 +39,8 @@ const Department: React.FC<DepartmentProps> = (props) => {
     })
 
     useEffect(() => {
-        let staff: Array<UserTypeResponse> = []
-        let heads: Array<UserTypeResponse> = []
+        let staff: Array<UserMinType> = []
+        let heads: Array<UserMinType> = []
 
         props.department.members.map((member) => {
             return member.isManager ? heads.push(member) : staff.push(member)
@@ -52,7 +52,7 @@ const Department: React.FC<DepartmentProps> = (props) => {
         // eslint-disable-next-line
     }, [props.department])
 
-    const renderPeople = (people: Array<UserTypeResponse>) => {
+    const renderPeople = (people: Array<UserMinType>) => {
         if (props.edit) {
             return people.map((person) => (
                 <div key={person.id} className={styles.personEdit}>
@@ -68,7 +68,7 @@ const Department: React.FC<DepartmentProps> = (props) => {
         ))
     }
 
-    const handleReassignDialog = (person: UserTypeResponse) => () => {
+    const handleReassignDialog = (person: UserMinType) => () => {
         setDialogState((prev) => {
             return {
                 ...prev,

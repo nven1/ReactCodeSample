@@ -13,7 +13,7 @@ const login = (dispatch: Dispatch<any>) => (
     onError: () => void
 ) => {
     axios
-        .post<LoginResponseType>(`${Endpoints.api2Endpoint}/auth/login`, credentials)
+        .post<LoginResponseType>(`${Endpoints.apiEndpoint}/auth/login`, credentials)
         .then((response) => onSuccess(response.data.token))
         .catch((e) => onError())
 }
