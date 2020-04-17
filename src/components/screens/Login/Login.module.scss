@@ -1,0 +1,28 @@
+@import "../../../styles/index.scss";
+
+.container {
+    @extend %center;
+    height: 100vh;
+}
+
+.content {
+    height: 100%;
+    overflow: hidden;
+    display: grid;
+    grid-template-rows: 30% 1fr;
+
+    form {
+        max-width: 100%;
+        display: grid;
+        height: max-content;
+    }
+
+    button {
+        margin: 1em 4em 0;
+    }
+}
+
+.loginError {
+    @extend %center;
+    color: $redPrimary;
+}
