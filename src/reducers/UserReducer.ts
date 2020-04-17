@@ -17,10 +17,13 @@ export const slice = createSlice({
         getMyUserAction: (state, action: PayloadAction<UserMeType>) => {
             state.me = action.payload
         },
+        clearUserReducerAction: (state, action: PayloadAction<undefined>) => {
+            state.me = action.payload
+        },
     },
 })
 
-export const { getMyUserAction } = slice.actions
+export const { getMyUserAction, clearUserReducerAction } = slice.actions
 
 export const selectMe = (state: RootState) => state.users.me
 export const selectIsAdmin = (state: RootState) => state.users.me?.roles.filter((role) => role.name === "Admin").length

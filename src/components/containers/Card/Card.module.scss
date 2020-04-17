@@ -13,6 +13,10 @@
     grid-template-rows: max-content 1fr;
 }
 
+.content {
+    height: 100%;
+}
+
 .closeContainer {
     display: flex;
     justify-content: flex-end;

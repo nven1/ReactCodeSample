@@ -5,27 +5,42 @@ import Header from "./bars/Header/Header"
 import Departments from "./screens/Departments/Departments"
 import { useDispatch } from "react-redux"
 import UserDataAccess from "../data_access/UserDataAccess"
+import Login from "./screens/Login/Login"
 
-interface AppHolderProps extends RouteComponentProps {}
+interface AppHolderProps extends RouteComponentProps {
+    authenticated: boolean
+}
 
 const AppHolder: React.FC<AppHolderProps> = (props) => {
     const dispatch = useDispatch()
 
     useEffect(() => {
-        UserDataAccess.getMyUser(dispatch)()
+        if (props.authenticated) {
+            UserDataAccess.getMyUser(dispatch)()
+        }
 
         // eslint-disable-next-line
-    }, [])
+    }, [props.authenticated])
+
+    const notLoggedIn = (
+        <>
+            <Redirect to={Endpoints.appEndpoints.login} />
+            <Route exact path={Endpoints.appEndpoints.login} component={Login} />
+        </>
+    )
+    const loggedIn = (
+        <>
+            <Route exact path="/">
+                <Redirect to={Endpoints.appEndpoints.departments} />
+            </Route>
+            <Route exact path={Endpoints.appEndpoints.departments} component={Departments} />
+        </>
+    )
 
     return (
         <>
-            <Header />
-            <Switch>
-                <Route exact path="/">
-                    <Redirect to={Endpoints.appEndpoints.departments} />
-                </Route>
-                <Route exact path={Endpoints.appEndpoints.departments} component={Departments} />
-            </Switch>
+            {props.authenticated && <Header />}
+            <Switch>{props.authenticated ? loggedIn : notLoggedIn}</Switch>
         </>
     )
 }
