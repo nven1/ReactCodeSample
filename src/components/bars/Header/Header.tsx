@@ -9,6 +9,7 @@ import Button from "../../buttons/Button/Button"
 import { useDispatch, useSelector } from "react-redux"
 import UserDataAccess from "../../../data_access/UserDataAccess"
 import { selectMe } from "../../../reducers/UserReducer"
+import { Token } from "../../../utils/storageKeys"
 
 interface HeaderProps extends RouteComponentProps {
     //
@@ -21,8 +22,7 @@ const Header: React.FC<HeaderProps> = (props) => {
 
     const handleLogout = () => {
         UserDataAccess.clearUserReducer(dispatch)()
-        localStorage.removeItem("token")
-        sessionStorage.clear()
+        localStorage.removeItem(Token)
         props.history.push(Endpoints.appEndpoints.root)
     }
 

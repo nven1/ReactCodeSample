@@ -10,6 +10,7 @@ import * as yup from "yup"
 import { useForm, Controller } from "react-hook-form"
 import AuthDataAccess from "../../../data_access/AuthDataAccess"
 import { useDispatch } from "react-redux"
+import { Token } from "../../../utils/storageKeys"
 
 interface LoginProps extends RouteComponentProps {}
 
@@ -36,7 +37,7 @@ const Login: React.FC<LoginProps> = (props) => {
             setLoginError(undefined)
         }
 
-        localStorage.setItem("token", token)
+        localStorage.setItem(Token, token)
         props.history.push(Endpoints.appEndpoints.root)
     }
 
@@ -47,11 +48,11 @@ const Login: React.FC<LoginProps> = (props) => {
     const loginErrorMessage = <div className={styles.loginError}>{loginError}</div>
 
     return (
-        <div className={styles.container} onSubmit={handleSubmit(onSubmit)}>
+        <div className={styles.container}>
             <Card>
                 <div className={styles.content}>
                     <Title align="center">Login</Title>
-                    <form>
+                    <form onSubmit={handleSubmit(onSubmit)}>
                         <Controller
                             as={<Input label="Email" error={errors.email} />}
                             name="email"

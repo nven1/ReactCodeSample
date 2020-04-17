@@ -10,7 +10,6 @@ const getMyUser = (dispatch: Dispatch<any>) => () => {
         .get<UserMeType>(`${Endpoints.apiEndpoint}/users/me`)
         .then((response) => {
             dispatch(getMyUserAction(response.data))
-            sessionStorage.setItem("UserId", response.data.id.toString())
         })
         .catch((error) => {})
 }

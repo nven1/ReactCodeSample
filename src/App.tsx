@@ -3,14 +3,12 @@ import "./App.scss"
 import AppHolder from "./components/AppHolder"
 import { BrowserRouter, Route, RouteComponentProps } from "react-router-dom"
 import Endpoints from "./environments/endpoints"
+import { Token } from "./utils/storageKeys"
 
 function App() {
     const renderApp = (props: RouteComponentProps) => {
-        let isAuthenticated = false
-        const token = localStorage.getItem("token")
-        if (token !== null) {
-            isAuthenticated = true
-        }
+        const token = localStorage.getItem(Token)
+        const isAuthenticated = token !== null
 
         return <AppHolder {...props} authenticated={isAuthenticated} />
     }
