@@ -1,7 +1,7 @@
 import { Dispatch } from "redux"
 import axios from "axios"
 import Endpoints from "../environments/endpoints"
-import { getMyUserAction } from "../reducers/UserReducer"
+import { getMyUserAction, clearUserReducerAction } from "../reducers/UserReducer"
 import { UserDepartmentAndRoleType, UserMeType } from "../types/UserTypes"
 import DepartmentDataAccess from "./DepartmentDataAccess"
 
@@ -10,6 +10,7 @@ const getMyUser = (dispatch: Dispatch<any>) => () => {
         .get<UserMeType>(`${Endpoints.apiEndpoint}/users/me`)
         .then((response) => {
             dispatch(getMyUserAction(response.data))
+            sessionStorage.setItem("UserId", response.data.id.toString())
         })
         .catch((error) => {})
 }
@@ -28,4 +29,8 @@ const reassignUser = (dispatch: Dispatch<any>) => (
         .catch((error) => {})
 }
 
-export default { getMyUser, reassignUser }
+const clearUserReducer = (dispatch: Dispatch<any>) => () => {
+    dispatch(clearUserReducerAction())
+}
+
+export default { getMyUser, reassignUser, clearUserReducer }

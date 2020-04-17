@@ -1,16 +1,25 @@
-import React from "react";
-import "./App.scss";
-import AppHolder from "./components/AppHolder";
-import { BrowserRouter, Route } from "react-router-dom";
-import Endpoints from "./environments/endpoints";
+import React from "react"
+import "./App.scss"
+import AppHolder from "./components/AppHolder"
+import { BrowserRouter, Route, RouteComponentProps } from "react-router-dom"
+import Endpoints from "./environments/endpoints"
 
 function App() {
-  //authentication
-  return (
-    <BrowserRouter>
-      <Route path={Endpoints.appEndpoints.root} component={AppHolder} />
-    </BrowserRouter>
-  );
+    const renderApp = (props: RouteComponentProps) => {
+        let isAuthenticated = false
+        const token = localStorage.getItem("token")
+        if (token !== null) {
+            isAuthenticated = true
+        }
+
+        return <AppHolder {...props} authenticated={isAuthenticated} />
+    }
+
+    return (
+        <BrowserRouter>
+            <Route path={Endpoints.appEndpoints.root} render={renderApp} />
+        </BrowserRouter>
+    )
 }
 
-export default App;
+export default App
