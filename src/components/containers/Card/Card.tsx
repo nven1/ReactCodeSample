@@ -22,7 +22,7 @@ const Card: React.FC<CardProps> = (props) => {
                     <CloseButton onClick={props.onClose} />
                 </div>
             )}
-            <div>{props.children}</div>
+            <div className={styles.content}>{props.children}</div>
         </div>
     )
 }
