@@ -23,6 +23,12 @@
     align-items: center;
 }
 
+%centerGrid {
+    display: grid;
+    justify-content: center;
+    align-items: center;
+}
+
 %textOverflow {
     text-overflow: ellipsis;
     overflow: hidden;

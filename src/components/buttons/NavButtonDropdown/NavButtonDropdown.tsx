@@ -12,7 +12,7 @@ const NavButtonDropdown: React.FC<NavButtonDropdownProps> = (props) => {
     return (
         <NavButton to="/ayyLmao">
             <span>
-                {props.children} <RedDot />w
+                {props.children} <RedDot />
             </span>
         </NavButton>
     )
