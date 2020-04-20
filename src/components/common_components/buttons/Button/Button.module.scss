@@ -1,0 +1,44 @@
+@import "../../../../styles/index.scss";
+
+.container {
+    @extend %buttonPreset;
+    padding: 0.6em 1.5em;
+    margin: 0 0.5em 0 0;
+    font-weight: bold;
+    line-height: 100%;
+}
+
+.grey {
+    background-color: $greyPrimary;
+    color: $purplePrimary;
+}
+
+.purple {
+    background-color: $purplePrimary;
+    color: $greyPrimary;
+}
+
+.red {
+    background-color: $redPrimary;
+    color: $white;
+}
+
+.hover--grey {
+    &:hover {
+        background-color: $purplePrimary;
+        color: $greyPrimary;
+    }
+}
+
+.hover--purple {
+    &:hover {
+        background-color: $purpleSecondary;
+    }
+}
+
+.hover--red {
+    &:hover {
+        background-color: $purplePrimary;
+        color: $greyPrimary;
+    }
+}
