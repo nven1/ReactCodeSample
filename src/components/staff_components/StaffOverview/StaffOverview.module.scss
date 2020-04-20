@@ -1,0 +1,17 @@
+@import "../../../styles/index.scss";
+
+.content {
+    display: grid;
+    row-gap: 1em;
+    grid-template-columns: max-content;
+    color: $purplePrimary;
+    padding: 0 3em;
+}
+
+.user {
+    font-size: 1em;
+    font-weight: 400;
+    transition: ease 1s;
+    text-decoration: none;
+    color: $purplePrimary;
+}
