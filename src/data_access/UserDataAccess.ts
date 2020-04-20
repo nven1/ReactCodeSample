@@ -8,7 +8,7 @@ import { AuthHeader } from "../utils/authHeader"
 
 const getMyUser = (dispatch: Dispatch<any>) => () => {
     axios
-        .get<UserType>(`${Endpoints.apiEndpoint}/users/me`)
+        .get<UserType>(`${Endpoints.apiEndpoint}/users/me`, AuthHeader())
         .then((response) => {
             dispatch(getMyUserAction(response.data))
         })
@@ -21,7 +21,7 @@ const reassignUser = (dispatch: Dispatch<any>) => (
     onSuccess: () => void
 ) => {
     axios
-        .post(`${Endpoints.apiEndpoint}/users/${userId}`, userDepartmentAndRole)
+        .post(`${Endpoints.apiEndpoint}/users/${userId}`, userDepartmentAndRole, AuthHeader())
         .then((response) => {
             DepartmentDataAccess.getDepartments(dispatch)
             onSuccess()
@@ -35,7 +35,7 @@ const clearUserReducer = (dispatch: Dispatch<any>) => () => {
 
 const getUsers = (dispatch: Dispatch<any>) => () => {
     axios
-        .get<Array<UserType>>(`${Endpoints.apiEndpoint}/users`, AuthHeader)
+        .get<Array<UserType>>(`${Endpoints.apiEndpoint}/users`, AuthHeader())
         .then((response) => {
             dispatch(getUsersAction(response.data))
         })

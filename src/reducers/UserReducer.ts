@@ -31,7 +31,7 @@ export const slice = createSlice({
 export const { getMyUserAction, clearUserReducerAction, getUsersAction } = slice.actions
 
 export const selectMe = (state: RootState) => state.users.me
-export const selectIsAdmin = (state: RootState) => state.users.me?.roles.filter((role) => role.name === "Admin").length
+export const selectIsAdmin = (state: RootState) => state.users.me?.roles.filter((role) => role.name === "admin").length
 export const selectUsers = (state: RootState) => state.users.users
 
 export default slice.reducer

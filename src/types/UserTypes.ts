@@ -1,6 +1,6 @@
 import { DepartmentMinimalType } from "./DepartmentTypes"
 
-export type RoleTypes = "Admin" | "User"
+export type RoleTypes = "admin" | "user"
 
 export interface RoleType {
     id: number

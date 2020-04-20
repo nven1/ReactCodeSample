@@ -7,7 +7,7 @@ import { AuthHeader } from "../utils/authHeader"
 
 const getDepartments = (dispatch: Dispatch<any>) => () => {
     axios
-        .get<Array<DepartmentType>>(`${Endpoints.apiEndpoint}/departments`, AuthHeader)
+        .get<Array<DepartmentType>>(`${Endpoints.apiEndpoint}/departments`, AuthHeader())
         .then((response) => {
             dispatch(getAllDepartmentsAction(response.data))
         })
@@ -16,7 +16,7 @@ const getDepartments = (dispatch: Dispatch<any>) => () => {
 
 const createDepartment = (dispatch: Dispatch<any>) => (department: DepartmentRequestType, onSuccess: () => void) => {
     axios
-        .post<DepartmentType>(`${Endpoints.apiEndpoint}/departments`, department)
+        .post<DepartmentType>(`${Endpoints.apiEndpoint}/departments`, department, AuthHeader())
         .then((response) => {
             dispatch(addDepartmentAction(response.data))
             onSuccess()
