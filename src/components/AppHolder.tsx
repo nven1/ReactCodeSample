@@ -1,7 +1,7 @@
 import React, { useEffect } from "react"
 import { Switch, Route, RouteComponentProps, Redirect } from "react-router-dom"
 import Endpoints from "../environments/endpoints"
-import Header from "./bars/Header/Header"
+import Header from "./common_components/bars/Header/Header"
 import Departments from "./screens/Departments/Departments"
 import { useDispatch } from "react-redux"
 import UserDataAccess from "../data_access/UserDataAccess"
@@ -34,8 +34,16 @@ const AppHolder: React.FC<AppHolderProps> = (props) => {
             <Route exact path="/">
                 <Redirect to={Endpoints.appEndpoints.departments} />
             </Route>
-            <Route exact path={Endpoints.appEndpoints.departments} component={Departments} />
-            <Route exact path={Endpoints.appEndpoints.staff} component={Staff} />
+
+            <Route exact path={Endpoints.appEndpoints.departments}>
+                <Redirect to={`${Endpoints.appEndpoints.departments}/all`} />
+            </Route>
+            <Route exact path={`${Endpoints.appEndpoints.departments}/:mode/:edit?`} component={Departments} />
+
+            <Route exact path={Endpoints.appEndpoints.staff}>
+                <Redirect to={`${Endpoints.appEndpoints.staff}/all`} />
+            </Route>
+            <Route exact path={`${Endpoints.appEndpoints.staff}/:mode/:action?`} component={Staff} />
         </>
     )
 

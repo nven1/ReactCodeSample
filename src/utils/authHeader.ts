@@ -1,9 +1,11 @@
 import { Token } from "./storageKeys"
 
-const token = localStorage.getItem(Token)
+export const AuthHeader = () => {
+    const token = localStorage.getItem(Token)
 
-export const AuthHeader = {
-    headers: {
-        Authorization: `Bearer ${token}`,
-    },
+    return {
+        headers: {
+            Authorization: `Bearer ${token}`,
+        },
+    }
 }

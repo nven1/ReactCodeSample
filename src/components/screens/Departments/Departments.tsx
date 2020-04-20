@@ -1,17 +1,19 @@
-import React, { useState, useEffect } from "react"
+import React, { useEffect } from "react"
 import styles from "./Departments.module.scss"
-import Toolbar from "../../bars/Toolbar/Toolbar"
+import Toolbar from "../../common_components/bars/Toolbar/Toolbar"
 import { useSelector, useDispatch } from "react-redux"
 import { selectDepartments } from "../../../reducers/DepartmentReducer"
-import Department from "../../subscreens/Department/Department"
-import OverflowButton from "../../buttons/OverflowButton/OverflowButton"
-import AddDepartment from "../../subscreens/AddDepartment/AddDepartment"
+import Department from "../../departments_components/Department/Department"
+import OverflowButton from "../../departments_components/OverflowButton/OverflowButton"
+import AddDepartment from "../../departments_components/AddDepartment/AddDepartment"
 import { selectIsAdmin } from "../../../reducers/UserReducer"
 import DepartmentDataAccess from "../../../data_access/DepartmentDataAccess"
+import { RouteComponentProps, useParams } from "react-router"
+import Endpoints from "../../../environments/endpoints"
 
-interface DepartmentsProps {}
+interface DepartmentsProps extends RouteComponentProps {}
 
-type Mode = "edit" | "single" | "all" | "add"
+const URL = Endpoints.appEndpoints.departments
 
 const Departments: React.FC<DepartmentsProps> = (props) => {
     const dispatch = useDispatch()
@@ -19,8 +21,7 @@ const Departments: React.FC<DepartmentsProps> = (props) => {
     const departments = useSelector(selectDepartments)
     const isAdmin = useSelector(selectIsAdmin)
 
-    const [activeTab, setActiveTab] = useState<number | undefined>(undefined)
-    const [mode, setMode] = useState<Mode>("all")
+    let { mode, edit } = useParams()
 
     useEffect(() => {
         DepartmentDataAccess.getDepartments(dispatch)()
@@ -28,84 +29,78 @@ const Departments: React.FC<DepartmentsProps> = (props) => {
         // eslint-disable-next-line
     }, [])
 
-    const setTab = (index?: number) => {
-        setActiveTab(index)
+    useEffect(() => {
+        // eslint-disable-next-line
+    }, [props.location])
 
-        if (index === undefined) {
-            setMode("all")
+    const goTo = (param: string, param2?: string) => () => {
+        if (param === undefined) {
+            props.history.push(URL)
         } else {
-            setMode("single")
+            props.history.push(`${URL}/${param}/${param2 ?? ""}`)
         }
     }
 
     const renderView = () => {
-        switch (mode) {
-            case "all":
-                const dpButtons = departments.map((dp, index) => (
-                    <OverflowButton key={dp.id} index={index} department={dp} onClick={setTab} />
-                ))
-                return <div className={styles.all}>{dpButtons}</div>
-            case "edit":
-            case "single":
-                if (activeTab !== undefined) {
-                    return <Department department={departments[activeTab]} edit={mode === "edit"} index={activeTab} />
-                } else {
-                    setMode("all")
-                    break
-                }
-
-            case "add":
-                return <AddDepartment onSubmit={handleAddDepartment} />
-            default:
-                break
+        if (mode === "all") {
+            return renderAll()
+        } else if (
+            departments.length > 0 &&
+            mode !== undefined &&
+            !isNaN(Number(mode)) &&
+            Number(mode) <= departments.length
+        ) {
+            return renderSingle()
+        } else if (mode === "add") {
+            return <AddDepartment onSubmit={handleAddDepartment} />
+        } else if (departments.length > 0 && Number(mode) > departments.length) {
+            goTo("all")()
         }
     }
 
-    const handleAddDepartment = () => {
-        setActiveTab(departments.length)
-        setMode("single")
+    const renderAll = () => {
+        const dpButtons = departments.map((dp, index) => (
+            <OverflowButton key={dp.id} index={index} department={dp} onClick={goTo(dp.id.toString())} />
+        ))
+        return <div className={styles.all}>{dpButtons}</div>
+    }
+    const renderSingle = () => {
+        const dp = departments.filter((dp) => dp.id === Number(mode))[0]
+        return <Department department={dp} edit={Boolean(edit)} />
     }
 
-    const toolbarResolver = {
-        edit: () => {
-            setMode("single")
-        },
-        single: () => {
-            setMode("edit")
-        },
-        all: () => {
-            setMode("add")
-        },
-        add: () => {
-            setMode("all")
-        },
+    const handleAddDepartment = () => {
+        goTo(departments.length.toString())()
+    }
+
+    const toolbarResolver = (): string => {
+        if (mode === "all") {
+            return "add"
+        } else if (mode !== undefined && !isNaN(Number(mode))) {
+            return edit ? mode : `${mode}/edit`
+        }
+        return URL
     }
 
     const toolbarActionButtonLabel = (): string | undefined => {
         if (isAdmin) {
-            switch (mode) {
-                case "all":
-                    return "Add department"
-                case "single":
-                    return "Edit department"
-                case "edit":
-                    return "Stop editing"
-                default:
-                    return undefined
+            if (mode === "all") {
+                return "Add department"
+            } else if (!isNaN(Number(mode))) {
+                return edit ? "Stop editing" : "Edit Department"
             }
         }
         return undefined
     }
 
     return (
-        <div className={styles.Departments}>
+        <div className={styles.container}>
             <Toolbar
+                url={URL}
                 label="Departments"
                 actionLabel={toolbarActionButtonLabel()}
                 buttons={departments}
-                indexActive={activeTab}
-                onClick={setTab}
-                onAction={toolbarResolver[mode]}
+                onAction={toolbarResolver()}
             />
             <div className={styles.content}>{renderView()}</div>
         </div>
