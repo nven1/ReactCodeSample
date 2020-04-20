@@ -36,7 +36,7 @@ const StaffDetail: React.FC<StaffDetailProps> = (props) => {
     const isAdmin = useSelector(selectIsAdmin)
     const me = useSelector(selectMe)
 
-    let { mode } = useParams()
+    const { mode } = useParams()
 
     const role = `${props.user.isManager ? "Head of" : "Staff in"} ${props.user.department.name}`
 

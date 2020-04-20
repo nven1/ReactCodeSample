@@ -21,17 +21,13 @@ const Departments: React.FC<DepartmentsProps> = (props) => {
     const departments = useSelector(selectDepartments)
     const isAdmin = useSelector(selectIsAdmin)
 
-    let { mode, edit } = useParams()
+    const { mode, edit } = useParams()
 
     useEffect(() => {
         DepartmentDataAccess.getDepartments(dispatch)()
 
         // eslint-disable-next-line
     }, [])
-
-    useEffect(() => {
-        // eslint-disable-next-line
-    }, [props.location])
 
     const goTo = (param: string, param2?: string) => () => {
         if (param === undefined) {

@@ -15,7 +15,7 @@ interface ToolbarProps extends RouteComponentProps {
 }
 
 const Toolbar: React.FC<ToolbarProps> = (props) => {
-    let { mode } = useParams()
+    const { mode } = useParams()
 
     const goTo = (param: string) => {
         return `${props.url}/${param}/`

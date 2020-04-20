@@ -24,7 +24,7 @@ export interface ReassignDialogProps {
 }
 
 const Department: React.FC<DepartmentProps> = (props) => {
-    let { mode } = useParams()
+    const { mode } = useParams()
 
     const [heads, setHeads] = useState<Array<UserMinType>>([])
     const [staff, setStaff] = useState<Array<UserMinType>>([])

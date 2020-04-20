@@ -7,7 +7,6 @@ interface NavButtonProps extends RouteComponentProps {
     to: string
     exact?: boolean
     external?: boolean
-    color?: "grey" | "purple" | "red"
 }
 
 const NavButton: React.FC<NavButtonProps> = (props) => {

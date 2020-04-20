@@ -19,7 +19,7 @@ const Staff: React.FC<StaffProps> = (props) => {
     const users = useSelector(selectUsers)
     const isAdmin = useSelector(selectIsAdmin)
 
-    let { mode } = useParams()
+    const { mode } = useParams()
 
     useEffect(() => {
         UserDataAccess.getUsers(dispatch)()
