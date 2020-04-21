@@ -11,6 +11,7 @@ import {
 } from "../types/UserTypes"
 import DepartmentDataAccess from "./DepartmentDataAccess"
 import { AuthHeader } from "../utils/authHeader"
+import { ResetPasswordType } from "../components/staff_components/StaffDetail/StaffDetail"
 
 const getMyUser = (dispatch: Dispatch<any>) => () => {
     axios
@@ -79,4 +80,36 @@ const updateUser = (dispatch: Dispatch<any>) => (id: number, user: UserUpdateReq
         .catch()
 }
 
-export default { getMyUser, reassignUser, clearUserReducer, getUsers, getRoles, createUser, updateUser }
+const deactivateUser = (dispatch: Dispatch<any>) => (id: number, onSuccess: () => void) => {
+    axios
+        .put(`${Endpoints.apiEndpoint}/users/deactivate/${id}`, AuthHeader())
+        .then((response) => {
+            getUsers(dispatch)()
+            DepartmentDataAccess.getDepartments(dispatch)()
+            onSuccess()
+        })
+        .catch()
+}
+
+const resetPassword = (dispatch: Dispatch<any>) => (email: ResetPasswordType, onSuccess: () => void) => {
+    axios
+        .post(`${Endpoints.apiEndpoint}/auth/password-reset`, email, AuthHeader())
+        .then((response) => {
+            getUsers(dispatch)()
+            DepartmentDataAccess.getDepartments(dispatch)()
+            onSuccess()
+        })
+        .catch()
+}
+
+export default {
+    getMyUser,
+    reassignUser,
+    clearUserReducer,
+    getUsers,
+    getRoles,
+    createUser,
+    updateUser,
+    deactivateUser,
+    resetPassword,
+}

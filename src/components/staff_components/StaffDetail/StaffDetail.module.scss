@@ -16,8 +16,21 @@
     }
 }
 
+.buttonAdjust {
+    width: 70%;
+    button {
+        width: 100%;
+    }
+}
+
 .content {
     p {
         padding: 0 3em;
+    }
+}
+
+.dialog {
+    button {
+        margin: 0 3em;
     }
 }
