@@ -1,8 +1,8 @@
 import { Dispatch } from "redux"
 import axios from "axios"
 import Endpoints from "../environments/endpoints"
-import { getMyUserAction, clearUserReducerAction, getUsersAction } from "../reducers/UserReducer"
-import { UserDepartmentAndRoleType, UserType } from "../types/UserTypes"
+import { getMyUserAction, clearUserReducerAction, getUsersAction, getRolesAction } from "../reducers/UserReducer"
+import { UserDepartmentAndRoleType, UserType, RoleType, UserCreateRequestType } from "../types/UserTypes"
 import DepartmentDataAccess from "./DepartmentDataAccess"
 import { AuthHeader } from "../utils/authHeader"
 
@@ -42,4 +42,24 @@ const getUsers = (dispatch: Dispatch<any>) => () => {
         .catch()
 }
 
-export default { getMyUser, reassignUser, clearUserReducer, getUsers }
+const getRoles = (dispatch: Dispatch<any>) => () => {
+    axios
+        .get<Array<RoleType>>(`${Endpoints.apiEndpoint}/roles`, AuthHeader())
+        .then((response) => {
+            dispatch(getRolesAction(response.data))
+        })
+        .catch()
+}
+
+const createUser = (dispatch: Dispatch<any>) => (user: UserCreateRequestType, onSuccess: () => void) => {
+    axios
+        .post(`${Endpoints.apiEndpoint}/users`, user, AuthHeader())
+        .then((response) => {
+            getUsers(dispatch)()
+            DepartmentDataAccess.getDepartments(dispatch)()
+            onSuccess()
+        })
+        .catch()
+}
+
+export default { getMyUser, reassignUser, clearUserReducer, getUsers, getRoles, createUser }

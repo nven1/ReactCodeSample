@@ -9,6 +9,7 @@ import Endpoints from "../../../environments/endpoints"
 import StaffOverview from "../../staff_components/StaffOverview/StaffOverview"
 import StaffDetail from "../../staff_components/StaffDetail/StaffDetail"
 import { goTo } from "../../../utils/navHelpers"
+import StaffAdd from "../../staff_components/StaffAdd/StaffAdd"
 
 interface StaffProps extends RouteComponentProps {}
 
@@ -48,7 +49,7 @@ const Staff: React.FC<StaffProps> = (props) => {
                 navigate("all")()
             }
         } else if (mode === "add") {
-            //
+            return <StaffAdd />
         }
     }
 
