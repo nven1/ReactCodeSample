@@ -11,6 +11,7 @@ import DepartmentDialog from "../DepartmentDialog/DepartmentDialog"
 import { useParams } from "react-router"
 import { Link } from "react-router-dom"
 import Endpoints from "../../../environments/endpoints"
+import { goTo } from "../../../utils/navHelpers"
 
 interface DepartmentProps {
     department: DepartmentType
@@ -24,6 +25,8 @@ export interface ReassignDialogProps {
     targetDepartmentId?: number
     onClose: () => void
 }
+
+const URL_STAFF = Endpoints.appEndpoints.staff
 
 const Department: React.FC<DepartmentProps> = (props) => {
     const { mode } = useParams()
@@ -60,9 +63,7 @@ const Department: React.FC<DepartmentProps> = (props) => {
         if (props.edit) {
             return people.map((person) => (
                 <div key={person.id} className={styles.personEdit}>
-                    <Link to={`${Endpoints.appEndpoints.staff}/${person.id}`}>
-                        {`${person.firstName} ${person.lastName}`}
-                    </Link>
+                    <Link to={goTo(URL_STAFF, person.id.toString())}>{`${person.firstName} ${person.lastName}`}</Link>
                     <Button color="red" size="small" onClick={handleReassignDialog(person)}>
                         Reassign
                     </Button>
@@ -71,7 +72,7 @@ const Department: React.FC<DepartmentProps> = (props) => {
         }
         return people.map((person) => (
             <Link
-                to={`${Endpoints.appEndpoints.staff}/${person.id}`}
+                to={goTo(URL_STAFF, person.id.toString())}
                 key={person.id}
                 className={styles.person}
             >{`${person.firstName} ${person.lastName}`}</Link>
