@@ -21,7 +21,7 @@ const Staff: React.FC<StaffProps> = (props) => {
     const users = useSelector(selectUsers)
     const isAdmin = useSelector(selectIsAdmin)
 
-    const { mode } = useParams()
+    const { mode, action } = useParams()
 
     useEffect(() => {
         UserDataAccess.getUsers(dispatch)()
@@ -44,6 +44,9 @@ const Staff: React.FC<StaffProps> = (props) => {
         } else if (users.length > 0 && !isNaN(Number(mode))) {
             const user = users.filter((user) => user.id === Number(mode))[0]
             if (user) {
+                if (action === "edit") {
+                    return <StaffAdd user={user} />
+                }
                 return <StaffDetail user={user} />
             } else {
                 navigate("all")()

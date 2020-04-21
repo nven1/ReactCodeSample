@@ -2,7 +2,13 @@ import { Dispatch } from "redux"
 import axios from "axios"
 import Endpoints from "../environments/endpoints"
 import { getMyUserAction, clearUserReducerAction, getUsersAction, getRolesAction } from "../reducers/UserReducer"
-import { UserDepartmentAndRoleType, UserType, RoleType, UserCreateRequestType } from "../types/UserTypes"
+import {
+    UserDepartmentAndRoleType,
+    UserType,
+    RoleType,
+    UserCreateRequestType,
+    UserUpdateRequestType,
+} from "../types/UserTypes"
 import DepartmentDataAccess from "./DepartmentDataAccess"
 import { AuthHeader } from "../utils/authHeader"
 
@@ -62,4 +68,15 @@ const createUser = (dispatch: Dispatch<any>) => (user: UserCreateRequestType, on
         .catch()
 }
 
-export default { getMyUser, reassignUser, clearUserReducer, getUsers, getRoles, createUser }
+const updateUser = (dispatch: Dispatch<any>) => (id: number, user: UserUpdateRequestType, onSuccess: () => void) => {
+    axios
+        .put(`${Endpoints.apiEndpoint}/users/${id}`, user, AuthHeader())
+        .then((response) => {
+            getUsers(dispatch)()
+            DepartmentDataAccess.getDepartments(dispatch)()
+            onSuccess()
+        })
+        .catch()
+}
+
+export default { getMyUser, reassignUser, clearUserReducer, getUsers, getRoles, createUser, updateUser }

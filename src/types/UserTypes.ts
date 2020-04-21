@@ -36,3 +36,12 @@ export interface UserCreateRequestType {
     dateOfEmployment: string
     roles: Array<RoleType>
 }
+
+export interface UserUpdateRequestType {
+    firstName: string
+    lastName: string
+    isManager: boolean
+    dateOfEmployment: string
+    departmentId: DepartmentMinimalType
+    roles: Array<RoleType>
+}

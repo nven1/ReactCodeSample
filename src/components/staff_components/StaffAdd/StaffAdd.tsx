@@ -1,4 +1,4 @@
-import React, { useState } from "react"
+import React, { useState, useEffect } from "react"
 import styles from "./StaffAdd.module.scss"
 import Card from "../../common_components/containers/Card/Card"
 import Title from "../../common_components/text/Title/Title"
@@ -12,11 +12,14 @@ import DepartmentDataAccess from "../../../data_access/DepartmentDataAccess"
 import Subtitle from "../../common_components/text/Subtitle/Subtitle"
 import { selectRoles } from "../../../reducers/UserReducer"
 import UserDataAccess from "../../../data_access/UserDataAccess"
-import { UserCreateRequestType } from "../../../types/UserTypes"
+import { UserCreateRequestType, UserType, UserUpdateRequestType } from "../../../types/UserTypes"
 import { RouteComponentProps, withRouter } from "react-router"
 import Endpoints from "../../../environments/endpoints"
+import { goTo } from "../../../utils/navHelpers"
 
-interface StaffAddProps extends RouteComponentProps {}
+interface StaffAddProps extends RouteComponentProps {
+    user?: UserType
+}
 
 const AddStaffSchema = yup.object().shape({
     firstName: yup.string().required(),
@@ -37,23 +40,53 @@ const StaffAdd: React.FC<StaffAddProps> = (props) => {
         validationSchema: AddStaffSchema,
     })
 
+    useEffect(() => {
+        if (props.user) {
+            setValue([
+                { firstName: props.user.firstName },
+                { lastName: props.user.lastName },
+                { email: props.user.email },
+                { department: props.user.department.id },
+                { roles: props.user.roles.map((role) => role.id) },
+            ])
+        }
+
+        // eslint-disable-next-line
+    }, [props])
+
     const [modeState, setMode] = useState<Mode>(undefined)
 
     const onSubmit = (data: any) => {
-        const castData: UserCreateRequestType = {
-            firstName: data.firstName,
-            lastName: data.lastName,
-            email: data.email,
-            departmentId: data.department,
-            isManager: !!data.roles.filter((role: number) => role === (1 || 2)).length,
-            dateOfEmployment: "2020-04-21", //TODO
-            roles: data.roles,
+        if (props.user) {
+            const castData: UserUpdateRequestType = {
+                firstName: data.firstName,
+                lastName: data.lastName,
+                departmentId: data.department,
+                dateOfEmployment: "2020-04-21", //TODO
+                isManager: !!data.roles.filter((role: number) => role === (1 || 2)).length,
+                roles: data.roles,
+            }
+            UserDataAccess.updateUser(dispatch)(props.user.id, castData, onSuccess)
+        } else {
+            const castData: UserCreateRequestType = {
+                firstName: data.firstName,
+                lastName: data.lastName,
+                email: data.email,
+                departmentId: data.department,
+                isManager: !!data.roles.filter((role: number) => role === (1 || 2)).length,
+                dateOfEmployment: "2020-04-21", //TODO
+                roles: data.roles,
+            }
+            UserDataAccess.createUser(dispatch)(castData, onSuccess)
         }
-        UserDataAccess.createUser(dispatch)(castData, onSuccess)
     }
 
     const onSuccess = () => {
-        props.history.push(Endpoints.appEndpoints.staff)
+        if (props.user) {
+            props.history.push(goTo(Endpoints.appEndpoints.staff, props.user.id.toString()))
+        } else {
+            props.history.push(Endpoints.appEndpoints.staff)
+        }
     }
 
     const handleSetMode = (mode: Mode) => {
@@ -159,6 +192,7 @@ const StaffAdd: React.FC<StaffAddProps> = (props) => {
                         <Controller
                             as={<Input label="Email" error={errors.email} />}
                             name="email"
+                            disabled
                             control={control}
                             defaultValue=""
                         />
@@ -182,7 +216,7 @@ const StaffAdd: React.FC<StaffAddProps> = (props) => {
 
                         <div className={styles.submitContainer}>
                             <Button submit color="purple" size="large">
-                                Add
+                                {props.user ? "Update" : "Add"}
                             </Button>
                         </div>
                     </form>
