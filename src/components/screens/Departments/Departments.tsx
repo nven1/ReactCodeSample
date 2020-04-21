@@ -10,6 +10,7 @@ import { selectIsAdmin } from "../../../reducers/UserReducer"
 import DepartmentDataAccess from "../../../data_access/DepartmentDataAccess"
 import { RouteComponentProps, useParams } from "react-router"
 import Endpoints from "../../../environments/endpoints"
+import { goTo } from "../../../utils/navHelpers"
 
 interface DepartmentsProps extends RouteComponentProps {}
 
@@ -29,44 +30,37 @@ const Departments: React.FC<DepartmentsProps> = (props) => {
         // eslint-disable-next-line
     }, [])
 
-    const goTo = (param: string, param2?: string) => () => {
-        if (param === undefined) {
-            props.history.push(URL)
-        } else {
-            props.history.push(`${URL}/${param}/${param2 ?? ""}`)
-        }
+    const navigate = (param: string) => () => {
+        props.history.push(goTo(URL, param))
     }
 
     const renderView = () => {
         if (mode === "all") {
             return renderAll()
-        } else if (
-            departments.length > 0 &&
-            mode !== undefined &&
-            !isNaN(Number(mode)) &&
-            Number(mode) <= departments.length
-        ) {
+        } else if (departments.length > 0 && !isNaN(Number(mode))) {
             return renderSingle()
         } else if (mode === "add") {
             return <AddDepartment onSubmit={handleAddDepartment} />
-        } else if (departments.length > 0 && Number(mode) > departments.length) {
-            goTo("all")()
         }
     }
 
     const renderAll = () => {
         const dpButtons = departments.map((dp, index) => (
-            <OverflowButton key={dp.id} index={index} department={dp} onClick={goTo(dp.id.toString())} />
+            <OverflowButton key={dp.id} index={index} department={dp} onClick={navigate(dp.id.toString())} />
         ))
         return <div className={styles.all}>{dpButtons}</div>
     }
     const renderSingle = () => {
         const dp = departments.filter((dp) => dp.id === Number(mode))[0]
-        return <Department department={dp} edit={Boolean(edit)} />
+        if (dp) {
+            return <Department department={dp} edit={Boolean(edit)} />
+        } else {
+            navigate("all")()
+        }
     }
 
     const handleAddDepartment = () => {
-        goTo(departments.length.toString())()
+        navigate(departments.length.toString())()
     }
 
     const toolbarResolver = (): string => {
@@ -89,13 +83,17 @@ const Departments: React.FC<DepartmentsProps> = (props) => {
         return undefined
     }
 
+    const buttons = departments.map((dp) => {
+        return { id: dp.id, name: dp.name }
+    })
+
     return (
         <div className={styles.container}>
             <Toolbar
                 url={URL}
                 label="Departments"
                 actionLabel={toolbarActionButtonLabel()}
-                buttons={departments}
+                buttons={buttons}
                 onAction={toolbarResolver()}
             />
             <div className={styles.content}>{renderView()}</div>

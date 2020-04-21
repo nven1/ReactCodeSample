@@ -1,7 +1,8 @@
 import React from "react"
-import { Route, RouteComponentProps, withRouter, Link } from "react-router-dom"
+import { Route, RouteComponentProps, withRouter } from "react-router-dom"
 import "./NavButton.module.scss"
 import Button from "../Button/Button"
+import LinkButton from "../LinkButton/LinkButton"
 
 interface NavButtonProps extends RouteComponentProps {
     to: string
@@ -17,11 +18,9 @@ const NavButton: React.FC<NavButtonProps> = (props) => {
     const renderButton = ({ match, location }: any) => (
         <>
             {!props.external && (
-                <Link to={props.to}>
-                    <Button color={match ? "purple" : "grey"} noHover={Boolean(match)}>
-                        {props.children}
-                    </Button>
-                </Link>
+                <LinkButton to={props.to} color={match ? "purple" : "grey"} noHover={Boolean(match)}>
+                    {props.children}
+                </LinkButton>
             )}
             {props.external && (
                 <Button color={match ? "purple" : "grey"} noHover={Boolean(match)} onClick={handleClick}>

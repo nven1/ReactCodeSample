@@ -2,12 +2,12 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit"
 import { RootState } from "../app/store"
 import { UserType } from "../types/UserTypes"
 
-export interface DepartmentsState {
+export interface UsersState {
     me: UserType | undefined
     users: Array<UserType>
 }
 
-const initialState: DepartmentsState = {
+const initialState: UsersState = {
     me: undefined,
     users: [],
 }

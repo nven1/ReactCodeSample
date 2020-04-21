@@ -1,4 +1,4 @@
-import React from "react"
+import React, { useEffect } from "react"
 import styles from "./StaffDetail.module.scss"
 import Card from "../../common_components/containers/Card/Card"
 import Title from "../../common_components/text/Title/Title"
@@ -10,6 +10,7 @@ import LinkButton from "../../common_components/buttons/LinkButton/LinkButton"
 import Endpoints from "../../../environments/endpoints"
 import { useParams } from "react-router"
 import BackgroundImage from "../../common_components/indicators/Illustration/BackgroundImage"
+import { goTo } from "../../../utils/navHelpers"
 
 interface StaffDetailProps {
     user: UserType
@@ -43,9 +44,6 @@ const StaffDetail: React.FC<StaffDetailProps> = (props) => {
     const from = new Date(props.user.dateOfEmployment)
     const fromText = `Since ${monthNames[from.getMonth()]}, ${from.getFullYear()}`
 
-    const goTo = (action: string) => {
-        return `${URL}/${mode}/${action}`
-    }
     return (
         <>
             <Card>
@@ -65,16 +63,18 @@ const StaffDetail: React.FC<StaffDetailProps> = (props) => {
             {(isAdmin || props.user.id === me?.id) && (
                 <Card>
                     <div className={styles.manageContent}>
-                        <LinkButton to={goTo("edit")} color="purple">
+                        <LinkButton to={goTo(URL, mode ?? "", "edit")} color="purple">
                             Edit Info
                         </LinkButton>
-                        <LinkButton to={goTo("reset")} color="purple">
+                        <LinkButton to={goTo(URL, mode ?? "", "reset")} color="purple">
                             Reset Password
                         </LinkButton>
-                        <LinkButton to={goTo("set_leave")} color="purple">
-                            Set Annual Leave
-                        </LinkButton>
-                        <LinkButton to={goTo("deactivate")} color="red">
+                        {isAdmin && (
+                            <LinkButton to={goTo(URL, mode ?? "", "set_leave")} color="purple">
+                                Set Annual Leave
+                            </LinkButton>
+                        )}
+                        <LinkButton to={goTo(URL, mode ?? "", "deactivate")} color="red">
                             Deactivate
                         </LinkButton>
                     </div>

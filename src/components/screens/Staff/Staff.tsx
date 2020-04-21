@@ -8,6 +8,7 @@ import { useParams, RouteComponentProps, withRouter } from "react-router-dom"
 import Endpoints from "../../../environments/endpoints"
 import StaffOverview from "../../staff_components/StaffOverview/StaffOverview"
 import StaffDetail from "../../staff_components/StaffDetail/StaffDetail"
+import { goTo } from "../../../utils/navHelpers"
 
 interface StaffProps extends RouteComponentProps {}
 
@@ -27,28 +28,27 @@ const Staff: React.FC<StaffProps> = (props) => {
         // eslint-disable-next-line
     }, [])
 
+    //TODO
     /*     const handleAddStaff = () => {
         //
-    } */
-
-    const goTo = (param: string, param2?: string) => () => {
-        if (param === undefined) {
-            props.history.push(URL)
-        } else {
-            props.history.push(`${URL}/${param}/${param2 ?? ""}`)
-        }
+    } 
+    */
+    const navigate = (param: string) => () => {
+        props.history.push(goTo(URL, param))
     }
 
     const renderView = () => {
         if (mode === "all") {
             return <StaffOverview users={users} />
-        } else if (users.length > 0 && mode !== undefined && !isNaN(Number(mode)) && Number(mode) <= users.length) {
+        } else if (users.length > 0 && !isNaN(Number(mode))) {
             const user = users.filter((user) => user.id === Number(mode))[0]
-            return <StaffDetail user={user} />
+            if (user) {
+                return <StaffDetail user={user} />
+            } else {
+                navigate("all")()
+            }
         } else if (mode === "add") {
             //
-        } else if (users.length > 0 && Number(mode) > users.length) {
-            goTo("all")()
         }
     }
 
