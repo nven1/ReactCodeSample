@@ -21,9 +21,9 @@ const reassignUser = (dispatch: Dispatch<any>) => (
     onSuccess: () => void
 ) => {
     axios
-        .post(`${Endpoints.apiEndpoint}/users/${userId}`, userDepartmentAndRole, AuthHeader())
+        .put(`${Endpoints.apiEndpoint}/users/${userId}/reassign`, userDepartmentAndRole, AuthHeader())
         .then((response) => {
-            DepartmentDataAccess.getDepartments(dispatch)
+            DepartmentDataAccess.getDepartments(dispatch)()
             onSuccess()
         })
         .catch((error) => {})

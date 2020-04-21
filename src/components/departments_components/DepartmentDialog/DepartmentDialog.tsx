@@ -33,14 +33,14 @@ const DepartmentDialog: React.FC<ReassignDialogProps> = (props) => {
             <div key={department.id} className={styles.item}>
                 <div>{department.name}</div>
                 <div>
-                    {!(props.rootDepartmentId === index && props.user?.isManager) && (
+                    {!(props.rootDepartmentId === department.id && props.user?.isManager) && (
                         <Button color="red" size="small" onClick={handleRolePick(department.id, true)}>
                             Head
                         </Button>
                     )}
                 </div>
                 <div>
-                    {!(props.rootDepartmentId === index && !props.user?.isManager) && (
+                    {!(props.rootDepartmentId === department.id && !props.user?.isManager) && (
                         <Button color="purple" size="small" onClick={handleRolePick(department.id, false)}>
                             Staff
                         </Button>

@@ -59,12 +59,14 @@ const Department: React.FC<DepartmentProps> = (props) => {
     const renderPeople = (people: Array<UserMinType>) => {
         if (props.edit) {
             return people.map((person) => (
-                <Link to={`${Endpoints.appEndpoints.staff}/${person.id}`} key={person.id} className={styles.personEdit}>
-                    <span>{`${person.firstName} ${person.lastName}`}</span>
+                <div key={person.id} className={styles.personEdit}>
+                    <Link to={`${Endpoints.appEndpoints.staff}/${person.id}`}>
+                        {`${person.firstName} ${person.lastName}`}
+                    </Link>
                     <Button color="red" size="small" onClick={handleReassignDialog(person)}>
                         Reassign
                     </Button>
-                </Link>
+                </div>
             ))
         }
         return people.map((person) => (

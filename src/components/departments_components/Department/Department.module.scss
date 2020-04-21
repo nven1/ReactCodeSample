@@ -35,4 +35,8 @@
 .personEdit {
     @extend .person;
     justify-content: space-between;
+    a {
+        text-decoration: none;
+        color: $purplePrimary;
+    }
 }
