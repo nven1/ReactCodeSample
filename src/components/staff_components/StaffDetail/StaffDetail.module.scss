@@ -1,0 +1,23 @@
+@import "../../../styles/index.scss";
+
+.manageContent {
+    @extend %center;
+    display: flex;
+    flex-direction: column;
+    padding: 0 2em;
+    height: 100%;
+
+    a {
+        width: 70%;
+        button {
+            width: 100%;
+            margin: 1em 0;
+        }
+    }
+}
+
+.content {
+    p {
+        padding: 0 3em;
+    }
+}

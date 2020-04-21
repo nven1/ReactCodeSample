@@ -1,0 +1,19 @@
+@import "../../../../styles/index.scss";
+
+.container {
+    top: 5rem;
+    position: sticky;
+    display: flex;
+
+    align-items: center;
+    padding: $paddingHorizontal;
+    height: 4rem;
+
+    div {
+        display: flex;
+    }
+
+    a:last-child {
+        margin: 0 0 0 auto;
+    }
+}

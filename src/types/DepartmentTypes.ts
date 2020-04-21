@@ -1,4 +1,4 @@
-import { UserTypeResponse } from "./UserTypes"
+import { UserMinType } from "./UserTypes"
 import { DepartmentImage } from "../utils/getImage"
 
 export interface DepartmentMinimalType {
@@ -8,7 +8,7 @@ export interface DepartmentMinimalType {
 }
 
 export interface DepartmentType extends DepartmentMinimalType {
-    members: Array<UserTypeResponse>
+    members: Array<UserMinType>
 }
 
 export interface DepartmentRequestType {

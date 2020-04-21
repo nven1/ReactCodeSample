@@ -1,0 +1,37 @@
+@import "../../../../styles/index.scss";
+
+.container {
+    height: 24em;
+    width: 20em;
+    box-shadow: $shadow;
+    overflow-y: auto;
+    background-color: white;
+}
+
+.containerWithClose {
+    display: grid;
+    grid-template-rows: max-content 1fr;
+}
+
+.content {
+    height: 100%;
+}
+
+.closeContainer {
+    display: flex;
+    justify-content: flex-end;
+    position: sticky;
+    top: 0;
+    pointer-events: none;
+    svg {
+        pointer-events: all;
+    }
+}
+
+.double {
+    width: 30em;
+}
+
+.dynamic {
+    width: 100%;
+}

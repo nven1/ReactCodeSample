@@ -1,20 +1,20 @@
 import { DepartmentMinimalType } from "./DepartmentTypes"
 
-export type RoleTypes = "Admin" | "User"
+export type RoleTypes = "admin" | "user"
 
 export interface RoleType {
     id: number
     name: RoleTypes
 }
 
-export interface UserTypeResponse {
+export interface UserMinType {
     id: number
     firstName: string
     lastName: string
     isManager: boolean
 }
 
-export interface UserMeType extends UserTypeResponse {
+export interface UserType extends UserMinType {
     email: string
     department: DepartmentMinimalType
     isActive: boolean

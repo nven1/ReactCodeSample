@@ -1,17 +1,20 @@
-import React, { useState, useEffect } from "react"
+import React, { useEffect } from "react"
 import styles from "./Departments.module.scss"
-import Toolbar from "../../bars/Toolbar/Toolbar"
+import Toolbar from "../../common_components/bars/Toolbar/Toolbar"
 import { useSelector, useDispatch } from "react-redux"
 import { selectDepartments } from "../../../reducers/DepartmentReducer"
-import Department from "../../subscreens/Department/Department"
-import OverflowButton from "../../buttons/OverflowButton/OverflowButton"
-import AddDepartment from "../../subscreens/AddDepartment/AddDepartment"
+import Department from "../../departments_components/Department/Department"
+import OverflowButton from "../../departments_components/OverflowButton/OverflowButton"
+import AddDepartment from "../../departments_components/AddDepartment/AddDepartment"
 import { selectIsAdmin } from "../../../reducers/UserReducer"
 import DepartmentDataAccess from "../../../data_access/DepartmentDataAccess"
+import { RouteComponentProps, useParams } from "react-router"
+import Endpoints from "../../../environments/endpoints"
+import { goTo } from "../../../utils/navHelpers"
 
-interface DepartmentsProps {}
+interface DepartmentsProps extends RouteComponentProps {}
 
-type Mode = "edit" | "single" | "all" | "add"
+const URL = Endpoints.appEndpoints.departments
 
 const Departments: React.FC<DepartmentsProps> = (props) => {
     const dispatch = useDispatch()
@@ -19,8 +22,7 @@ const Departments: React.FC<DepartmentsProps> = (props) => {
     const departments = useSelector(selectDepartments)
     const isAdmin = useSelector(selectIsAdmin)
 
-    const [activeTab, setActiveTab] = useState<number | undefined>(undefined)
-    const [mode, setMode] = useState<Mode>("all")
+    const { mode, edit } = useParams()
 
     useEffect(() => {
         DepartmentDataAccess.getDepartments(dispatch)()
@@ -28,84 +30,71 @@ const Departments: React.FC<DepartmentsProps> = (props) => {
         // eslint-disable-next-line
     }, [])
 
-    const setTab = (index?: number) => {
-        setActiveTab(index)
-
-        if (index === undefined) {
-            setMode("all")
-        } else {
-            setMode("single")
-        }
+    const navigate = (param: string) => () => {
+        props.history.push(goTo(URL, param))
     }
 
     const renderView = () => {
-        switch (mode) {
-            case "all":
-                const dpButtons = departments.map((dp, index) => (
-                    <OverflowButton key={dp.id} index={index} department={dp} onClick={setTab} />
-                ))
-                return <div className={styles.all}>{dpButtons}</div>
-            case "edit":
-            case "single":
-                if (activeTab !== undefined) {
-                    return <Department department={departments[activeTab]} edit={mode === "edit"} index={activeTab} />
-                } else {
-                    setMode("all")
-                    break
-                }
+        if (mode === "all") {
+            return renderAll()
+        } else if (departments.length > 0 && !isNaN(Number(mode))) {
+            return renderSingle()
+        } else if (mode === "add") {
+            return <AddDepartment onSubmit={handleAddDepartment} />
+        }
+    }
 
-            case "add":
-                return <AddDepartment onSubmit={handleAddDepartment} />
-            default:
-                break
+    const renderAll = () => {
+        const dpButtons = departments.map((dp, index) => (
+            <OverflowButton key={dp.id} index={index} department={dp} onClick={navigate(dp.id.toString())} />
+        ))
+        return <div className={styles.all}>{dpButtons}</div>
+    }
+    const renderSingle = () => {
+        const dp = departments.filter((dp) => dp.id === Number(mode))[0]
+        if (dp) {
+            return <Department department={dp} edit={Boolean(edit)} />
+        } else {
+            navigate("all")()
         }
     }
 
     const handleAddDepartment = () => {
-        setActiveTab(departments.length)
-        setMode("single")
+        navigate(departments.length.toString())()
     }
 
-    const toolbarResolver = {
-        edit: () => {
-            setMode("single")
-        },
-        single: () => {
-            setMode("edit")
-        },
-        all: () => {
-            setMode("add")
-        },
-        add: () => {
-            setMode("all")
-        },
+    const toolbarResolver = (): string => {
+        if (mode === "all") {
+            return "add"
+        } else if (mode !== undefined && !isNaN(Number(mode))) {
+            return edit ? mode : `${mode}/edit`
+        }
+        return URL
     }
 
     const toolbarActionButtonLabel = (): string | undefined => {
         if (isAdmin) {
-            switch (mode) {
-                case "all":
-                    return "Add department"
-                case "single":
-                    return "Edit department"
-                case "edit":
-                    return "Stop editing"
-                default:
-                    return undefined
+            if (mode === "all") {
+                return "Add department"
+            } else if (!isNaN(Number(mode))) {
+                return edit ? "Stop editing" : "Edit Department"
             }
         }
         return undefined
     }
 
+    const buttons = departments.map((dp) => {
+        return { id: dp.id, name: dp.name }
+    })
+
     return (
-        <div className={styles.Departments}>
+        <div className={styles.container}>
             <Toolbar
+                url={URL}
                 label="Departments"
                 actionLabel={toolbarActionButtonLabel()}
-                buttons={departments}
-                indexActive={activeTab}
-                onClick={setTab}
-                onAction={toolbarResolver[mode]}
+                buttons={buttons}
+                onAction={toolbarResolver()}
             />
             <div className={styles.content}>{renderView()}</div>
         </div>

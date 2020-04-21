@@ -1,0 +1,9 @@
+@import "../../../../styles/index.scss";
+
+.container {
+    height: 0.6em;
+    width: 0.6em;
+    border-radius: 100%;
+    background-color: $redPrimary;
+    transform: translateX(10px);
+}

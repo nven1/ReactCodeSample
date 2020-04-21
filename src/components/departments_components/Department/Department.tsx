@@ -7,8 +7,10 @@ import Circle from "../../common_components/indicators/Circle/Circle"
 import BackgroundImage from "../../common_components/indicators/Illustration/BackgroundImage"
 import Button from "../../common_components/buttons/Button/Button"
 import Dialog from "../../common_components/containers/Dialog/Dialog"
-import DepartmentDialog from "../../departments_components/DepartmentDialog/DepartmentDialog"
+import DepartmentDialog from "../DepartmentDialog/DepartmentDialog"
 import { useParams } from "react-router"
+import { Link } from "react-router-dom"
+import Endpoints from "../../../environments/endpoints"
 
 interface DepartmentProps {
     department: DepartmentType
@@ -57,16 +59,20 @@ const Department: React.FC<DepartmentProps> = (props) => {
     const renderPeople = (people: Array<UserMinType>) => {
         if (props.edit) {
             return people.map((person) => (
-                <div key={person.id} className={styles.personEdit}>
+                <Link to={`${Endpoints.appEndpoints.staff}/${person.id}`} key={person.id} className={styles.personEdit}>
                     <span>{`${person.firstName} ${person.lastName}`}</span>
                     <Button color="red" size="small" onClick={handleReassignDialog(person)}>
                         Reassign
                     </Button>
-                </div>
+                </Link>
             ))
         }
         return people.map((person) => (
-            <div key={person.id} className={styles.person}>{`${person.firstName} ${person.lastName}`}</div>
+            <Link
+                to={`${Endpoints.appEndpoints.staff}/${person.id}`}
+                key={person.id}
+                className={styles.person}
+            >{`${person.firstName} ${person.lastName}`}</Link>
         ))
     }
 

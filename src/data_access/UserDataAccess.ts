@@ -1,13 +1,14 @@
 import { Dispatch } from "redux"
 import axios from "axios"
 import Endpoints from "../environments/endpoints"
-import { getMyUserAction, clearUserReducerAction } from "../reducers/UserReducer"
-import { UserDepartmentAndRoleType, UserMeType } from "../types/UserTypes"
+import { getMyUserAction, clearUserReducerAction, getUsersAction } from "../reducers/UserReducer"
+import { UserDepartmentAndRoleType, UserType } from "../types/UserTypes"
 import DepartmentDataAccess from "./DepartmentDataAccess"
+import { AuthHeader } from "../utils/authHeader"
 
 const getMyUser = (dispatch: Dispatch<any>) => () => {
     axios
-        .get<UserMeType>(`${Endpoints.apiEndpoint}/users/me`)
+        .get<UserType>(`${Endpoints.apiEndpoint}/users/me`, AuthHeader())
         .then((response) => {
             dispatch(getMyUserAction(response.data))
         })
@@ -20,7 +21,7 @@ const reassignUser = (dispatch: Dispatch<any>) => (
     onSuccess: () => void
 ) => {
     axios
-        .post(`${Endpoints.apiEndpoint}/users/${userId}`, userDepartmentAndRole)
+        .post(`${Endpoints.apiEndpoint}/users/${userId}`, userDepartmentAndRole, AuthHeader())
         .then((response) => {
             DepartmentDataAccess.getDepartments(dispatch)
             onSuccess()
@@ -32,4 +33,13 @@ const clearUserReducer = (dispatch: Dispatch<any>) => () => {
     dispatch(clearUserReducerAction())
 }
 
-export default { getMyUser, reassignUser, clearUserReducer }
+const getUsers = (dispatch: Dispatch<any>) => () => {
+    axios
+        .get<Array<UserType>>(`${Endpoints.apiEndpoint}/users`, AuthHeader())
+        .then((response) => {
+            dispatch(getUsersAction(response.data))
+        })
+        .catch()
+}
+
+export default { getMyUser, reassignUser, clearUserReducer, getUsers }
