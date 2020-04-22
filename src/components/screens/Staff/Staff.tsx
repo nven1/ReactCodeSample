@@ -9,6 +9,7 @@ import Endpoints from "../../../environments/endpoints"
 import StaffOverview from "../../staff_components/StaffOverview/StaffOverview"
 import StaffDetail from "../../staff_components/StaffDetail/StaffDetail"
 import { goTo } from "../../../utils/navHelpers"
+import StaffAdd from "../../staff_components/StaffAdd/StaffAdd"
 
 interface StaffProps extends RouteComponentProps {}
 
@@ -20,7 +21,7 @@ const Staff: React.FC<StaffProps> = (props) => {
     const users = useSelector(selectUsers)
     const isAdmin = useSelector(selectIsAdmin)
 
-    const { mode } = useParams()
+    const { mode, action } = useParams()
 
     useEffect(() => {
         UserDataAccess.getUsers(dispatch)()
@@ -43,12 +44,15 @@ const Staff: React.FC<StaffProps> = (props) => {
         } else if (users.length > 0 && !isNaN(Number(mode))) {
             const user = users.filter((user) => user.id === Number(mode))[0]
             if (user) {
+                if (action === "edit") {
+                    return <StaffAdd user={user} />
+                }
                 return <StaffDetail user={user} />
             } else {
                 navigate("all")()
             }
         } else if (mode === "add") {
-            //
+            return <StaffAdd />
         }
     }
 

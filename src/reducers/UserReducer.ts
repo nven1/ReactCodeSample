@@ -1,15 +1,17 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit"
 import { RootState } from "../app/store"
-import { UserType } from "../types/UserTypes"
+import { UserType, RoleType } from "../types/UserTypes"
 
 export interface UsersState {
     me: UserType | undefined
     users: Array<UserType>
+    roles: Array<RoleType>
 }
 
 const initialState: UsersState = {
     me: undefined,
     users: [],
+    roles: [],
 }
 
 export const slice = createSlice({
@@ -25,13 +27,18 @@ export const slice = createSlice({
         getUsersAction: (state, action: PayloadAction<Array<UserType>>) => {
             state.users = action.payload
         },
+        getRolesAction: (state, action: PayloadAction<Array<RoleType>>) => {
+            state.roles = action.payload
+        },
     },
 })
 
-export const { getMyUserAction, clearUserReducerAction, getUsersAction } = slice.actions
+export const { getMyUserAction, clearUserReducerAction, getUsersAction, getRolesAction } = slice.actions
 
 export const selectMe = (state: RootState) => state.users.me
-export const selectIsAdmin = (state: RootState) => state.users.me?.roles.filter((role) => role.name === "admin").length
+export const selectIsAdmin = (state: RootState) =>
+    state.users.me?.roles.filter((role) => role.name === ("admin" || "departmentManager")).length
 export const selectUsers = (state: RootState) => state.users.users
+export const selectRoles = (state: RootState) => state.users.roles
 
 export default slice.reducer

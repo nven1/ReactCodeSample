@@ -1,18 +1,22 @@
-import React, { useEffect } from "react"
+import React, { useState } from "react"
 import styles from "./StaffDetail.module.scss"
 import Card from "../../common_components/containers/Card/Card"
 import Title from "../../common_components/text/Title/Title"
 import { UserType } from "../../../types/UserTypes"
 import { selectIsAdmin, selectMe } from "../../../reducers/UserReducer"
-import { useSelector } from "react-redux"
+import { useSelector, useDispatch } from "react-redux"
 import Subtitle from "../../common_components/text/Subtitle/Subtitle"
 import LinkButton from "../../common_components/buttons/LinkButton/LinkButton"
 import Endpoints from "../../../environments/endpoints"
-import { useParams } from "react-router"
+import { useParams, withRouter, RouteComponentProps } from "react-router"
 import BackgroundImage from "../../common_components/indicators/Illustration/BackgroundImage"
 import { goTo } from "../../../utils/navHelpers"
+import Dialog from "../../common_components/containers/Dialog/Dialog"
+import Button from "../../common_components/buttons/Button/Button"
+import UserDataAccess from "../../../data_access/UserDataAccess"
+import { Token } from "../../../utils/storageKeys"
 
-interface StaffDetailProps {
+interface StaffDetailProps extends RouteComponentProps {
     user: UserType
 }
 
@@ -33,11 +37,68 @@ const monthNames = [
     "December",
 ]
 
+type DialogMode = undefined | "reset" | "deactivate"
+
+export interface ResetPasswordType {
+    email: string
+}
+
 const StaffDetail: React.FC<StaffDetailProps> = (props) => {
+    const dispatch = useDispatch()
     const isAdmin = useSelector(selectIsAdmin)
     const me = useSelector(selectMe)
 
     const { mode } = useParams()
+
+    const [dialogState, setDialogState] = useState<DialogMode>()
+
+    const handleSetDialogState = (state: DialogMode) => () => {
+        setDialogState(state)
+    }
+
+    const handleDeactivate = () => {
+        UserDataAccess.deactivateUser(dispatch)(props.user.id, onSuccess)
+    }
+
+    const handleResetPassword = () => {
+        UserDataAccess.resetPassword(dispatch)({ email: props.user.email } as ResetPasswordType, onSuccess)
+    }
+
+    const onSuccess = () => {
+        if (me && props.user.id === me.id) {
+            UserDataAccess.clearUserReducer(dispatch)()
+            localStorage.removeItem(Token)
+            props.history.push(Endpoints.appEndpoints.root)
+        } else {
+            props.history.push(URL, "all")
+        }
+    }
+
+    const renderDialog = () => {
+        if (dialogState === "reset") {
+            return resetPasswordContent
+        } else {
+            return deactivateContent
+        }
+    }
+
+    const resetPasswordContent = (
+        <div className={styles.dialog}>
+            <Subtitle>{`Reset password for ${props.user.firstName} ${props.user.lastName}?`}</Subtitle>
+            <Button color="red" onClick={handleResetPassword}>
+                CONFIRM
+            </Button>
+        </div>
+    )
+
+    const deactivateContent = (
+        <div className={styles.dialog}>
+            <Subtitle>{`Deactivate ${props.user.firstName} ${props.user.lastName}?`}</Subtitle>
+            <Button color="red" onClick={handleDeactivate}>
+                CONFIRM
+            </Button>
+        </div>
+    )
 
     const role = `${props.user.isManager ? "Head of" : "Staff in"} ${props.user.department.name}`
 
@@ -66,22 +127,29 @@ const StaffDetail: React.FC<StaffDetailProps> = (props) => {
                         <LinkButton to={goTo(URL, mode ?? "", "edit")} color="purple">
                             Edit Info
                         </LinkButton>
-                        <LinkButton to={goTo(URL, mode ?? "", "reset")} color="purple">
-                            Reset Password
-                        </LinkButton>
+                        <div className={styles.buttonAdjust}>
+                            <Button color="purple" onClick={handleSetDialogState("reset")}>
+                                Reset Password
+                            </Button>
+                        </div>
                         {isAdmin && (
                             <LinkButton to={goTo(URL, mode ?? "", "set_leave")} color="purple">
                                 Set Annual Leave
                             </LinkButton>
                         )}
-                        <LinkButton to={goTo(URL, mode ?? "", "deactivate")} color="red">
-                            Deactivate
-                        </LinkButton>
+                        <div className={styles.buttonAdjust}>
+                            <Button color="red" onClick={handleSetDialogState("deactivate")}>
+                                Deactivate
+                            </Button>
+                        </div>
                     </div>
                 </Card>
             )}
             <BackgroundImage image={props.user.department.image} />
+            <Dialog open={!!dialogState} onClose={handleSetDialogState(undefined)}>
+                <Card onClose={handleSetDialogState(undefined)}>{renderDialog()}</Card>
+            </Dialog>
         </>
     )
 }
-export default StaffDetail
+export default withRouter(StaffDetail)
