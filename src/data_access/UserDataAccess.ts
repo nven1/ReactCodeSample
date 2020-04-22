@@ -82,7 +82,7 @@ const updateUser = (dispatch: Dispatch<any>) => (id: number, user: UserUpdateReq
 
 const deactivateUser = (dispatch: Dispatch<any>) => (id: number, onSuccess: () => void) => {
     axios
-        .put(`${Endpoints.apiEndpoint}/users/deactivate/${id}`, AuthHeader())
+        .put(`${Endpoints.apiEndpoint}/users/deactivate/${id}`, {}, AuthHeader())
         .then((response) => {
             getUsers(dispatch)()
             DepartmentDataAccess.getDepartments(dispatch)()

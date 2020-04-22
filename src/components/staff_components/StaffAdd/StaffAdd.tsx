@@ -26,6 +26,7 @@ const AddStaffSchema = yup.object().shape({
     lastName: yup.string().required(),
     email: yup.string().required().email(),
     department: yup.number().required(),
+    isManager: yup.boolean().required(),
     roles: yup.array().of(yup.number()).min(1).required(),
 })
 
@@ -36,9 +37,23 @@ const StaffAdd: React.FC<StaffAddProps> = (props) => {
     const departments = useSelector(selectDepartments)
     const roles = useSelector(selectRoles)
 
-    const { handleSubmit, errors, control, setValue, getValues } = useForm({
+    const { handleSubmit, errors, control, setValue, getValues, watch } = useForm({
         validationSchema: AddStaffSchema,
     })
+
+    watch("roles")
+    watch("isManager")
+
+    useEffect(() => {
+        if (departments.length === 0) {
+            DepartmentDataAccess.getDepartments(dispatch)()
+        }
+        if (roles.length === 0) {
+            UserDataAccess.getRoles(dispatch)()
+        }
+
+        // eslint-disable-next-line
+    }, [])
 
     useEffect(() => {
         if (props.user) {
@@ -47,6 +62,7 @@ const StaffAdd: React.FC<StaffAddProps> = (props) => {
                 { lastName: props.user.lastName },
                 { email: props.user.email },
                 { department: props.user.department.id },
+                { isManager: props.user.isManager },
                 { roles: props.user.roles.map((role) => role.id) },
             ])
         }
@@ -62,8 +78,8 @@ const StaffAdd: React.FC<StaffAddProps> = (props) => {
                 firstName: data.firstName,
                 lastName: data.lastName,
                 departmentId: data.department,
-                dateOfEmployment: "2020-04-21", //TODO
-                isManager: !!data.roles.filter((role: number) => role === (1 || 2)).length,
+                dateOfEmployment: new Date().toISOString(),
+                isManager: data.isManager,
                 roles: data.roles,
             }
             UserDataAccess.updateUser(dispatch)(props.user.id, castData, onSuccess)
@@ -73,8 +89,8 @@ const StaffAdd: React.FC<StaffAddProps> = (props) => {
                 lastName: data.lastName,
                 email: data.email,
                 departmentId: data.department,
-                isManager: !!data.roles.filter((role: number) => role === (1 || 2)).length,
-                dateOfEmployment: "2020-04-21", //TODO
+                isManager: data.isManager,
+                dateOfEmployment: new Date().toISOString(),
                 roles: data.roles,
             }
             UserDataAccess.createUser(dispatch)(castData, onSuccess)
@@ -92,17 +108,7 @@ const StaffAdd: React.FC<StaffAddProps> = (props) => {
     const handleSetMode = (mode: Mode) => {
         if (mode === modeState) {
             setMode(undefined)
-        } else if (mode === "department") {
-            if (departments.length === 0) {
-                DepartmentDataAccess.getDepartments(dispatch)()
-            }
-            setMode(mode)
-        } else if (mode === "roles") {
-            if (roles.length === 0) {
-                console.log(roles)
-
-                UserDataAccess.getRoles(dispatch)()
-            }
+        } else {
             setMode(mode)
         }
     }
@@ -112,9 +118,11 @@ const StaffAdd: React.FC<StaffAddProps> = (props) => {
         setMode(undefined)
     }
 
-    const handleSetRoles = (id: number) => () => {
-        console.log(getValues().roles.length)
+    const setIsManager = () => () => {
+        setValue("isManager", !Boolean(getValues().isManager))
+    }
 
+    const handleSetRoles = (id: number) => () => {
         if (getValues().roles.includes(id)) {
             setValue(
                 "roles",
@@ -128,6 +136,11 @@ const StaffAdd: React.FC<StaffAddProps> = (props) => {
     const pickDepartment = (
         <div>
             <Subtitle>Departments</Subtitle>
+            <div className={styles.isManager}>
+                <Button color={getValues().isManager ? "purple" : "red"} onClick={setIsManager()}>
+                    {getValues().isManager ? "Is" : "Is not"} Manager
+                </Button>
+            </div>
             <div className={styles.pills}>
                 {departments.map((dp) => {
                     return (
@@ -148,17 +161,18 @@ const StaffAdd: React.FC<StaffAddProps> = (props) => {
         <div>
             <Subtitle>Roles</Subtitle>
             <div className={styles.pills}>
-                {roles.map((role) => {
-                    return (
-                        <Button
-                            key={role.id}
-                            color={getValues().roles.includes(role.id) ? "purple" : "grey"}
-                            onClick={handleSetRoles(role.id)}
-                        >
-                            {role.name}
-                        </Button>
-                    )
-                })}
+                {getValues().roles !== undefined &&
+                    roles.map((role) => {
+                        return (
+                            <Button
+                                key={role.id}
+                                color={getValues().roles.includes(role.id) ? "purple" : "grey"}
+                                onClick={handleSetRoles(role.id)}
+                            >
+                                {role.name}
+                            </Button>
+                        )
+                    })}
             </div>
         </div>
     )
@@ -192,7 +206,7 @@ const StaffAdd: React.FC<StaffAddProps> = (props) => {
                         <Controller
                             as={<Input label="Email" error={errors.email} />}
                             name="email"
-                            disabled
+                            disabled={props.user}
                             control={control}
                             defaultValue=""
                         />
@@ -206,12 +220,13 @@ const StaffAdd: React.FC<StaffAddProps> = (props) => {
                             />
                             <Controller
                                 as={<Button color={errors.roles ? "red" : "purple"}>Roles</Button>}
-                                id="roles"
                                 name="roles"
                                 control={control}
                                 defaultValue={[]}
                                 onClick={() => handleSetMode("roles")}
                             />
+
+                            <Controller as={<div></div>} name="isManager" control={control} defaultValue={false} />
                         </div>
 
                         <div className={styles.submitContainer}>
