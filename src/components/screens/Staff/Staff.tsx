@@ -29,11 +29,6 @@ const Staff: React.FC<StaffProps> = (props) => {
         // eslint-disable-next-line
     }, [])
 
-    //TODO
-    /*     const handleAddStaff = () => {
-        //
-    } 
-    */
     const navigate = (param: string) => () => {
         props.history.push(goTo(URL, param))
     }
