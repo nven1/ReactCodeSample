@@ -28,7 +28,7 @@ const Toolbar: React.FC<ToolbarProps> = (props) => {
             const isActive = mode === String(button.id)
             return (
                 <Link to={goTo(props.url, button.id.toString())} key={button.id}>
-                    <TextButton color={isActive ? "purple" : "grey"} noHover={isActive}>
+                    <TextButton color={isActive ? "purple" : "grey"} noHover={isActive} bold>
                         {button.name}
                     </TextButton>
                 </Link>
@@ -51,8 +51,8 @@ const Toolbar: React.FC<ToolbarProps> = (props) => {
 
     return (
         <div className={styles.container}>
-            <Link to={goTo(props.url, "all")}>
-                <TextButton color="purple">
+            <Link to={goTo(props.url)}>
+                <TextButton color="purple" bold>
                     {props.label} {props.buttons && <HierarchyArrow />}
                 </TextButton>
             </Link>
