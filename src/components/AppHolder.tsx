@@ -7,6 +7,7 @@ import { useDispatch } from "react-redux"
 import UserDataAccess from "../data_access/UserDataAccess"
 import Login from "./screens/Login/Login"
 import Staff from "./screens/Staff/Staff"
+import Calendar from "./screens/Calendar/Calendar"
 
 interface AppHolderProps extends RouteComponentProps {
     authenticated: boolean
@@ -44,6 +45,8 @@ const AppHolder: React.FC<AppHolderProps> = (props) => {
                 <Redirect to={`${Endpoints.appEndpoints.staff}/all`} />
             </Route>
             <Route exact path={`${Endpoints.appEndpoints.staff}/:mode/:action?`} component={Staff} />
+
+            <Route path={`${Endpoints.appEndpoints.calendar}/:mode?`} component={Calendar} />
         </>
     )
 

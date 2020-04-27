@@ -1,0 +1,46 @@
+@import "../../../styles/index.scss";
+
+.container {
+    padding: $paddingHorizontal;
+    padding-top: 1.5em;
+    padding-bottom: 2em;
+    overflow-x: hidden;
+
+    display: grid;
+    grid-template-columns: max-content max-content;
+    color: $purplePrimary;
+}
+
+.calendarContainer {
+    display: grid;
+    grid-template-columns: max-content 50em;
+
+    box-shadow: $shadow;
+    padding: 2em;
+    margin-right: 2em;
+}
+
+.calendarFilter {
+    min-width: max-content;
+    padding-right: 2em;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    overflow-y: auto;
+    button {
+        margin: 0 0 2em 1em;
+    }
+
+    button:first-child {
+        margin: 0 0 4em 0;
+    }
+}
+
+.calendar {
+    grid-area: 1/2;
+    overflow-y: auto;
+}
+
+.fc-day-number {
+    background-color: red;
+}
