@@ -6,8 +6,8 @@ import { Link, RouteComponentProps, withRouter, useParams } from "react-router-d
 import TextButton from "../../buttons/TextButton/TextButton"
 import { goTo } from "../../../../utils/navHelpers"
 
-interface ToolbarButtonItemType {
-    id: number
+export interface ToolbarButtonItemType {
+    key: string
     name: string
 }
 
@@ -16,7 +16,6 @@ interface ToolbarProps extends RouteComponentProps {
     label: string
     actionLabel?: string
     buttons?: Array<ToolbarButtonItemType>
-    onClick?: (index?: number) => void
     onAction?: string
 }
 
@@ -25,9 +24,9 @@ const Toolbar: React.FC<ToolbarProps> = (props) => {
 
     const renderButtons = () => {
         const buttons = props.buttons?.map((button, index) => {
-            const isActive = mode === String(button.id)
+            const isActive = mode === String(button.key)
             return (
-                <Link to={goTo(props.url, button.id.toString())} key={button.id}>
+                <Link to={goTo(props.url, button.key.toString())} key={button.key}>
                     <TextButton color={isActive ? "purple" : "grey"} noHover={isActive} bold>
                         {button.name}
                     </TextButton>
