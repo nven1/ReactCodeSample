@@ -4,12 +4,13 @@ import { useDispatch, useSelector } from "react-redux"
 import { selectUsers, selectIsAdmin } from "../../../reducers/UserReducer"
 import UserDataAccess from "../../../data_access/UserDataAccess"
 import Toolbar from "../../common_components/bars/Toolbar/Toolbar"
-import { useParams, RouteComponentProps, withRouter } from "react-router-dom"
+import { useParams, RouteComponentProps, withRouter, Switch, Route } from "react-router-dom"
 import Endpoints from "../../../environments/endpoints"
 import StaffOverview from "../../staff_components/StaffOverview/StaffOverview"
 import StaffDetail from "../../staff_components/StaffDetail/StaffDetail"
-import { goTo } from "../../../utils/navHelpers"
 import StaffAdd from "../../staff_components/StaffAdd/StaffAdd"
+import StaffSetLeave from "../../staff_components/StaffSetLeave/StaffSetLeave"
+import { isNum } from "../../../utils/navHelpers"
 
 interface StaffProps extends RouteComponentProps {}
 
@@ -21,7 +22,7 @@ const Staff: React.FC<StaffProps> = (props) => {
     const users = useSelector(selectUsers)
     const isAdmin = useSelector(selectIsAdmin)
 
-    const { mode, action } = useParams()
+    const { mode } = useParams()
 
     useEffect(() => {
         UserDataAccess.getUsers(dispatch)()
@@ -29,31 +30,9 @@ const Staff: React.FC<StaffProps> = (props) => {
         // eslint-disable-next-line
     }, [])
 
-    const navigate = (param: string) => () => {
-        props.history.push(goTo(URL, param))
-    }
-
-    const renderView = () => {
-        if (mode === "all") {
-            return <StaffOverview users={users} />
-        } else if (users.length > 0 && !isNaN(Number(mode))) {
-            const user = users.filter((user) => user.id === Number(mode))[0]
-            if (user) {
-                if (action === "edit") {
-                    return <StaffAdd user={user} />
-                }
-                return <StaffDetail user={user} />
-            } else {
-                navigate("all")()
-            }
-        } else if (mode === "add") {
-            return <StaffAdd />
-        }
-    }
-
     const toolbarActionButtonLabel = (): string | undefined => {
         if (isAdmin) {
-            if (mode === "all") {
+            if (mode !== "add") {
                 return "Add staff"
             } else {
                 return ""
@@ -62,10 +41,38 @@ const Staff: React.FC<StaffProps> = (props) => {
         return undefined
     }
 
+    const getUserById = () => {
+        return users.filter((user) => user.id === Number(mode))[0]
+    }
+
     return (
         <div className={styles.container}>
             <Toolbar url={URL} label="Staff" actionLabel={toolbarActionButtonLabel()} onAction={"add"} />
-            <div className={styles.content}>{renderView()}</div>
+            <div className={styles.content}>
+                <Switch>
+                    <Route exact path={URL} render={() => <StaffOverview users={users} />} />
+                    <Route exact path={`${URL}/add`} component={StaffAdd} />
+                    {users.length > 0 && (
+                        <>
+                            <Route
+                                exact
+                                path={`${URL}/:mode${isNum}`}
+                                render={() => <StaffDetail user={getUserById()} />}
+                            />
+                            <Route
+                                exact
+                                path={`${URL}/:mode${isNum}/edit`}
+                                render={() => <StaffAdd user={getUserById()} />}
+                            />
+                            <Route
+                                exact
+                                path={`${URL}/:mode${isNum}/set_leave`}
+                                render={() => <StaffSetLeave user={getUserById()} />}
+                            />
+                        </>
+                    )}
+                </Switch>
+            </div>
         </div>
     )
 }
