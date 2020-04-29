@@ -32,21 +32,10 @@ const AppHolder: React.FC<AppHolderProps> = (props) => {
     )
     const loggedIn = (
         <>
-            <Route exact path="/">
-                <Redirect to={Endpoints.appEndpoints.departments} />
-            </Route>
-
-            <Route exact path={Endpoints.appEndpoints.departments}>
-                <Redirect to={`${Endpoints.appEndpoints.departments}/all`} />
-            </Route>
-            <Route exact path={`${Endpoints.appEndpoints.departments}/:mode/:edit?`} component={Departments} />
-
-            <Route exact path={Endpoints.appEndpoints.staff}>
-                <Redirect to={`${Endpoints.appEndpoints.staff}/all`} />
-            </Route>
-            <Route exact path={`${Endpoints.appEndpoints.staff}/:mode/:action?`} component={Staff} />
-
-            <Route path={`${Endpoints.appEndpoints.calendar}/:mode?`} component={Calendar} />
+            <Route exact path="/" render={() => <Redirect to="/departments" />} />
+            <Route exact path={`${Endpoints.appEndpoints.departments}/:mode?/:edit?`} component={Departments} />
+            <Route exact path={`${Endpoints.appEndpoints.staff}/:mode?/:action?`} component={Staff} />
+            <Route path={`${Endpoints.appEndpoints.calendar}/:mode?/:id?`} component={Calendar} />
         </>
     )
 
