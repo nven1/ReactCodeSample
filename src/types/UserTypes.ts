@@ -45,3 +45,15 @@ export interface UserUpdateRequestType {
     departmentId: DepartmentMinimalType
     roles: Array<RoleType>
 }
+
+export interface UserVacationType {
+    id: number
+    firstName: string
+    lastName: string
+}
+
+export interface UserSetVacationDaysRequestType {
+    userId: number
+    year: number
+    numberOfDays: number
+}
