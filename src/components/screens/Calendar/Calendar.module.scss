@@ -1,0 +1,9 @@
+@import "../../../styles/index.scss";
+
+.page {
+    padding: $paddingHorizontal;
+    padding-top: 1.2em;
+    padding-bottom: 2em;
+    overflow-x: hidden;
+    color: $purplePrimary;
+}

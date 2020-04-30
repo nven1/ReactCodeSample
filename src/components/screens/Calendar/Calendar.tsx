@@ -1,6 +1,6 @@
 import React from "react"
 import styles from "./Calendar.module.scss"
-import { RouteComponentProps, useParams, withRouter, Switch, Route, Redirect } from "react-router"
+import { useParams, Switch, Route, Redirect } from "react-router"
 import Endpoints from "../../../environments/endpoints"
 import CalendarManage from "../../calendar_components/CalendarManage/CalendarManage"
 import CalendarAdd from "../../calendar_components/CalendarAdd/CalendarAdd"
@@ -8,8 +8,9 @@ import Toolbar, { ToolbarButtonItemType } from "../../common_components/bars/Too
 import { isNum } from "../../../utils/navHelpers"
 import { useSelector } from "react-redux"
 import { selectIsAdmin } from "../../../reducers/UserReducer"
+import CalendarMe from "../../calendar_components/CalendarMe/CalendarMe"
 
-interface CalendarProps extends RouteComponentProps {}
+interface CalendarProps {}
 
 const URL = Endpoints.appEndpoints.calendar
 
@@ -33,13 +34,15 @@ const Calendar: React.FC<CalendarProps> = (props) => {
                 onAction="add"
                 buttons={isAdmin ? toolbarButtons : [toolbarButtons[0]]}
             />
-            <Switch>
-                <Route exact path={`${URL}`} render={() => <Redirect to={`${URL}/${userTypeHome}`} />} />
-                <Route exact path={`${URL}/me`} component={CalendarManage} />
-                <Route exact path={`${URL}/add`} component={CalendarAdd} />
-                <Route exact path={`${URL}/manage/:id${isNum}?`} component={CalendarManage} />
-            </Switch>
+            <div className={styles.page}>
+                <Switch>
+                    <Route exact path={`${URL}`} render={() => <Redirect to={`${URL}/${userTypeHome}`} />} />
+                    <Route exact path={`${URL}/me`} component={CalendarMe} />
+                    <Route exact path={`${URL}/add`} component={CalendarAdd} />
+                    <Route exact path={`${URL}/manage/:id${isNum}?`} component={CalendarManage} />
+                </Switch>
+            </div>
         </div>
     )
 }
-export default withRouter(Calendar)
+export default Calendar
