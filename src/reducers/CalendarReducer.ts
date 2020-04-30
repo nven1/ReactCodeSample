@@ -1,26 +1,15 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit"
 import { RootState } from "../app/store"
-import { UserVacationType } from "../types/UserTypes"
-import { CalendarEvent } from "../components/calendar_components/CalendarCore/CalendarCore"
-
-export interface VacationType {
-    id: number
-    startingDate: string
-    endingDate: string
-    created: string
-    status: VacationStatusType
-    numberOfVacationDays: number
-    user: UserVacationType
-}
-
-export type VacationStatusType = "APPROVED" | "DECLINED" | "PENDING"
+import { VacationType, CalendarEvent, VacationRequestReviewType } from "../types/CalendarTypes"
 
 export interface CalendarState {
     vacations: Array<VacationType>
+    myVacations: Array<VacationType>
 }
 
 const initialState: CalendarState = {
     vacations: [],
+    myVacations: [],
 }
 
 export const slice = createSlice({
@@ -30,10 +19,39 @@ export const slice = createSlice({
         getAllVacationsAction: (state, action: PayloadAction<VacationType[]>) => {
             state.vacations = action.payload
         },
+        getMyVacationsAction: (state, action: PayloadAction<VacationType[]>) => {
+            state.myVacations = action.payload
+        },
     },
 })
 
-export const { getAllVacationsAction } = slice.actions
+export const { getAllVacationsAction, getMyVacationsAction } = slice.actions
+
+export const selectAllVacations = (state: RootState) =>
+    state.calendar.vacations.map((vacation) => {
+        return {
+            id: vacation.id,
+            title: `${vacation.user.firstName} ${vacation.user.lastName}`,
+            start: vacation.startingDate,
+            end: `${vacation.endingDate}T23:00:00`,
+            user: vacation.user,
+            daysRequested: vacation.numberOfVacationDays,
+            status: vacation.status,
+        } as VacationRequestReviewType
+    })
+
+export const selectMyVacations = (state: RootState) =>
+    state.calendar.myVacations.map((vacation) => {
+        return {
+            id: vacation.id,
+            title: `${vacation.user.firstName} ${vacation.user.lastName}`,
+            start: vacation.startingDate,
+            end: `${vacation.endingDate}T23:00:00`,
+            user: vacation.user,
+            daysRequested: vacation.numberOfVacationDays,
+            status: vacation.status,
+        } as VacationRequestReviewType
+    })
 
 export const selectApprovedVacations = (state: RootState) =>
     state.calendar.vacations
@@ -43,13 +61,28 @@ export const selectApprovedVacations = (state: RootState) =>
                 id: approved.id,
                 title: `${approved.user.firstName} ${approved.user.lastName}`,
                 start: approved.startingDate,
-                end: approved.endingDate,
+                end: `${approved.endingDate}T23:00:00`,
                 extendedProps: approved.user,
             } as CalendarEvent
         })
 
-//returns list of ids without duplicates of users with approved vacation
-export const selectApprovedVacationUsers = (state: RootState) =>
+export const selectRequestedVacations = (state: RootState) =>
+    state.calendar.vacations
+        .filter((item) => item.status === "PENDING")
+        .map((requested) => {
+            return {
+                id: requested.id,
+                title: `${requested.user.firstName} ${requested.user.lastName}`,
+                start: requested.startingDate,
+                end: `${requested.endingDate}T23:00:00`,
+                user: requested.user,
+                daysRequested: requested.numberOfVacationDays,
+                status: requested.status,
+            } as VacationRequestReviewType
+        })
+
+// returns list of ids of users with approved vacation (without duplicates)
+export const selectApprovedVacationUsersIds = (state: RootState) =>
     Array.from(new Set(state.calendar.vacations.map((user) => user.user.id)))
 
 export default slice.reducer
