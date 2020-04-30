@@ -1,50 +1,54 @@
-import React from "react"
-import styles from "./CalendarCore.module.scss"
+import React, { useEffect } from "react"
 import "./Calendar.style.scss"
 import FullCalendar from "@fullcalendar/react"
 import dayGridPlugin from "@fullcalendar/daygrid"
-import timeGridPlugin from "@fullcalendar/timegrid"
 import interactionPlugin from "@fullcalendar/interaction"
-import { UserVacationType } from "../../../types/UserTypes"
-
-export interface CalendarEvent {
-    id: number
-    title: string
-    start: string
-    end: string
-    extendedProps: UserVacationType
-}
+import { CalendarEvent, CalendarSelectType } from "../../../types/CalendarTypes"
 
 interface CalendarCoreProps {
     events: Array<CalendarEvent>
+    preview?: CalendarEvent
+    onSelect?: (data: CalendarSelectType) => void
 }
 
 const CalendarCore: React.FC<CalendarCoreProps> = (props) => {
     const calendarComponentRef = React.createRef<FullCalendar>()
 
-    const handleDateClick = (e: any) => {
-        console.log(e)
+    useEffect(() => {
+        if (props.preview && calendarComponentRef) {
+            calendarComponentRef.current?.getApi().gotoDate(props.preview.start)
+        } else {
+            calendarComponentRef.current?.getApi().gotoDate(new Date())
+        }
+
+        // eslint-disable-next-line
+    }, [props])
+
+    const handleSelect = (e: any) => {
+        if (props.onSelect && calendarComponentRef) {
+            calendarComponentRef.current?.getApi().unselect()
+            props.onSelect({ start: e.startStr, end: e.endStr })
+        }
     }
 
     return (
-        <div className={styles.container}>
-            <FullCalendar
-                defaultView="dayGridMonth"
-                header={{ left: "title", center: "", right: "prev,next" }}
-                aspectRatio={1.8}
-                plugins={[dayGridPlugin, timeGridPlugin, interactionPlugin]}
-                ref={calendarComponentRef}
-                weekends={true}
-                eventLimit
-                views={{
-                    timegrid: {
-                        eventLimit: 3,
-                    },
-                }}
-                events={props.events}
-                dateClick={handleDateClick}
-            />
-        </div>
+        <FullCalendar
+            defaultView="dayGridMonth"
+            header={{ left: "title", center: "", right: "prev,next" }}
+            aspectRatio={1.8}
+            plugins={[dayGridPlugin, interactionPlugin]}
+            ref={calendarComponentRef}
+            allDayDefault
+            eventLimit
+            selectable={!!props.onSelect}
+            select={handleSelect}
+            views={{
+                timegrid: {
+                    eventLimit: 3,
+                },
+            }}
+            events={[...props.events, props.preview ?? {}]}
+        />
     )
 }
 export default CalendarCore
