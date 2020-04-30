@@ -1,18 +1,22 @@
 import React, { useEffect, useState } from "react"
 import styles from "./CalendarManage.module.scss"
-import { useParams } from "react-router-dom"
+import { useParams, useHistory, Switch, Route } from "react-router-dom"
 import Endpoints from "../../../environments/endpoints"
 import { useDispatch, useSelector } from "react-redux"
-import { selectUsers, selectIsAdmin } from "../../../reducers/UserReducer"
-import UserDataAccess from "../../../data_access/UserDataAccess"
-import Card from "../../common_components/containers/Card/Card"
-import FullCalendar from "@fullcalendar/react"
+import { selectIsAdmin } from "../../../reducers/UserReducer"
 import Button from "../../common_components/buttons/Button/Button"
 import TextButton from "../../common_components/buttons/TextButton/TextButton"
-import CalendarCore, { CalendarEvent } from "../CalendarCore/CalendarCore"
+import CalendarCore from "../CalendarCore/CalendarCore"
 import CalendarDataAccess from "../../../data_access/CalendarDataAccess"
-import { selectApprovedVacations, selectApprovedVacationUsers, VacationType } from "../../../reducers/CalendarReducer"
-import { UserVacationType } from "../../../types/UserTypes"
+import {
+    selectApprovedVacations,
+    selectApprovedVacationUsersIds,
+    selectRequestedVacations,
+} from "../../../reducers/CalendarReducer"
+import { goTo } from "../../../utils/navHelpers"
+import RequestList from "../RequestList/RequestList"
+import RequestSingle from "../RequestSingle/RequestSingle"
+import { CalendarEvent } from "../../../types/CalendarTypes"
 
 interface CalendarOverviewProps {}
 
@@ -23,25 +27,49 @@ const CalendarOverview: React.FC<CalendarOverviewProps> = (props) => {
 
     const isAdmin = useSelector(selectIsAdmin)
     const approvedVacations = useSelector(selectApprovedVacations)
-    const approvedVacationUsers = useSelector(selectApprovedVacationUsers)
+    const requestedVacations = useSelector(selectRequestedVacations)
+    const approvedVacationUsersIds = useSelector(selectApprovedVacationUsersIds)
 
-    const { mode } = useParams()
+    const { id } = useParams()
+    const history = useHistory()
 
     const [selectedUsers, setSelectedUsers] = useState<Array<number>>([])
-
-    const calendarComponentRef = React.createRef<FullCalendar>()
-
-    useEffect(() => {
-        CalendarDataAccess.getVacations(dispatch)()
-
-        // eslint-disable-next-line
-    }, [])
+    const [tempEvent, setTempEvent] = useState<CalendarEvent>()
 
     useEffect(() => {
-        setSelectedUsers(approvedVacationUsers)
+        if (isAdmin !== undefined) {
+            if (isAdmin) {
+                CalendarDataAccess.getVacations(dispatch)()
+            } else {
+                history.push(goTo(URL, "me"))
+            }
+        }
 
         // eslint-disable-next-line
-    }, [approvedVacationUsers])
+    }, [isAdmin])
+
+    useEffect(() => {
+        if (id === undefined) {
+            setTempEvent(undefined)
+        } else if (id && requestedVacations.length > 0) {
+            const request = requestedVacations.filter((rId) => rId.id === Number(id))[0]
+            setTempEvent({
+                id: request.id,
+                title: `${request.user.firstName} ${request.user.lastName}`,
+                start: request.start,
+                end: request.end,
+                extendedProps: request.user,
+            })
+        }
+
+        // eslint-disable-next-line
+    }, [id, requestedVacations])
+
+    useEffect(() => {
+        toggleSelectAll()
+
+        // eslint-disable-next-line
+    }, [approvedVacationUsersIds])
 
     const handleUserFilterClick = (id: number) => () => {
         const isSelected: boolean = selectedUsers.includes(id)
@@ -54,18 +82,21 @@ const CalendarOverview: React.FC<CalendarOverviewProps> = (props) => {
         }
     }
 
-    const handleDeselectAll = () => {
-        setSelectedUsers([])
+    const toggleSelectAll = () => {
+        if (approvedVacations.length > 0 && selectedUsers.length === 0) {
+            setSelectedUsers(approvedVacationUsersIds)
+        } else {
+            setSelectedUsers([])
+        }
     }
 
-    /* const handleDateClick = (e: any) => {
-        console.log(e)
-    } */
-
-    const renderUsers = () => {
-        const list = approvedVacationUsers
-            .map((user) => {
-                return approvedVacations.find((id) => id.extendedProps.id === user)
+    // init   - has a list of ids of users with active vacations
+    // step 1 - gets first users vacation (to acces its extended props)
+    // setp 2 - fill the button with user info and appropirate actions
+    const renderUsersinFilter = () => {
+        const list = approvedVacationUsersIds
+            .map((userId) => {
+                return approvedVacations.find((vacation) => vacation.extendedProps.id === userId)
             })
             .map((vacation) => {
                 if (vacation) {
@@ -83,27 +114,44 @@ const CalendarOverview: React.FC<CalendarOverviewProps> = (props) => {
         return list
     }
 
-    const renderVacations = () => {
+    const renderVacationsOnCalendar = () => {
         return approvedVacations.filter((vacation) => selectedUsers.includes(vacation.extendedProps.id))
+    }
+
+    const renderSingleRequest = () => {
+        const request = requestedVacations.filter((rId) => rId.id === Number(id))[0]
+        if (request) {
+            return <RequestSingle request={request} />
+        } else {
+            history.push(goTo(URL, "manage"))
+        }
     }
 
     return (
         <div className={styles.container}>
             <div className={styles.calendarContainer}>
-                {isAdmin && (
-                    <div className={styles.calendarFilter}>
-                        <Button color="red" size="small" onClick={handleDeselectAll}>
-                            DESELECT ALL
-                        </Button>
-                        {renderUsers()}
-                    </div>
-                )}
+                <div className={styles.calendarFilter}>
+                    <Button color={selectedUsers.length > 0 ? "red" : "purple"} size="small" onClick={toggleSelectAll}>
+                        {selectedUsers.length > 0 ? "DESELECT ALL" : "SELECT ALL"}
+                    </Button>
+                    {renderUsersinFilter()}
+                </div>
                 <div className={styles.calendar}>
-                    <CalendarCore events={renderVacations()} />
+                    <CalendarCore events={renderVacationsOnCalendar()} preview={tempEvent} />
                 </div>
             </div>
+
             <div>
-                <Card>2</Card>
+                {requestedVacations.length > 0 && (
+                    <Switch>
+                        <Route
+                            exact
+                            path={`${URL}/manage/`}
+                            render={() => <RequestList requests={requestedVacations} />}
+                        />
+                        <Route exact path={`${URL}/manage/:id`} render={renderSingleRequest} />
+                    </Switch>
+                )}
             </div>
         </div>
     )
