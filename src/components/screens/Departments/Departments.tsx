@@ -8,7 +8,7 @@ import OverflowButton from "../../departments_components/OverflowButton/Overflow
 import AddDepartment from "../../departments_components/AddDepartment/AddDepartment"
 import { selectIsAdmin } from "../../../reducers/UserReducer"
 import DepartmentDataAccess from "../../../data_access/DepartmentDataAccess"
-import { RouteComponentProps, useParams, Switch, Route, Redirect } from "react-router"
+import { RouteComponentProps, useParams, Switch, Route } from "react-router"
 import Endpoints from "../../../environments/endpoints"
 import { goTo, isNum } from "../../../utils/navHelpers"
 

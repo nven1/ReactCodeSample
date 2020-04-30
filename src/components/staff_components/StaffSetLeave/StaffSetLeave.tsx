@@ -17,6 +17,7 @@ import { goTo } from "../../../utils/navHelpers"
 interface StaffSetLeaveProps extends RouteComponentProps {
     user: UserType
 }
+
 const currentYear = new Date().getFullYear()
 
 const SetLeaveSchema = yup.object().shape({
