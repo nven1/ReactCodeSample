@@ -1,0 +1,25 @@
+@import "../../../styles/index.scss";
+
+.container {
+    display: grid;
+    grid-template-columns: 50em max-content;
+    column-gap: 2em;
+}
+
+.calendar {
+    box-shadow: $shadow;
+    padding: 2em 2em 1em;
+}
+
+.content {
+    margin: 2em 0;
+}
+
+.item {
+    @extend %cardItem;
+}
+
+.status {
+    @extend %center;
+    margin-top: 1em;
+}
