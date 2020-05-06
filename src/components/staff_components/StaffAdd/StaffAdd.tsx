@@ -88,7 +88,7 @@ const StaffAdd: React.FC<StaffAddProps> = (props) => {
 
     const onSubmit = (data: any) => {
         if (props.user) {
-            const castData: UserUpdateRequestType = {
+            const submitData: UserUpdateRequestType = {
                 firstName: data.firstName,
                 lastName: data.lastName,
                 departmentId: data.department,
@@ -96,9 +96,9 @@ const StaffAdd: React.FC<StaffAddProps> = (props) => {
                 isManager: data.isManager,
                 roles: data.roles,
             }
-            UserDataAccess.updateUser(dispatch)(props.user.id, castData, onSuccess)
+            UserDataAccess.updateUser(dispatch)(props.user.id, submitData, onSuccess)
         } else {
-            const castData: UserCreateRequestType = {
+            const submitData: UserCreateRequestType = {
                 firstName: data.firstName,
                 lastName: data.lastName,
                 email: data.email,
@@ -107,7 +107,7 @@ const StaffAdd: React.FC<StaffAddProps> = (props) => {
                 dateOfEmployment: new Date().toISOString(),
                 roles: data.roles,
             }
-            UserDataAccess.createUser(dispatch)(castData, onSuccess)
+            UserDataAccess.createUser(dispatch)(submitData, onSuccess)
         }
     }
 

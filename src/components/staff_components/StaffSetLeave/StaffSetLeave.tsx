@@ -39,12 +39,12 @@ const StaffSetLeave: React.FC<StaffSetLeaveProps> = (props) => {
     })
 
     const onSubmit = (data: any) => {
-        const castData: UserSetVacationDaysRequestType = {
+        const submitData: UserSetVacationDaysRequestType = {
             userId: props.user.id,
             numberOfDays: data.days,
             year: data.year,
         }
-        UserDataAccess.setNumberOfVacationDays(dispatch)(castData, onSuccess)
+        UserDataAccess.setNumberOfVacationDays(dispatch)(submitData, onSuccess)
     }
 
     const onSuccess = () => {
