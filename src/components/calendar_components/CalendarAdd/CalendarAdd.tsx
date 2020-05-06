@@ -14,6 +14,7 @@ import Endpoints from "../../../environments/endpoints"
 import { goTo } from "../../../utils/navHelpers"
 import { formatDate } from "../../../utils/formattingHelpers"
 import Item from "../../common_components/text/Item/Item"
+import moment from "moment"
 
 interface CalendarAddProps {}
 
@@ -42,9 +43,17 @@ const CalendarAdd: React.FC<CalendarAddProps> = (props) => {
         setSelected(data)
     }
 
+    const substractDay = (date: string) => {
+        return moment(new Date(date)).subtract(1, "days").toISOString()
+    }
+
     const onSubmit = () => {
         if (me && selected) {
-            const data: CalendarRequestType = { userId: me.id, startingDate: selected.start, endingDate: selected.end }
+            const data: CalendarRequestType = {
+                userId: me.id,
+                startingDate: selected.start,
+                endingDate: substractDay(selected.end),
+            }
             CalendarDataAccess.requestVacation(dispatch)(data, onSuccess)
         }
     }
@@ -77,7 +86,7 @@ const CalendarAdd: React.FC<CalendarAddProps> = (props) => {
                 <Subtitle>Request</Subtitle>
                 <div className={styles.form}>
                     <Item bold label="From" children={selected ? formatDate(selected.start) : "-"} />
-                    <Item bold label="To" children={selected ? formatDate(selected.end) : "-"} />
+                    <Item bold label="To" children={selected ? formatDate(substractDay(selected.end)) : "-"} />
                     <div className={styles.submitContainer}>
                         <Button color="purple" onClick={onSubmit}>
                             SUBMIT

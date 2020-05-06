@@ -17,6 +17,7 @@ import { goTo } from "../../../utils/navHelpers"
 import RequestList from "../RequestList/RequestList"
 import RequestSingle from "../RequestSingle/RequestSingle"
 import { CalendarEvent } from "../../../types/CalendarTypes"
+import { addDay } from "../../../utils/formattingHelpers"
 
 interface CalendarOverviewProps {}
 
@@ -57,7 +58,7 @@ const CalendarOverview: React.FC<CalendarOverviewProps> = (props) => {
                 id: request.id,
                 title: `${request.user.firstName} ${request.user.lastName}`,
                 start: request.start,
-                end: request.end,
+                end: addDay(request.end),
                 extendedProps: request.user,
             })
         }
@@ -115,7 +116,11 @@ const CalendarOverview: React.FC<CalendarOverviewProps> = (props) => {
     }
 
     const renderVacationsOnCalendar = () => {
-        return approvedVacations.filter((vacation) => selectedUsers.includes(vacation.extendedProps.id))
+        return approvedVacations
+            .filter((vacation) => selectedUsers.includes(vacation.extendedProps.id))
+            .map((vacation) => {
+                return { ...vacation, end: addDay(vacation.end) }
+            })
     }
 
     const renderSingleRequest = () => {
