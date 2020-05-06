@@ -60,7 +60,7 @@ const StaffAdd: React.FC<StaffAddProps> = (props) => {
     }, [])
 
     useEffect(() => {
-        if (props.user && (isAdmin || (me && me.id === props.user.id))) {
+        if (props.user && (isAdmin || me?.id === props.user.id)) {
             setValue([
                 { firstName: props.user.firstName },
                 { lastName: props.user.lastName },
