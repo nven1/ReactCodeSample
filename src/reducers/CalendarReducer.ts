@@ -27,31 +27,20 @@ export const slice = createSlice({
 
 export const { getAllVacationsAction, getMyVacationsAction } = slice.actions
 
-export const selectAllVacations = (state: RootState) =>
-    state.calendar.vacations.map((vacation) => {
-        return {
-            id: vacation.id,
-            title: `${vacation.user.firstName} ${vacation.user.lastName}`,
-            start: vacation.startingDate,
-            end: vacation.endingDate,
-            user: vacation.user,
-            daysRequested: vacation.numberOfVacationDays,
-            status: vacation.status,
-        } as VacationRequestReviewType
-    })
-
 export const selectMyVacations = (state: RootState) =>
-    state.calendar.myVacations.map((vacation) => {
-        return {
-            id: vacation.id,
-            title: `${vacation.user.firstName} ${vacation.user.lastName}`,
-            start: vacation.startingDate,
-            end: vacation.endingDate,
-            user: vacation.user,
-            daysRequested: vacation.numberOfVacationDays,
-            status: vacation.status,
-        } as VacationRequestReviewType
-    })
+    state.calendar.myVacations
+        .filter((item) => item.status !== "DECLINED")
+        .map((vacation) => {
+            return {
+                id: vacation.id,
+                title: `${vacation.user.firstName} ${vacation.user.lastName}`,
+                start: vacation.startingDate,
+                end: vacation.endingDate,
+                user: vacation.user,
+                daysRequested: vacation.numberOfVacationDays,
+                status: vacation.status,
+            } as VacationRequestReviewType
+        })
 
 export const selectApprovedVacations = (state: RootState) =>
     state.calendar.vacations
