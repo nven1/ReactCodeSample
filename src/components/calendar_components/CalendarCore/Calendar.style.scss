@@ -1,3 +1,25 @@
 @import "~@fullcalendar/core/main.css";
 @import "~@fullcalendar/daygrid/main.css";
 @import "~@fullcalendar/timegrid/main.css";
+@import "../../../styles/index.scss";
+
+.fc-toolbar.fc-header-toolbar {
+    margin-bottom: 0.5em;
+
+    button {
+        @extend %center;
+        padding: 0;
+        background-color: $purplePrimary;
+        border: none;
+        border-radius: 100% !important;
+        height: 2em;
+        width: 2em;
+        &:hover {
+            @extend .transition;
+            background-color: $purpleSecondary;
+        }
+    }
+    button.fc-next-button.fc-button.fc-button-primary {
+        margin-left: 0.5em;
+    }
+}
