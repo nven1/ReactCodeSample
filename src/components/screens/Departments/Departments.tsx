@@ -72,7 +72,7 @@ const Departments: React.FC<DepartmentsProps> = (props) => {
     }
 
     const buttons = departments.map((dp) => {
-        return { key: dp.id.toString(), name: dp.name }
+        return { key: dp.id.toString(), text: dp.name }
     })
 
     return (
