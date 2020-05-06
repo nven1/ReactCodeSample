@@ -39,6 +39,7 @@ const CalendarCore: React.FC<CalendarCoreProps> = (props) => {
             plugins={[dayGridPlugin, interactionPlugin]}
             ref={calendarComponentRef}
             allDayDefault
+            firstDay={1}
             eventLimit
             selectable={!!props.onSelect}
             select={handleSelect}
