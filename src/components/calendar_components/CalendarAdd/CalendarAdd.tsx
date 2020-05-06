@@ -12,7 +12,7 @@ import { CalendarSelectType, CalendarEvent, CalendarRequestType } from "../../..
 import { useHistory } from "react-router"
 import Endpoints from "../../../environments/endpoints"
 import { goTo } from "../../../utils/navHelpers"
-import { formatDate } from "../../../utils/formattingHelpers"
+import { formatDate } from "../../../utils/dateHelpers"
 import Item from "../../common_components/text/Item/Item"
 
 interface CalendarAddProps {}

@@ -9,6 +9,7 @@ const Endpoints = {
         staff: "/staff",
         calendar: "/calendar",
         user: "/user",
+        paysheets: "/paysheets",
     },
     extEndpoints: {
         wiki: "https://sr.wikipedia.org/wiki/Mica_Trofrtaljka",

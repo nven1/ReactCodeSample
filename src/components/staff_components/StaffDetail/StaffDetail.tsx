@@ -15,27 +15,13 @@ import Dialog from "../../common_components/containers/Dialog/Dialog"
 import Button from "../../common_components/buttons/Button/Button"
 import UserDataAccess from "../../../data_access/UserDataAccess"
 import { Token } from "../../../utils/storageKeys"
+import { monthNames } from "../../../utils/dateHelpers"
 
 interface StaffDetailProps extends RouteComponentProps {
     user: UserType
 }
 
 const URL = Endpoints.appEndpoints.staff
-
-const monthNames = [
-    "January",
-    "February",
-    "March",
-    "April",
-    "May",
-    "June",
-    "July",
-    "August",
-    "September",
-    "October",
-    "November",
-    "December",
-]
 
 type DialogMode = undefined | "reset" | "deactivate"
 
