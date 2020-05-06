@@ -1,5 +1,5 @@
 import React, { useState } from "react"
-import styles from "./DepartmentDialog.module.scss"
+import styles from "./ReassignStaffDialog.module.scss"
 import { ReassignDialogProps } from "../Department/Department"
 import { useSelector, useDispatch } from "react-redux"
 import { selectDepartments } from "../../../reducers/DepartmentReducer"
@@ -8,7 +8,7 @@ import Card from "../../common_components/containers/Card/Card"
 import { UserDepartmentAndRoleType } from "../../../types/UserTypes"
 import UserDataAccess from "../../../data_access/UserDataAccess"
 
-const DepartmentDialog: React.FC<ReassignDialogProps> = (props) => {
+const ReassignStaffDialog: React.FC<ReassignDialogProps> = (props) => {
     const dispatch = useDispatch()
     const departments = useSelector(selectDepartments)
 
@@ -82,4 +82,4 @@ const DepartmentDialog: React.FC<ReassignDialogProps> = (props) => {
     )
 }
 
-export default DepartmentDialog
+export default ReassignStaffDialog

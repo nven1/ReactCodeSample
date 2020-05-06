@@ -1,6 +1,5 @@
 import React, { useState } from "react"
 import styles from "./Login.module.scss"
-import { RouteComponentProps } from "react-router-dom"
 import Button from "../../common_components/buttons/Button/Button"
 import Endpoints from "../../../environments/endpoints"
 import Card from "../../common_components/containers/Card/Card"
@@ -11,8 +10,9 @@ import { useForm, Controller } from "react-hook-form"
 import AuthDataAccess from "../../../data_access/AuthDataAccess"
 import { useDispatch } from "react-redux"
 import { Token } from "../../../utils/storageKeys"
+import { useHistory } from "react-router"
 
-interface LoginProps extends RouteComponentProps {}
+interface LoginProps {}
 
 const LoginSchema = yup.object().shape({
     email: yup.string().required().email(),
@@ -21,6 +21,7 @@ const LoginSchema = yup.object().shape({
 
 const Login: React.FC<LoginProps> = (props) => {
     const dispatch = useDispatch()
+    const history = useHistory()
 
     const { handleSubmit, errors, control } = useForm({
         validationSchema: LoginSchema,
@@ -38,7 +39,7 @@ const Login: React.FC<LoginProps> = (props) => {
         }
 
         localStorage.setItem(Token, token)
-        props.history.push(Endpoints.appEndpoints.root)
+        history.push(Endpoints.appEndpoints.root)
     }
 
     const onError = () => {

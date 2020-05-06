@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react"
-import styles from "./CalendarAdd.module.scss"
+import styles from "./AddVacationForm.module.scss"
 import { useSelector, useDispatch } from "react-redux"
 import { selectMe } from "../../../reducers/UserReducer"
 import CalendarCore from "../CalendarCore/CalendarCore"
@@ -16,9 +16,9 @@ import { formatDate } from "../../../utils/formattingHelpers"
 import Item from "../../common_components/text/Item/Item"
 import moment from "moment"
 
-interface CalendarAddProps {}
+interface AddVacationFormProps {}
 
-const CalendarAdd: React.FC<CalendarAddProps> = (props) => {
+const AddVacationForm: React.FC<AddVacationFormProps> = (props) => {
     const dispatch = useDispatch()
     const history = useHistory()
 
@@ -97,4 +97,4 @@ const CalendarAdd: React.FC<CalendarAddProps> = (props) => {
         </div>
     )
 }
-export default CalendarAdd
+export default AddVacationForm

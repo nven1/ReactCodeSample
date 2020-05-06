@@ -7,7 +7,7 @@ import Circle from "../../common_components/indicators/Circle/Circle"
 import BackgroundImage from "../../common_components/indicators/Illustration/BackgroundImage"
 import Button from "../../common_components/buttons/Button/Button"
 import Dialog from "../../common_components/containers/Dialog/Dialog"
-import DepartmentDialog from "../DepartmentDialog/DepartmentDialog"
+import ReassignStaffDialog from "../ReassignStaffDialog/ReassignStaffDialog"
 import { useParams } from "react-router"
 import { Link } from "react-router-dom"
 import Endpoints from "../../../environments/endpoints"
@@ -112,7 +112,7 @@ const Department: React.FC<DepartmentProps> = (props) => {
                 <BackgroundImage image={props.department.image} />
             </div>
             <Dialog open={dialogState.open} onClose={handleDialogClose}>
-                <DepartmentDialog {...dialogState} />
+                <ReassignStaffDialog {...dialogState} />
             </Dialog>
         </>
     )

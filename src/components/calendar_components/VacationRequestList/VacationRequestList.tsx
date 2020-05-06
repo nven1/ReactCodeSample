@@ -1,5 +1,5 @@
 import React from "react"
-import styles from "./RequestList.module.scss"
+import styles from "./VacationRequestList.module.scss"
 import Card from "../../common_components/containers/Card/Card"
 import Title from "../../common_components/text/Title/Title"
 import { useHistory } from "react-router"
@@ -9,11 +9,11 @@ import Button from "../../common_components/buttons/Button/Button"
 import { VacationRequestReviewType } from "../../../types/CalendarTypes"
 import Item from "../../common_components/text/Item/Item"
 
-interface RequestListProps {
+interface VacationRequestListProps {
     requests: Array<VacationRequestReviewType>
 }
 
-const RequestList: React.FC<RequestListProps> = (props) => {
+const VacationRequestList: React.FC<VacationRequestListProps> = (props) => {
     const history = useHistory()
 
     const handleClick = (id: number) => () => {
@@ -39,4 +39,4 @@ const RequestList: React.FC<RequestListProps> = (props) => {
         </div>
     )
 }
-export default RequestList
+export default VacationRequestList

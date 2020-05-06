@@ -1,5 +1,5 @@
 import React, { useEffect } from "react"
-import styles from "./StaffSetLeave.module.scss"
+import styles from "./SetVacationDaysForm.module.scss"
 import Card from "../../common_components/containers/Card/Card"
 import Title from "../../common_components/text/Title/Title"
 import { UserType, UserSetVacationDaysRequestType } from "../../../types/UserTypes"
@@ -7,14 +7,14 @@ import Input from "../../common_components/inputs/Input/Input"
 import Button from "../../common_components/buttons/Button/Button"
 import { Controller, useForm } from "react-hook-form"
 import * as yup from "yup"
-import { withRouter, RouteComponentProps } from "react-router"
 import Endpoints from "../../../environments/endpoints"
 import UserDataAccess from "../../../data_access/UserDataAccess"
 import { useSelector, useDispatch } from "react-redux"
 import { selectIsAdmin } from "../../../reducers/UserReducer"
 import { goTo } from "../../../utils/navHelpers"
+import { useHistory } from "react-router"
 
-interface StaffSetLeaveProps extends RouteComponentProps {
+interface SetVacationDaysFormProps {
     user: UserType
 }
 
@@ -29,8 +29,9 @@ const SetLeaveSchema = yup.object().shape({
     days: yup.number().required().min(0),
 })
 
-const StaffSetLeave: React.FC<StaffSetLeaveProps> = (props) => {
+const SetVacationDaysForm: React.FC<SetVacationDaysFormProps> = (props) => {
     const dispatch = useDispatch()
+    const history = useHistory()
 
     const isAdmin = useSelector(selectIsAdmin)
 
@@ -48,12 +49,12 @@ const StaffSetLeave: React.FC<StaffSetLeaveProps> = (props) => {
     }
 
     const onSuccess = () => {
-        props.history.push(goTo(Endpoints.appEndpoints.staff))
+        history.push(goTo(Endpoints.appEndpoints.staff))
     }
 
     useEffect(() => {
         if (props.user === undefined) {
-            props.history.push(Endpoints.appEndpoints.staff)
+            history.push(Endpoints.appEndpoints.staff)
         }
 
         // eslint-disable-next-line
@@ -61,7 +62,7 @@ const StaffSetLeave: React.FC<StaffSetLeaveProps> = (props) => {
 
     useEffect(() => {
         if (!isAdmin) {
-            props.history.push(Endpoints.appEndpoints.staff)
+            history.push(Endpoints.appEndpoints.staff)
         }
 
         // eslint-disable-next-line
@@ -103,4 +104,4 @@ const StaffSetLeave: React.FC<StaffSetLeaveProps> = (props) => {
         </div>
     )
 }
-export default withRouter(StaffSetLeave)
+export default SetVacationDaysForm

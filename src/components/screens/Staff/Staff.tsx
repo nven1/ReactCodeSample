@@ -8,8 +8,8 @@ import { useParams, RouteComponentProps, withRouter, Switch, Route } from "react
 import Endpoints from "../../../environments/endpoints"
 import StaffOverview from "../../staff_components/StaffOverview/StaffOverview"
 import StaffDetail from "../../staff_components/StaffDetail/StaffDetail"
-import StaffAdd from "../../staff_components/StaffAdd/StaffAdd"
-import StaffSetLeave from "../../staff_components/StaffSetLeave/StaffSetLeave"
+import AddStaffForm from "../../staff_components/AddStaffForm/AddStaffForm"
+import SetVacationDaysForm from "../../staff_components/SetVacationDaysForm/SetVacationDaysForm"
 import { isNum } from "../../../utils/navHelpers"
 
 interface StaffProps extends RouteComponentProps {}
@@ -51,7 +51,7 @@ const Staff: React.FC<StaffProps> = (props) => {
             <div className={styles.content}>
                 <Switch>
                     <Route exact path={URL} render={() => <StaffOverview users={users} />} />
-                    <Route exact path={`${URL}/add`} component={StaffAdd} />
+                    <Route exact path={`${URL}/add`} component={AddStaffForm} />
                     {users.length > 0 && (
                         <>
                             <Route
@@ -62,12 +62,12 @@ const Staff: React.FC<StaffProps> = (props) => {
                             <Route
                                 exact
                                 path={`${URL}/:mode${isNum}/edit`}
-                                render={() => <StaffAdd user={getUserById()} />}
+                                render={() => <AddStaffForm user={getUserById()} />}
                             />
                             <Route
                                 exact
                                 path={`${URL}/:mode${isNum}/set_leave`}
-                                render={() => <StaffSetLeave user={getUserById()} />}
+                                render={() => <SetVacationDaysForm user={getUserById()} />}
                             />
                         </>
                     )}

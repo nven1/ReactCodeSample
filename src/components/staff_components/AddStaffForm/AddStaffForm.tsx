@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react"
-import styles from "./StaffAdd.module.scss"
+import styles from "./AddStaffForm.module.scss"
 import Card from "../../common_components/containers/Card/Card"
 import Title from "../../common_components/text/Title/Title"
 import Input from "../../common_components/inputs/Input/Input"
@@ -13,11 +13,11 @@ import Subtitle from "../../common_components/text/Subtitle/Subtitle"
 import { selectRoles, selectIsAdmin, selectMe } from "../../../reducers/UserReducer"
 import UserDataAccess from "../../../data_access/UserDataAccess"
 import { UserCreateRequestType, UserType, UserUpdateRequestType } from "../../../types/UserTypes"
-import { RouteComponentProps, withRouter } from "react-router"
 import Endpoints from "../../../environments/endpoints"
 import { goTo } from "../../../utils/navHelpers"
+import { useHistory } from "react-router"
 
-interface StaffAddProps extends RouteComponentProps {
+interface AddStaffFormProps {
     user?: UserType
 }
 
@@ -34,8 +34,10 @@ type Mode = undefined | "department" | "roles"
 
 const URL = Endpoints.appEndpoints.staff
 
-const StaffAdd: React.FC<StaffAddProps> = (props) => {
+const AddStaffForm: React.FC<AddStaffFormProps> = (props) => {
     const dispatch = useDispatch()
+    const history = useHistory()
+
     const departments = useSelector(selectDepartments)
     const roles = useSelector(selectRoles)
     const me = useSelector(selectMe)
@@ -77,7 +79,7 @@ const StaffAdd: React.FC<StaffAddProps> = (props) => {
     useEffect(() => {
         if (isAdmin !== undefined && me !== undefined) {
             if (props.user && !(isAdmin || me.id === props.user.id)) {
-                props.history.push(URL)
+                history.push(URL)
             }
         }
 
@@ -113,9 +115,9 @@ const StaffAdd: React.FC<StaffAddProps> = (props) => {
 
     const onSuccess = () => {
         if (props.user) {
-            props.history.push(goTo(URL, props.user.id.toString()))
+            history.push(goTo(URL, props.user.id.toString()))
         } else {
-            props.history.push(URL)
+            history.push(URL)
         }
     }
 
@@ -255,4 +257,4 @@ const StaffAdd: React.FC<StaffAddProps> = (props) => {
         </div>
     )
 }
-export default withRouter(StaffAdd)
+export default AddStaffForm

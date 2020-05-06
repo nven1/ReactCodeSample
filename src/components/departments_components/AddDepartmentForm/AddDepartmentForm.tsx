@@ -1,5 +1,5 @@
 import React, { useState } from "react"
-import styles from "./AddDepartment.module.scss"
+import styles from "./AddDepartmentForm.module.scss"
 import Card from "../../common_components/containers/Card/Card"
 import Title from "../../common_components/text/Title/Title"
 import Input from "../../common_components/inputs/Input/Input"
@@ -13,19 +13,19 @@ import DepartmentDataAccess from "../../../data_access/DepartmentDataAccess"
 import { DepartmentRequestType } from "../../../types/DepartmentTypes"
 import { useDispatch } from "react-redux"
 
-interface AddDepartmentProps {
+interface AddDepartmentFormProps {
     onSubmit: () => void
 }
 
-const AddDepartmentSchema = yup.object().shape({
+const AddDepartmentFormSchema = yup.object().shape({
     name: yup.string().required(),
     image: yup.string().required(),
 })
 
-const AddDepartment: React.FC<AddDepartmentProps> = (props) => {
+const AddDepartmentForm: React.FC<AddDepartmentFormProps> = (props) => {
     const dispatch = useDispatch()
     const { handleSubmit, errors, control, setValue, getValues } = useForm({
-        validationSchema: AddDepartmentSchema,
+        validationSchema: AddDepartmentFormSchema,
     })
     const [imageMode, setImageMode] = useState<boolean>(false)
 
@@ -79,4 +79,4 @@ const AddDepartment: React.FC<AddDepartmentProps> = (props) => {
         </div>
     )
 }
-export default AddDepartment
+export default AddDepartmentForm
