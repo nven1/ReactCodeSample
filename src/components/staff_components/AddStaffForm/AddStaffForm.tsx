@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react"
-import styles from "./StaffAdd.module.scss"
+import styles from "./AddStaffForm.module.scss"
 import Card from "../../common_components/containers/Card/Card"
 import Title from "../../common_components/text/Title/Title"
 import Input from "../../common_components/inputs/Input/Input"
@@ -10,14 +10,14 @@ import { useSelector, useDispatch } from "react-redux"
 import { selectDepartments } from "../../../reducers/DepartmentReducer"
 import DepartmentDataAccess from "../../../data_access/DepartmentDataAccess"
 import Subtitle from "../../common_components/text/Subtitle/Subtitle"
-import { selectRoles } from "../../../reducers/UserReducer"
+import { selectRoles, selectIsAdmin, selectMe } from "../../../reducers/UserReducer"
 import UserDataAccess from "../../../data_access/UserDataAccess"
 import { UserCreateRequestType, UserType, UserUpdateRequestType } from "../../../types/UserTypes"
-import { RouteComponentProps, withRouter } from "react-router"
 import Endpoints from "../../../environments/endpoints"
 import { goTo } from "../../../utils/navHelpers"
+import { useHistory } from "react-router"
 
-interface StaffAddProps extends RouteComponentProps {
+interface AddStaffFormProps {
     user?: UserType
 }
 
@@ -32,10 +32,16 @@ const AddStaffSchema = yup.object().shape({
 
 type Mode = undefined | "department" | "roles"
 
-const StaffAdd: React.FC<StaffAddProps> = (props) => {
+const URL = Endpoints.appEndpoints.staff
+
+const AddStaffForm: React.FC<AddStaffFormProps> = (props) => {
     const dispatch = useDispatch()
+    const history = useHistory()
+
     const departments = useSelector(selectDepartments)
     const roles = useSelector(selectRoles)
+    const me = useSelector(selectMe)
+    const isAdmin = useSelector(selectIsAdmin)
 
     const { handleSubmit, errors, control, setValue, getValues, watch } = useForm({
         validationSchema: AddStaffSchema,
@@ -56,7 +62,7 @@ const StaffAdd: React.FC<StaffAddProps> = (props) => {
     }, [])
 
     useEffect(() => {
-        if (props.user) {
+        if (props.user && (isAdmin || me?.id === props.user.id)) {
             setValue([
                 { firstName: props.user.firstName },
                 { lastName: props.user.lastName },
@@ -70,11 +76,21 @@ const StaffAdd: React.FC<StaffAddProps> = (props) => {
         // eslint-disable-next-line
     }, [props])
 
+    useEffect(() => {
+        if (isAdmin !== undefined && me !== undefined) {
+            if (props.user && !(isAdmin || me.id === props.user.id)) {
+                history.push(URL)
+            }
+        }
+
+        // eslint-disable-next-line
+    }, [isAdmin])
+
     const [modeState, setMode] = useState<Mode>(undefined)
 
     const onSubmit = (data: any) => {
         if (props.user) {
-            const castData: UserUpdateRequestType = {
+            const submitData: UserUpdateRequestType = {
                 firstName: data.firstName,
                 lastName: data.lastName,
                 departmentId: data.department,
@@ -82,9 +98,9 @@ const StaffAdd: React.FC<StaffAddProps> = (props) => {
                 isManager: data.isManager,
                 roles: data.roles,
             }
-            UserDataAccess.updateUser(dispatch)(props.user.id, castData, onSuccess)
+            UserDataAccess.updateUser(dispatch)(props.user.id, submitData, onSuccess)
         } else {
-            const castData: UserCreateRequestType = {
+            const submitData: UserCreateRequestType = {
                 firstName: data.firstName,
                 lastName: data.lastName,
                 email: data.email,
@@ -93,15 +109,15 @@ const StaffAdd: React.FC<StaffAddProps> = (props) => {
                 dateOfEmployment: new Date().toISOString(),
                 roles: data.roles,
             }
-            UserDataAccess.createUser(dispatch)(castData, onSuccess)
+            UserDataAccess.createUser(dispatch)(submitData, onSuccess)
         }
     }
 
     const onSuccess = () => {
         if (props.user) {
-            props.history.push(goTo(Endpoints.appEndpoints.staff, props.user.id.toString()))
+            history.push(goTo(URL, props.user.id.toString()))
         } else {
-            props.history.push(Endpoints.appEndpoints.staff)
+            history.push(URL)
         }
     }
 
@@ -241,4 +257,4 @@ const StaffAdd: React.FC<StaffAddProps> = (props) => {
         </div>
     )
 }
-export default withRouter(StaffAdd)
+export default AddStaffForm

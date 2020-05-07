@@ -1,13 +1,9 @@
 @import "../../../styles/index.scss";
 
-.content {
+.page {
     padding: $paddingHorizontal;
-    padding-top: 2em;
+    padding-top: 1.2em;
     padding-bottom: 2em;
     overflow-x: hidden;
-
-    display: grid;
-    grid-template-columns: max-content max-content max-content;
-    column-gap: 2em;
     color: $purplePrimary;
 }

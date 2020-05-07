@@ -1,0 +1,9 @@
+@import "../../../styles/index.scss";
+
+.content {
+    margin: 2em 0;
+    overflow-y: auto;
+    div {
+        margin-bottom: 1em;
+    }
+}

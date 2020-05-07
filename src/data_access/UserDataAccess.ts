@@ -8,6 +8,7 @@ import {
     RoleType,
     UserCreateRequestType,
     UserUpdateRequestType,
+    UserSetVacationDaysRequestType,
 } from "../types/UserTypes"
 import DepartmentDataAccess from "./DepartmentDataAccess"
 import { AuthHeader } from "../utils/authHeader"
@@ -102,6 +103,21 @@ const resetPassword = (dispatch: Dispatch<any>) => (email: ResetPasswordType, on
         .catch()
 }
 
+const setNumberOfVacationDays = (dispatch: Dispatch<any>) => (
+    data: UserSetVacationDaysRequestType,
+    onSuccess: () => void
+) => {
+    axios
+        .post(`${Endpoints.apiEndpoint}/vacation-days`, data, AuthHeader())
+        .then((response) => {
+            getUsers(dispatch)()
+            onSuccess()
+        })
+        .catch((error) => {
+            alert(error.response.data.errorMessage)
+        })
+}
+
 export default {
     getMyUser,
     reassignUser,
@@ -112,4 +128,5 @@ export default {
     updateUser,
     deactivateUser,
     resetPassword,
+    setNumberOfVacationDays,
 }

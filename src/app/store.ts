@@ -1,11 +1,13 @@
 import { configureStore, ThunkAction, Action } from "@reduxjs/toolkit"
 import userReducer from "../reducers/UserReducer"
 import departmentReducer from "../reducers/DepartmentReducer"
+import calendarReducer from "../reducers/CalendarReducer"
 
 export const store = configureStore({
     reducer: {
         users: userReducer,
         departments: departmentReducer,
+        calendar: calendarReducer,
     },
 })
 

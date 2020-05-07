@@ -8,7 +8,7 @@ import { useSelector, useDispatch } from "react-redux"
 import Subtitle from "../../common_components/text/Subtitle/Subtitle"
 import LinkButton from "../../common_components/buttons/LinkButton/LinkButton"
 import Endpoints from "../../../environments/endpoints"
-import { useParams, withRouter, RouteComponentProps } from "react-router"
+import { useParams, useHistory } from "react-router"
 import BackgroundImage from "../../common_components/indicators/Illustration/BackgroundImage"
 import { goTo } from "../../../utils/navHelpers"
 import Dialog from "../../common_components/containers/Dialog/Dialog"
@@ -16,7 +16,7 @@ import Button from "../../common_components/buttons/Button/Button"
 import UserDataAccess from "../../../data_access/UserDataAccess"
 import { Token } from "../../../utils/storageKeys"
 
-interface StaffDetailProps extends RouteComponentProps {
+interface StaffDetailProps {
     user: UserType
 }
 
@@ -45,10 +45,11 @@ export interface ResetPasswordType {
 
 const StaffDetail: React.FC<StaffDetailProps> = (props) => {
     const dispatch = useDispatch()
+    const history = useHistory()
+    const { mode } = useParams()
+
     const isAdmin = useSelector(selectIsAdmin)
     const me = useSelector(selectMe)
-
-    const { mode } = useParams()
 
     const [dialogState, setDialogState] = useState<DialogMode>()
 
@@ -68,9 +69,9 @@ const StaffDetail: React.FC<StaffDetailProps> = (props) => {
         if (me && props.user.id === me.id) {
             UserDataAccess.clearUserReducer(dispatch)()
             localStorage.removeItem(Token)
-            props.history.push(Endpoints.appEndpoints.root)
+            history.push(Endpoints.appEndpoints.root)
         } else {
-            props.history.push(URL, "all")
+            history.push(URL, "all")
         }
     }
 
@@ -152,4 +153,4 @@ const StaffDetail: React.FC<StaffDetailProps> = (props) => {
         </>
     )
 }
-export default withRouter(StaffDetail)
+export default StaffDetail

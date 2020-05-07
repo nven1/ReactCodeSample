@@ -5,19 +5,20 @@ import { useSelector, useDispatch } from "react-redux"
 import { selectDepartments } from "../../../reducers/DepartmentReducer"
 import Department from "../../departments_components/Department/Department"
 import OverflowButton from "../../departments_components/OverflowButton/OverflowButton"
-import AddDepartment from "../../departments_components/AddDepartment/AddDepartment"
+import AddDepartmentForm from "../../departments_components/AddDepartmentForm/AddDepartmentForm"
 import { selectIsAdmin } from "../../../reducers/UserReducer"
 import DepartmentDataAccess from "../../../data_access/DepartmentDataAccess"
-import { RouteComponentProps, useParams } from "react-router"
+import { useParams, Switch, Route, useHistory } from "react-router"
 import Endpoints from "../../../environments/endpoints"
-import { goTo } from "../../../utils/navHelpers"
+import { goTo, isNum } from "../../../utils/navHelpers"
 
-interface DepartmentsProps extends RouteComponentProps {}
+interface DepartmentsProps {}
 
 const URL = Endpoints.appEndpoints.departments
 
 const Departments: React.FC<DepartmentsProps> = (props) => {
     const dispatch = useDispatch()
+    const history = useHistory()
 
     const departments = useSelector(selectDepartments)
     const isAdmin = useSelector(selectIsAdmin)
@@ -31,17 +32,7 @@ const Departments: React.FC<DepartmentsProps> = (props) => {
     }, [])
 
     const navigate = (param: string) => () => {
-        props.history.push(goTo(URL, param))
-    }
-
-    const renderView = () => {
-        if (mode === "all") {
-            return renderAll()
-        } else if (departments.length > 0 && !isNaN(Number(mode))) {
-            return renderSingle()
-        } else if (mode === "add") {
-            return <AddDepartment onSubmit={handleAddDepartment} />
-        }
+        history.push(goTo(URL, param))
     }
 
     const renderAll = () => {
@@ -54,8 +45,6 @@ const Departments: React.FC<DepartmentsProps> = (props) => {
         const dp = departments.filter((dp) => dp.id === Number(mode))[0]
         if (dp) {
             return <Department department={dp} edit={Boolean(edit)} />
-        } else {
-            navigate("all")()
         }
     }
 
@@ -64,7 +53,7 @@ const Departments: React.FC<DepartmentsProps> = (props) => {
     }
 
     const toolbarResolver = (): string => {
-        if (mode === "all") {
+        if (!mode) {
             return "add"
         } else if (mode !== undefined && !isNaN(Number(mode))) {
             return edit ? mode : `${mode}/edit`
@@ -74,7 +63,7 @@ const Departments: React.FC<DepartmentsProps> = (props) => {
 
     const toolbarActionButtonLabel = (): string | undefined => {
         if (isAdmin) {
-            if (mode === "all") {
+            if (!mode) {
                 return "Add department"
             } else if (!isNaN(Number(mode))) {
                 return edit ? "Stop editing" : "Edit Department"
@@ -84,7 +73,7 @@ const Departments: React.FC<DepartmentsProps> = (props) => {
     }
 
     const buttons = departments.map((dp) => {
-        return { id: dp.id, name: dp.name }
+        return { key: dp.id.toString(), text: dp.name }
     })
 
     return (
@@ -96,7 +85,20 @@ const Departments: React.FC<DepartmentsProps> = (props) => {
                 buttons={buttons}
                 onAction={toolbarResolver()}
             />
-            <div className={styles.content}>{renderView()}</div>
+            <div className={styles.content}>
+                <Switch>
+                    <Route exact path={URL} render={renderAll} />
+                    <Route path={`${URL}/:mode${isNum}`} render={renderSingle} />
+                    {isAdmin && (
+                        <Route
+                            exact
+                            path={`${URL}/add`}
+                            render={() => <AddDepartmentForm onSubmit={handleAddDepartment} />}
+                        />
+                    )}
+                    {departments.length > 0 && <Route path="*">Insert a 404 screen</Route>}
+                </Switch>
+            </div>
         </div>
     )
 }
