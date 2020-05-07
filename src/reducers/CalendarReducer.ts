@@ -27,31 +27,20 @@ export const slice = createSlice({
 
 export const { getAllVacationsAction, getMyVacationsAction } = slice.actions
 
-export const selectAllVacations = (state: RootState) =>
-    state.calendar.vacations.map((vacation) => {
-        return {
-            id: vacation.id,
-            title: `${vacation.user.firstName} ${vacation.user.lastName}`,
-            start: vacation.startingDate,
-            end: `${vacation.endingDate}T23:00:00`,
-            user: vacation.user,
-            daysRequested: vacation.numberOfVacationDays,
-            status: vacation.status,
-        } as VacationRequestReviewType
-    })
-
 export const selectMyVacations = (state: RootState) =>
-    state.calendar.myVacations.map((vacation) => {
-        return {
-            id: vacation.id,
-            title: `${vacation.user.firstName} ${vacation.user.lastName}`,
-            start: vacation.startingDate,
-            end: `${vacation.endingDate}T23:00:00`,
-            user: vacation.user,
-            daysRequested: vacation.numberOfVacationDays,
-            status: vacation.status,
-        } as VacationRequestReviewType
-    })
+    state.calendar.myVacations
+        .filter((item) => item.status !== "DECLINED")
+        .map((vacation) => {
+            return {
+                id: vacation.id,
+                title: `${vacation.user.firstName} ${vacation.user.lastName}`,
+                start: vacation.startingDate,
+                end: vacation.endingDate,
+                user: vacation.user,
+                daysRequested: vacation.numberOfVacationDays,
+                status: vacation.status,
+            } as VacationRequestReviewType
+        })
 
 export const selectApprovedVacations = (state: RootState) =>
     state.calendar.vacations
@@ -61,7 +50,7 @@ export const selectApprovedVacations = (state: RootState) =>
                 id: approved.id,
                 title: `${approved.user.firstName} ${approved.user.lastName}`,
                 start: approved.startingDate,
-                end: `${approved.endingDate}T23:00:00`,
+                end: approved.endingDate,
                 extendedProps: approved.user,
             } as CalendarEvent
         })
@@ -74,7 +63,7 @@ export const selectRequestedVacations = (state: RootState) =>
                 id: requested.id,
                 title: `${requested.user.firstName} ${requested.user.lastName}`,
                 start: requested.startingDate,
-                end: `${requested.endingDate}T23:00:00`,
+                end: requested.endingDate,
                 user: requested.user,
                 daysRequested: requested.numberOfVacationDays,
                 status: requested.status,

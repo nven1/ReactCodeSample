@@ -14,9 +14,10 @@ import {
     selectRequestedVacations,
 } from "../../../reducers/CalendarReducer"
 import { goTo } from "../../../utils/navHelpers"
-import RequestList from "../RequestList/RequestList"
-import RequestSingle from "../RequestSingle/RequestSingle"
+import VacationRequestList from "../VacationRequestList/VacationRequestList"
+import VacationRequestSingle from "../VacationRequestSingle/VacationRequestSingle"
 import { CalendarEvent } from "../../../types/CalendarTypes"
+import { addDay } from "../../../utils/formattingHelpers"
 
 interface CalendarOverviewProps {}
 
@@ -57,7 +58,7 @@ const CalendarOverview: React.FC<CalendarOverviewProps> = (props) => {
                 id: request.id,
                 title: `${request.user.firstName} ${request.user.lastName}`,
                 start: request.start,
-                end: request.end,
+                end: addDay(request.end),
                 extendedProps: request.user,
             })
         }
@@ -115,13 +116,17 @@ const CalendarOverview: React.FC<CalendarOverviewProps> = (props) => {
     }
 
     const renderVacationsOnCalendar = () => {
-        return approvedVacations.filter((vacation) => selectedUsers.includes(vacation.extendedProps.id))
+        return approvedVacations
+            .filter((vacation) => selectedUsers.includes(vacation.extendedProps.id))
+            .map((vacation) => {
+                return { ...vacation, end: addDay(vacation.end) }
+            })
     }
 
     const renderSingleRequest = () => {
         const request = requestedVacations.filter((rId) => rId.id === Number(id))[0]
         if (request) {
-            return <RequestSingle request={request} />
+            return <VacationRequestSingle request={request} />
         } else {
             history.push(goTo(URL, "manage"))
         }
@@ -147,7 +152,7 @@ const CalendarOverview: React.FC<CalendarOverviewProps> = (props) => {
                         <Route
                             exact
                             path={`${URL}/manage/`}
-                            render={() => <RequestList requests={requestedVacations} />}
+                            render={() => <VacationRequestList requests={requestedVacations} />}
                         />
                         <Route exact path={`${URL}/manage/:id`} render={renderSingleRequest} />
                     </Switch>

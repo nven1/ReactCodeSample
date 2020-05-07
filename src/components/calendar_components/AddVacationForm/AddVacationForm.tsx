@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react"
-import styles from "./CalendarAdd.module.scss"
+import styles from "./AddVacationForm.module.scss"
 import { useSelector, useDispatch } from "react-redux"
 import { selectMe } from "../../../reducers/UserReducer"
 import CalendarCore from "../CalendarCore/CalendarCore"
@@ -14,10 +14,11 @@ import Endpoints from "../../../environments/endpoints"
 import { goTo } from "../../../utils/navHelpers"
 import { formatDate } from "../../../utils/dateHelpers"
 import Item from "../../common_components/text/Item/Item"
+import moment from "moment"
 
-interface CalendarAddProps {}
+interface AddVacationFormProps {}
 
-const CalendarAdd: React.FC<CalendarAddProps> = (props) => {
+const AddVacationForm: React.FC<AddVacationFormProps> = (props) => {
     const dispatch = useDispatch()
     const history = useHistory()
 
@@ -42,9 +43,17 @@ const CalendarAdd: React.FC<CalendarAddProps> = (props) => {
         setSelected(data)
     }
 
+    const substractDay = (date: string) => {
+        return moment(new Date(date)).subtract(1, "days").toISOString()
+    }
+
     const onSubmit = () => {
         if (me && selected) {
-            const data: CalendarRequestType = { userId: me.id, startingDate: selected.start, endingDate: selected.end }
+            const data: CalendarRequestType = {
+                userId: me.id,
+                startingDate: selected.start,
+                endingDate: substractDay(selected.end),
+            }
             CalendarDataAccess.requestVacation(dispatch)(data, onSuccess)
         }
     }
@@ -77,7 +86,7 @@ const CalendarAdd: React.FC<CalendarAddProps> = (props) => {
                 <Subtitle>Request</Subtitle>
                 <div className={styles.form}>
                     <Item bold label="From" children={selected ? formatDate(selected.start) : "-"} />
-                    <Item bold label="To" children={selected ? formatDate(selected.end) : "-"} />
+                    <Item bold label="To" children={selected ? formatDate(substractDay(selected.end)) : "-"} />
                     <div className={styles.submitContainer}>
                         <Button color="purple" onClick={onSubmit}>
                             SUBMIT
@@ -88,4 +97,4 @@ const CalendarAdd: React.FC<CalendarAddProps> = (props) => {
         </div>
     )
 }
-export default CalendarAdd
+export default AddVacationForm

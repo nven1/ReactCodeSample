@@ -5,19 +5,20 @@ import { useSelector, useDispatch } from "react-redux"
 import { selectDepartments } from "../../../reducers/DepartmentReducer"
 import Department from "../../departments_components/Department/Department"
 import OverflowButton from "../../departments_components/OverflowButton/OverflowButton"
-import AddDepartment from "../../departments_components/AddDepartment/AddDepartment"
+import AddDepartmentForm from "../../departments_components/AddDepartmentForm/AddDepartmentForm"
 import { selectIsAdmin } from "../../../reducers/UserReducer"
 import DepartmentDataAccess from "../../../data_access/DepartmentDataAccess"
-import { RouteComponentProps, useParams, Switch, Route } from "react-router"
+import { useParams, Switch, Route, useHistory } from "react-router"
 import Endpoints from "../../../environments/endpoints"
 import { goTo, isNum } from "../../../utils/navHelpers"
 
-interface DepartmentsProps extends RouteComponentProps {}
+interface DepartmentsProps {}
 
 const URL = Endpoints.appEndpoints.departments
 
 const Departments: React.FC<DepartmentsProps> = (props) => {
     const dispatch = useDispatch()
+    const history = useHistory()
 
     const departments = useSelector(selectDepartments)
     const isAdmin = useSelector(selectIsAdmin)
@@ -31,7 +32,7 @@ const Departments: React.FC<DepartmentsProps> = (props) => {
     }, [])
 
     const navigate = (param: string) => () => {
-        props.history.push(goTo(URL, param))
+        history.push(goTo(URL, param))
     }
 
     const renderAll = () => {
@@ -72,7 +73,7 @@ const Departments: React.FC<DepartmentsProps> = (props) => {
     }
 
     const buttons = departments.map((dp) => {
-        return { key: dp.id.toString(), name: dp.name }
+        return { key: dp.id.toString(), text: dp.name }
     })
 
     return (
@@ -92,10 +93,10 @@ const Departments: React.FC<DepartmentsProps> = (props) => {
                         <Route
                             exact
                             path={`${URL}/add`}
-                            render={() => <AddDepartment onSubmit={handleAddDepartment} />}
+                            render={() => <AddDepartmentForm onSubmit={handleAddDepartment} />}
                         />
                     )}
-                    {departments.length > 0 && <Route path="*">aaaa</Route>}
+                    {departments.length > 0 && <Route path="*">Insert a 404 screen</Route>}
                 </Switch>
             </div>
         </div>

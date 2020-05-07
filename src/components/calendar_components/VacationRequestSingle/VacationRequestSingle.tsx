@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react"
-import styles from "./RequestSingle.module.scss"
+import styles from "./VacationRequestSingle.module.scss"
 import Card from "../../common_components/containers/Card/Card"
 import { useHistory } from "react-router"
 import Endpoints from "../../../environments/endpoints"
@@ -12,13 +12,13 @@ import Button from "../../common_components/buttons/Button/Button"
 import { formatDate } from "../../../utils/dateHelpers"
 import Item from "../../common_components/text/Item/Item"
 
-interface RequestSingleProps {
+interface VacationRequestSingleProps {
     request: VacationRequestReviewType
 }
 
 const URL = Endpoints.appEndpoints.calendar
 
-const RequestSingle: React.FC<RequestSingleProps> = (props) => {
+const VacationRequestSingle: React.FC<VacationRequestSingleProps> = (props) => {
     const dispatch = useDispatch()
     const history = useHistory()
 
@@ -71,4 +71,4 @@ const RequestSingle: React.FC<RequestSingleProps> = (props) => {
         </div>
     )
 }
-export default RequestSingle
+export default VacationRequestSingle

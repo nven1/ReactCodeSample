@@ -1,6 +1,6 @@
 import React from "react"
 import "./Header.style.scss"
-import { withRouter, RouteComponentProps } from "react-router"
+import { useHistory } from "react-router"
 import NavButton from "../../buttons/NavButton/NavButton"
 import Logo from "../../../unique/Logo/Logo"
 import NavButtonDropdown from "../../buttons/NavButtonDropdown/NavButtonDropdown"
@@ -11,19 +11,18 @@ import UserDataAccess from "../../../../data_access/UserDataAccess"
 import { selectMe } from "../../../../reducers/UserReducer"
 import { Token } from "../../../../utils/storageKeys"
 
-interface HeaderProps extends RouteComponentProps {
-    //
-}
+interface HeaderProps {}
 
 const Header: React.FC<HeaderProps> = (props) => {
     const dispatch = useDispatch()
+    const history = useHistory()
 
     const me = useSelector(selectMe)
 
     const handleLogout = () => {
         UserDataAccess.clearUserReducer(dispatch)()
         localStorage.removeItem(Token)
-        props.history.push(Endpoints.appEndpoints.root)
+        history.push(Endpoints.appEndpoints.root)
     }
 
     return (
@@ -43,4 +42,4 @@ const Header: React.FC<HeaderProps> = (props) => {
         </nav>
     )
 }
-export default withRouter(Header)
+export default Header

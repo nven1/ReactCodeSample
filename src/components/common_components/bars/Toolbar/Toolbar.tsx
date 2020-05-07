@@ -8,7 +8,7 @@ import { goTo } from "../../../../utils/navHelpers"
 
 export interface ToolbarButtonItemType {
     key: string
-    name: string
+    text: string
 }
 
 interface ToolbarProps extends RouteComponentProps {
@@ -28,7 +28,7 @@ const Toolbar: React.FC<ToolbarProps> = (props) => {
             return (
                 <Link to={goTo(props.url, button.key.toString())} key={button.key}>
                     <TextButton color={isActive ? "purple" : "grey"} noHover={isActive} bold>
-                        {button.name}
+                        {button.text}
                     </TextButton>
                 </Link>
             )

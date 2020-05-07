@@ -3,7 +3,7 @@ import styles from "./Calendar.module.scss"
 import { useParams, Switch, Route, Redirect } from "react-router"
 import Endpoints from "../../../environments/endpoints"
 import CalendarManage from "../../calendar_components/CalendarManage/CalendarManage"
-import CalendarAdd from "../../calendar_components/CalendarAdd/CalendarAdd"
+import AddVacationForm from "../../calendar_components/AddVacationForm/AddVacationForm"
 import Toolbar, { ToolbarButtonItemType } from "../../common_components/bars/Toolbar/Toolbar"
 import { isNum } from "../../../utils/navHelpers"
 import { useSelector } from "react-redux"
@@ -19,8 +19,8 @@ const Calendar: React.FC<CalendarProps> = (props) => {
     const isAdmin = useSelector(selectIsAdmin)
 
     const toolbarButtons: Array<ToolbarButtonItemType> = [
-        { key: "me", name: "Me" },
-        { key: "manage", name: "Manage" },
+        { key: "me", text: "Me" },
+        { key: "manage", text: "Manage" },
     ]
 
     const userTypeHome = isAdmin ? "manage" : "me"
@@ -38,7 +38,7 @@ const Calendar: React.FC<CalendarProps> = (props) => {
                 <Switch>
                     <Route exact path={`${URL}`} render={() => <Redirect to={`${URL}/${userTypeHome}`} />} />
                     <Route exact path={`${URL}/me`} component={CalendarMe} />
-                    <Route exact path={`${URL}/add`} component={CalendarAdd} />
+                    <Route exact path={`${URL}/add`} component={AddVacationForm} />
                     <Route exact path={`${URL}/manage/:id${isNum}?`} component={CalendarManage} />
                 </Switch>
             </div>
