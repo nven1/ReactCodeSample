@@ -19,8 +19,8 @@ const Paysheets: React.FC<PaysheetsProps> = (props) => {
     const me = useSelector(selectMe)
 
     const toolbarButtons: Array<ToolbarButtonItemType> = [
-        { key: "me", name: "Me" },
-        { key: "manage", name: "Manage" },
+        { key: "me", text: "Me" },
+        { key: "manage", text: "Manage" },
     ]
 
     const userTypeHome = isAdmin ? "manage" : "me"

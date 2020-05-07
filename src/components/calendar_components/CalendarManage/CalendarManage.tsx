@@ -17,7 +17,7 @@ import { goTo } from "../../../utils/navHelpers"
 import VacationRequestList from "../VacationRequestList/VacationRequestList"
 import VacationRequestSingle from "../VacationRequestSingle/VacationRequestSingle"
 import { CalendarEvent } from "../../../types/CalendarTypes"
-import { addDay } from "../../../utils/formattingHelpers"
+import { addDay } from "../../../utils/dateHelpers"
 
 interface CalendarOverviewProps {}
 
