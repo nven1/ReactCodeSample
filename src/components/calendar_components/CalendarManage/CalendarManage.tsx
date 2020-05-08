@@ -3,7 +3,6 @@ import styles from "./CalendarManage.module.scss"
 import { useParams, useHistory, Switch, Route } from "react-router-dom"
 import Endpoints from "../../../environments/endpoints"
 import { useDispatch, useSelector } from "react-redux"
-import { selectIsAdmin } from "../../../reducers/UserReducer"
 import Button from "../../common_components/buttons/Button/Button"
 import TextButton from "../../common_components/buttons/TextButton/TextButton"
 import CalendarCore from "../CalendarCore/CalendarCore"
@@ -26,7 +25,6 @@ const URL = Endpoints.appEndpoints.calendar
 const CalendarOverview: React.FC<CalendarOverviewProps> = (props) => {
     const dispatch = useDispatch()
 
-    const isAdmin = useSelector(selectIsAdmin)
     const approvedVacations = useSelector(selectApprovedVacations)
     const requestedVacations = useSelector(selectRequestedVacations)
     const approvedVacationUsersIds = useSelector(selectApprovedVacationUsersIds)
@@ -38,29 +36,25 @@ const CalendarOverview: React.FC<CalendarOverviewProps> = (props) => {
     const [tempEvent, setTempEvent] = useState<CalendarEvent>()
 
     useEffect(() => {
-        if (isAdmin !== undefined) {
-            if (isAdmin) {
-                CalendarDataAccess.getVacations(dispatch)()
-            } else {
-                history.push(goTo(URL, "me"))
-            }
-        }
+        CalendarDataAccess.getVacations(dispatch)()
 
         // eslint-disable-next-line
-    }, [isAdmin])
+    }, [])
 
     useEffect(() => {
         if (id === undefined) {
             setTempEvent(undefined)
         } else if (id && requestedVacations.length > 0) {
             const request = requestedVacations.filter((rId) => rId.id === Number(id))[0]
-            setTempEvent({
-                id: request.id,
-                title: `${request.user.firstName} ${request.user.lastName}`,
-                start: request.start,
-                end: addDay(request.end),
-                extendedProps: request.user,
-            })
+            if (request) {
+                setTempEvent({
+                    id: request.id,
+                    title: `${request.user.firstName} ${request.user.lastName}`,
+                    start: request.start,
+                    end: addDay(request.end),
+                    extendedProps: request.user,
+                })
+            }
         }
 
         // eslint-disable-next-line

@@ -76,16 +76,6 @@ const AddStaffForm: React.FC<AddStaffFormProps> = (props) => {
         // eslint-disable-next-line
     }, [props])
 
-    useEffect(() => {
-        if (isAdmin !== undefined && me !== undefined) {
-            if (props.user && !(isAdmin || me.id === props.user.id)) {
-                history.push(URL)
-            }
-        }
-
-        // eslint-disable-next-line
-    }, [isAdmin])
-
     const [modeState, setMode] = useState<Mode>(undefined)
 
     const onSubmit = (data: any) => {
