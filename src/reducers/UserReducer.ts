@@ -37,7 +37,7 @@ export const { getMyUserAction, clearUserReducerAction, getUsersAction, getRoles
 
 export const selectMe = (state: RootState) => state.users.me
 export const selectIsAdmin = (state: RootState) =>
-    state.users.me?.roles.filter((role) => role.name === ("admin" || "departmentManager")).length
+    !!state.users.me?.roles.filter((role) => role.name === ("admin" || "departmentManager")).length
 export const selectUsers = (state: RootState) => state.users.users
 export const selectRoles = (state: RootState) => state.users.roles
 
