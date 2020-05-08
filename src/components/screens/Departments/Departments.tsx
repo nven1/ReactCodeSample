@@ -8,9 +8,11 @@ import OverflowButton from "../../departments_components/OverflowButton/Overflow
 import AddDepartmentForm from "../../departments_components/AddDepartmentForm/AddDepartmentForm"
 import { selectIsAdmin } from "../../../reducers/UserReducer"
 import DepartmentDataAccess from "../../../data_access/DepartmentDataAccess"
-import { useParams, Switch, Route, useHistory } from "react-router"
+import { useParams, Route, useHistory } from "react-router"
 import Endpoints from "../../../environments/endpoints"
 import { goTo, isNum } from "../../../utils/navHelpers"
+import IfRoute from "../../common_components/navigation/IfRoute/IfRoute"
+import GuardedSwitch from "../../common_components/navigation/GuardedSwitch/GuardedSwitch"
 
 interface DepartmentsProps {}
 
@@ -44,8 +46,9 @@ const Departments: React.FC<DepartmentsProps> = (props) => {
     const renderSingle = () => {
         const dp = departments.filter((dp) => dp.id === Number(mode))[0]
         if (dp) {
-            return <Department department={dp} edit={Boolean(edit)} />
+            return <Department department={dp} edit={edit === "edit" && isAdmin} />
         }
+        history.push(URL)
     }
 
     const handleAddDepartment = () => {
@@ -56,7 +59,7 @@ const Departments: React.FC<DepartmentsProps> = (props) => {
         if (!mode) {
             return "add"
         } else if (mode !== undefined && !isNaN(Number(mode))) {
-            return edit ? mode : `${mode}/edit`
+            return edit === "edit" ? mode : `${mode}/edit`
         }
         return URL
     }
@@ -66,7 +69,7 @@ const Departments: React.FC<DepartmentsProps> = (props) => {
             if (!mode) {
                 return "Add department"
             } else if (!isNaN(Number(mode))) {
-                return edit ? "Stop editing" : "Edit Department"
+                return edit === "edit" ? "Stop editing" : "Edit Department"
             }
         }
         return undefined
@@ -86,18 +89,18 @@ const Departments: React.FC<DepartmentsProps> = (props) => {
                 onAction={toolbarResolver()}
             />
             <div className={styles.content}>
-                <Switch>
+                <GuardedSwitch>
                     <Route exact path={URL} render={renderAll} />
-                    <Route path={`${URL}/:mode${isNum}`} render={renderSingle} />
-                    {isAdmin && (
-                        <Route
-                            exact
-                            path={`${URL}/add`}
-                            render={() => <AddDepartmentForm onSubmit={handleAddDepartment} />}
-                        />
-                    )}
-                    {departments.length > 0 && <Route path="*">Insert a 404 screen</Route>}
-                </Switch>
+                    <Route exact path={`${URL}/:mode${isNum}`} render={renderSingle} />
+                    <IfRoute if={isAdmin} exact path={`${URL}/:mode${isNum}/edit`} render={renderSingle} />
+                    <IfRoute
+                        if={isAdmin}
+                        exact
+                        path={`${URL}/add`}
+                        render={() => <AddDepartmentForm onSubmit={handleAddDepartment} />}
+                    />
+                    <Route path="*">insert 404 here</Route>
+                </GuardedSwitch>
             </div>
         </div>
     )
