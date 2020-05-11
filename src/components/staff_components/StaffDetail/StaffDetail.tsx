@@ -114,21 +114,17 @@ const StaffDetail: React.FC<StaffDetailProps> = (props) => {
                         <LinkButton to={goTo(URL, mode ?? "", "edit")} color="purple">
                             Edit Info
                         </LinkButton>
-                        <div className={styles.buttonAdjust}>
-                            <Button color="purple" onClick={handleSetDialogState("reset")}>
-                                Reset Password
-                            </Button>
-                        </div>
+                        <Button color="purple" onClick={handleSetDialogState("reset")}>
+                            Reset Password
+                        </Button>
                         {isAdmin && (
                             <LinkButton to={goTo(URL, mode ?? "", "set_leave")} color="purple">
                                 Set Annual Leave
                             </LinkButton>
                         )}
-                        <div className={styles.buttonAdjust}>
-                            <Button color="red" onClick={handleSetDialogState("deactivate")}>
-                                Deactivate
-                            </Button>
-                        </div>
+                        <Button color="red" onClick={handleSetDialogState("deactivate")}>
+                            Deactivate
+                        </Button>
                     </div>
                 </Card>
             )}
