@@ -4,7 +4,7 @@ import Card from "../../common_components/containers/Card/Card"
 import { useHistory } from "react-router"
 import Endpoints from "../../../environments/endpoints"
 import { goTo } from "../../../utils/navHelpers"
-import { VacationRequestReviewType } from "../../../types/CalendarTypes"
+import { VacationRequestReviewType, UserDaysLeft } from "../../../types/CalendarTypes"
 import CalendarDataAccess from "../../../data_access/CalendarDataAccess"
 import { useDispatch } from "react-redux"
 import Title from "../../common_components/text/Title/Title"
@@ -29,8 +29,8 @@ const VacationRequestSingle: React.FC<VacationRequestSingleProps> = (props) => {
         // eslint-disable-next-line
     }, [])
 
-    const onSuccessDaysRemaining = (days: number) => {
-        setDaysRemaining(days)
+    const onSuccessDaysRemaining = (days: UserDaysLeft) => {
+        setDaysRemaining(days.total)
     }
 
     const handleClose = () => {
