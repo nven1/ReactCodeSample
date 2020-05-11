@@ -11,6 +11,8 @@ interface CalendarCoreProps {
     onSelect?: (data: CalendarSelectType) => void
 }
 
+const calendarRange = `${new Date().getFullYear() + 1}-07-01`
+
 const CalendarCore: React.FC<CalendarCoreProps> = (props) => {
     const calendarComponentRef = React.createRef<FullCalendar>()
 
@@ -43,6 +45,9 @@ const CalendarCore: React.FC<CalendarCoreProps> = (props) => {
             eventLimit
             selectable={!!props.onSelect}
             select={handleSelect}
+            validRange={{
+                end: calendarRange,
+            }}
             views={{
                 timegrid: {
                     eventLimit: 3,
