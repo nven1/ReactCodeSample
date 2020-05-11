@@ -48,7 +48,9 @@ const approveVacation = (dispatch: Dispatch<any>) => (id: number, onSuccess: () 
             getVacations(dispatch)()
             onSuccess()
         })
-        .catch((error) => {})
+        .catch((error) => {
+            alert(error.response.data.errorMessage)
+        })
 }
 
 const declineVacation = (dispatch: Dispatch<any>) => (id: number, onSuccess: () => void) => {
