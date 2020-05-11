@@ -49,7 +49,7 @@ const CalendarOverview: React.FC<CalendarOverviewProps> = (props) => {
             if (request) {
                 setTempEvent({
                     id: request.id,
-                    title: `${request.user.firstName} ${request.user.lastName}`,
+                    title: "Preview",
                     start: request.start,
                     end: addDay(request.end),
                     extendedProps: request.user,
