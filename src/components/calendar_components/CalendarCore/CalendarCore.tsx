@@ -4,6 +4,10 @@ import FullCalendar from "@fullcalendar/react"
 import dayGridPlugin from "@fullcalendar/daygrid"
 import interactionPlugin from "@fullcalendar/interaction"
 import { CalendarEvent, CalendarSelectType } from "../../../types/CalendarTypes"
+import { useSelector, useDispatch } from "react-redux"
+import { selectHolidays } from "../../../reducers/CalendarReducer"
+import CalendarDataAccess from "../../../data_access/CalendarDataAccess"
+import { previewEventStyle } from "../../../utils/eventStylings"
 
 interface CalendarCoreProps {
     events: Array<CalendarEvent>
@@ -14,7 +18,18 @@ interface CalendarCoreProps {
 const calendarRange = `${new Date().getFullYear() + 1}-07-01`
 
 const CalendarCore: React.FC<CalendarCoreProps> = (props) => {
+    const dispatch = useDispatch()
+    const holidays = useSelector(selectHolidays)
+
     const calendarComponentRef = React.createRef<FullCalendar>()
+
+    useEffect(() => {
+        if (holidays.length === 0) {
+            CalendarDataAccess.getHolidays(dispatch)()
+        }
+
+        // eslint-disable-next-line
+    }, [holidays])
 
     useEffect(() => {
         if (props.preview && calendarComponentRef) {
@@ -33,6 +48,12 @@ const CalendarCore: React.FC<CalendarCoreProps> = (props) => {
         }
     }
 
+    const eventRendererOptions = (info: any) => {
+        if (info.event.rendering === "background") {
+            info.el.title = info.event.title
+        }
+    }
+
     return (
         <FullCalendar
             defaultView="dayGridMonth"
@@ -45,6 +66,7 @@ const CalendarCore: React.FC<CalendarCoreProps> = (props) => {
             eventLimit
             selectable={!!props.onSelect}
             select={handleSelect}
+            eventRender={eventRendererOptions}
             validRange={{
                 end: calendarRange,
             }}
@@ -53,7 +75,7 @@ const CalendarCore: React.FC<CalendarCoreProps> = (props) => {
                     eventLimit: 3,
                 },
             }}
-            events={[...props.events, props.preview ?? {}]}
+            events={[...props.events, { ...props.preview, ...previewEventStyle } ?? {}, ...holidays]}
         />
     )
 }
