@@ -42,4 +42,25 @@ export const mockPaysheets: Array<PaysheetType> = [
         month: 0,
         type: "SALARY",
     },
+    {
+        id: 6,
+        userId: 1,
+        year: 2019,
+        month: 5,
+        type: "SALARY",
+    },
+    {
+        id: 7,
+        userId: 1,
+        year: 2020,
+        month: 6,
+        type: "SALARY",
+    },
+    {
+        id: 8,
+        userId: 1,
+        year: 2020,
+        month: 7,
+        type: "SALARY",
+    },
 ]

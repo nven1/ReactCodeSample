@@ -1,4 +1,44 @@
+@import "../../../styles/index.scss";
+
 .container {
     display: grid;
     grid-template-columns: max-content;
+}
+
+.months {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    margin-left: 3em;
+    width: 18em;
+    overflow-x: hidden;
+    button {
+        margin-top: 1em;
+    }
+}
+
+.accordion {
+    button:first-child {
+        font-size: 1em;
+    }
+}
+
+.accordionChildrenContainer {
+    border-left: 1px solid rgba(0, 0, 0, 0.1);
+    margin: 0.5em 0 0.5em;
+    padding: 0.5em 1em;
+    padding-right: 0;
+    font-size: 0.9em;
+}
+
+.accordionChild {
+    margin: 0.25em 0;
+    display: grid;
+    grid-template-columns: max-content max-content;
+    justify-content: space-between;
+    align-items: center;
+    justify-items: flex-start;
+    button {
+        margin-top: 0;
+    }
 }

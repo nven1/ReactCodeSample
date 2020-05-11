@@ -5,8 +5,11 @@ import { selectIsAdmin, selectMe } from "../../../reducers/UserReducer"
 import { mockPaysheets } from "../../paysheet_components/paysheets.mock"
 import Toolbar, { ToolbarButtonItemType } from "../../common_components/bars/Toolbar/Toolbar"
 import Endpoints from "../../../environments/endpoints"
-import { Switch, Route, Redirect } from "react-router"
+import { Route } from "react-router"
 import UserPaysheets from "../../paysheet_components/UserPaysheets/UserPaysheets"
+import { isNum } from "../../../utils/navHelpers"
+import GuardedSwitch from "../../common_components/navigation/GuardedSwitch/GuardedSwitch"
+import IfRoute from "../../common_components/navigation/IfRoute/IfRoute"
 
 interface PaysheetsProps {
     //
@@ -25,20 +28,6 @@ const Paysheets: React.FC<PaysheetsProps> = (props) => {
 
     const userTypeHome = isAdmin ? "manage" : "me"
 
-    const renderSwitch = () => {
-        if (me && isAdmin !== undefined) {
-            return (
-                <Switch>
-                    <Route exact path={`${URL}`} render={() => <Redirect to={`${URL}/${userTypeHome}`} />} />
-                    <Route exact path={`${URL}/me`} render={renderMyPaysheets} />
-                    {/* <Route exact path={`${URL}/me`} component={CalendarMe} />
-                    <Route exact path={`${URL}/add`} component={CalendarAdd} />
-                    <Route exact path={`${URL}/manage/:id${isNum}?`} component={CalendarManage} /> */}
-                </Switch>
-            )
-        }
-    }
-
     const renderMyPaysheets = () => {
         if (me) {
             const paysheets = mockPaysheets.filter((paysheet) => paysheet.userId === me.id)
@@ -49,8 +38,13 @@ const Paysheets: React.FC<PaysheetsProps> = (props) => {
     return (
         <div className={styles.container}>
             <Toolbar label="Paysheets" url={URL} buttons={isAdmin ? toolbarButtons : [toolbarButtons[0]]} />
-            <div className={styles.page}>{renderSwitch()}</div>
-            {/* div.accordion>Item*3+h1.title */}
+            <div className={styles.page}>
+                <GuardedSwitch redirectTo={{ url: URL, to: userTypeHome }}>
+                    <Route exact path={`${URL}/me`} render={renderMyPaysheets} />
+                    <IfRoute if={isAdmin} exact path={`${URL}/manage/:id${isNum}?`} render={renderMyPaysheets} />
+                    <Route path="*">404</Route>
+                </GuardedSwitch>
+            </div>
         </div>
     )
 }
