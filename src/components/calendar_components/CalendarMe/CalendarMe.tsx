@@ -61,7 +61,7 @@ const CalendarMe: React.FC<CalendarMeProps> = (props) => {
             return myVacations.map((vacation) => {
                 const subtitle = vacation.status === "APPROVED" ? "Approved Leave" : "Requested Leave"
                 return (
-                    <div>
+                    <div key={vacation.id}>
                         <Subtitle>{subtitle}</Subtitle>
                         {vacationInfo(vacation)}
                         {vacation.status === "PENDING" && <span className={styles.status}>Awaiting approval</span>}
