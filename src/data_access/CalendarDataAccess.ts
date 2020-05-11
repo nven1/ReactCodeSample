@@ -2,8 +2,8 @@ import { Dispatch } from "redux"
 import axios from "axios"
 import Endpoints from "../environments/endpoints"
 import { AuthHeader } from "../utils/authHeader"
-import { getAllVacationsAction, getMyVacationsAction } from "../reducers/CalendarReducer"
-import { VacationType, UserDaysLeft, CalendarRequestType } from "../types/CalendarTypes"
+import { getAllVacationsAction, getMyVacationsAction, getHolidaysAction } from "../reducers/CalendarReducer"
+import { VacationType, UserDaysLeft, CalendarRequestType, CalendarHoliday } from "../types/CalendarTypes"
 
 const getVacations = (dispatch: Dispatch<any>) => () => {
     axios
@@ -75,6 +75,15 @@ const requestVacation = (dispatch: Dispatch<any>) => (data: CalendarRequestType,
         })
 }
 
+const getHolidays = (dispatch: Dispatch<any>) => () => {
+    axios
+        .get<Array<CalendarHoliday>>(`${Endpoints.apiEndpoint}/holidays`, AuthHeader())
+        .then((response) => {
+            dispatch(getHolidaysAction(response.data))
+        })
+        .catch((error) => {})
+}
+
 export default {
     getVacations,
     getMyVacations,
@@ -83,4 +92,5 @@ export default {
     declineVacation,
     requestVacation,
     getMyDaysRemaining,
+    getHolidays,
 }
