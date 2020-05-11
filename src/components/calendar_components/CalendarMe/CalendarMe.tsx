@@ -10,8 +10,12 @@ import Card from "../../common_components/containers/Card/Card"
 import CalendarCore from "../CalendarCore/CalendarCore"
 import { formatDate, addDay } from "../../../utils/dateHelpers"
 import Item from "../../common_components/text/Item/Item"
+import moment from "moment"
 
 interface CalendarMeProps {}
+
+const thisYear = moment().format("YYYY")
+const lastYear = moment().subtract(1, "year").format("YYYY")
 
 const CalendarMe: React.FC<CalendarMeProps> = (props) => {
     const dispatch = useDispatch()
@@ -91,8 +95,8 @@ const CalendarMe: React.FC<CalendarMeProps> = (props) => {
                 {me && (
                     <>
                         <Subtitle>{`${me.firstName} ${me.lastName}`}</Subtitle>
-                        <Item bold label="2019" children={daysRemaining?.previousYear} />
-                        <Item bold label="2020" children={daysRemaining?.currentYear} />
+                        <Item bold label={lastYear} children={daysRemaining?.previousYear} />
+                        <Item bold label={thisYear} children={daysRemaining?.currentYear} />
                         <Item bold label="Total days remaining" children={daysRemaining?.total} />
 
                         <div className={styles.content}>{renderRequests()}</div>
