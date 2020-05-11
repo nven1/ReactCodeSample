@@ -48,9 +48,8 @@ const AddVacationForm: React.FC<AddVacationFormProps> = (props) => {
     }
 
     const onSubmit = () => {
-        if (me && selected) {
+        if (selected) {
             const data: CalendarRequestType = {
-                userId: me.id,
                 startingDate: selected.start,
                 endingDate: substractDay(selected.end),
             }

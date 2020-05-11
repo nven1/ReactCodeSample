@@ -41,7 +41,6 @@ export interface CalendarSelectType {
 }
 
 export interface CalendarRequestType {
-    userId: number
     startingDate: string
     endingDate: string
 }
