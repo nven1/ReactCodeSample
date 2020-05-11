@@ -3,7 +3,7 @@ import styles from "./CalendarMe.module.scss"
 import { useSelector, useDispatch } from "react-redux"
 import { selectMyVacations } from "../../../reducers/CalendarReducer"
 import { selectMe } from "../../../reducers/UserReducer"
-import { VacationRequestReviewType, CalendarEvent } from "../../../types/CalendarTypes"
+import { VacationRequestReviewType, CalendarEvent, UserDaysLeft } from "../../../types/CalendarTypes"
 import Subtitle from "../../common_components/text/Subtitle/Subtitle"
 import CalendarDataAccess from "../../../data_access/CalendarDataAccess"
 import Card from "../../common_components/containers/Card/Card"
@@ -20,11 +20,11 @@ const CalendarMe: React.FC<CalendarMeProps> = (props) => {
     const vacations = useSelector(selectMyVacations)
 
     const [myVacations, setMyVacations] = useState<Array<VacationRequestReviewType>>([])
-    const [daysRemaining, setDaysRemaining] = useState<number>()
+    const [daysRemaining, setDaysRemaining] = useState<UserDaysLeft>()
 
     useEffect(() => {
         if (me) {
-            CalendarDataAccess.getUserDaysRemaining(dispatch)(me.id, onSuccessDaysRemaining)
+            CalendarDataAccess.getMyDaysRemaining(dispatch)(onSuccessDaysRemaining)
             CalendarDataAccess.getMyVacations(dispatch)()
         }
 
@@ -40,7 +40,7 @@ const CalendarMe: React.FC<CalendarMeProps> = (props) => {
         // eslint-disable-next-line
     }, [vacations])
 
-    const onSuccessDaysRemaining = (days: number) => {
+    const onSuccessDaysRemaining = (days: UserDaysLeft) => {
         setDaysRemaining(days)
     }
 
@@ -91,7 +91,9 @@ const CalendarMe: React.FC<CalendarMeProps> = (props) => {
                 {me && (
                     <>
                         <Subtitle>{`${me.firstName} ${me.lastName}`}</Subtitle>
-                        <Item bold label="Days remaining" children={daysRemaining} />
+                        <Item bold label="2019" children={daysRemaining?.previousYear} />
+                        <Item bold label="2020" children={daysRemaining?.currentYear} />
+                        <Item bold label="Total days remaining" children={daysRemaining?.total} />
 
                         <div className={styles.content}>{renderRequests()}</div>
                     </>
