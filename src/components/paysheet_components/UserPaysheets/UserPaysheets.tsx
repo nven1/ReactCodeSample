@@ -34,8 +34,11 @@ const UserPaysheets: React.FC<UserPaysheetsProps> = (props) => {
 
     const sortPaychecks = (paysheets: Array<PaysheetType>) => {
         return paysheets.reduce((final: any, pay: PaysheetType) => {
-            final[createGroupName(pay)] = final[createGroupName(pay)] ?? []
-            final[createGroupName(pay)].push(pay)
+            const groupName = createGroupName(pay)
+            if (!final[groupName]) {
+                final[groupName] = []
+            }
+            final[groupName].push(pay)
             return final
         }, {})
     }
@@ -51,11 +54,8 @@ const UserPaysheets: React.FC<UserPaysheetsProps> = (props) => {
     const renderMonths = () => {
         if (months) {
             return Object.keys(months).map((month) => {
-                console.log(months[month])
-                console.log(month)
-
                 return (
-                    <div className={styles.accordion}>
+                    <div key={month} className={styles.accordion}>
                         <TextButton key={month} size="normal" color="purple" onClick={handleSetSelected(month)}>
                             {month}
                         </TextButton>
@@ -63,7 +63,7 @@ const UserPaysheets: React.FC<UserPaysheetsProps> = (props) => {
                             <div className={styles.accordionChildrenContainer}>
                                 {months[month].map((item: PaysheetType) => {
                                     return (
-                                        <div className={styles.accordionChild}>
+                                        <div key={item.id} className={styles.accordionChild}>
                                             <TextButton color="purple">{`${month} - ${item.type}`}</TextButton>
                                             <Button color="red" size="small">
                                                 Add
