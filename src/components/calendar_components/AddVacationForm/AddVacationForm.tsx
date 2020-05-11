@@ -8,7 +8,7 @@ import Title from "../../common_components/text/Title/Title"
 import CalendarDataAccess from "../../../data_access/CalendarDataAccess"
 import Subtitle from "../../common_components/text/Subtitle/Subtitle"
 import Button from "../../common_components/buttons/Button/Button"
-import { CalendarSelectType, CalendarEvent, CalendarRequestType } from "../../../types/CalendarTypes"
+import { CalendarSelectType, CalendarEvent, CalendarRequestType, UserDaysLeft } from "../../../types/CalendarTypes"
 import { useHistory } from "react-router"
 import Endpoints from "../../../environments/endpoints"
 import { goTo } from "../../../utils/navHelpers"
@@ -29,14 +29,14 @@ const AddVacationForm: React.FC<AddVacationFormProps> = (props) => {
 
     useEffect(() => {
         if (me) {
-            CalendarDataAccess.getUserDaysRemaining(dispatch)(me.id, onSuccessDaysRemaining)
+            CalendarDataAccess.getMyDaysRemaining(dispatch)(onSuccessDaysRemaining)
         }
 
         // eslint-disable-next-line
     }, [me])
 
-    const onSuccessDaysRemaining = (days: number) => {
-        setDaysRemaining(days)
+    const onSuccessDaysRemaining = (days: UserDaysLeft) => {
+        setDaysRemaining(days.total)
     }
 
     const handleSelect = (data: CalendarSelectType) => {
