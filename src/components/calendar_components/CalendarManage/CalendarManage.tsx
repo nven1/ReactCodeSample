@@ -129,12 +129,18 @@ const CalendarOverview: React.FC<CalendarOverviewProps> = (props) => {
     return (
         <div className={styles.container}>
             <div className={styles.calendarContainer}>
-                <div className={styles.calendarFilter}>
-                    <Button color={selectedUsers.length > 0 ? "red" : "purple"} size="small" onClick={toggleSelectAll}>
-                        {selectedUsers.length > 0 ? "DESELECT ALL" : "SELECT ALL"}
-                    </Button>
-                    {renderUsersinFilter()}
-                </div>
+                {approvedVacations.length > 0 && (
+                    <div className={styles.calendarFilter}>
+                        <Button
+                            color={selectedUsers.length > 0 ? "red" : "purple"}
+                            size="small"
+                            onClick={toggleSelectAll}
+                        >
+                            {selectedUsers.length > 0 ? "DESELECT ALL" : "SELECT ALL"}
+                        </Button>
+                        {renderUsersinFilter()}
+                    </div>
+                )}
                 <div className={styles.calendar}>
                     <CalendarCore events={renderVacationsOnCalendar()} preview={tempEvent} />
                 </div>

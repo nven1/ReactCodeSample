@@ -16,6 +16,7 @@
 .calendarFilter {
     width: 8em;
     padding: 2em;
+    padding-right: 0;
     display: flex;
     flex-direction: column;
     align-items: flex-start;
@@ -33,5 +34,5 @@
 .calendar {
     grid-area: 1/2;
     overflow-y: auto;
-    padding: 1em 2em 1em 0;
+    padding: 1em 2em;
 }
