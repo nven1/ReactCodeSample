@@ -1,4 +1,4 @@
-import React, { useEffect } from "react"
+import React from "react"
 import styles from "./SetVacationDaysForm.module.scss"
 import Card from "../../common_components/containers/Card/Card"
 import Title from "../../common_components/text/Title/Title"
@@ -9,8 +9,7 @@ import { Controller, useForm } from "react-hook-form"
 import * as yup from "yup"
 import Endpoints from "../../../environments/endpoints"
 import UserDataAccess from "../../../data_access/UserDataAccess"
-import { useSelector, useDispatch } from "react-redux"
-import { selectIsAdmin } from "../../../reducers/UserReducer"
+import { useDispatch } from "react-redux"
 import { goTo } from "../../../utils/navHelpers"
 import { useHistory } from "react-router"
 
@@ -33,8 +32,6 @@ const SetVacationDaysForm: React.FC<SetVacationDaysFormProps> = (props) => {
     const dispatch = useDispatch()
     const history = useHistory()
 
-    const isAdmin = useSelector(selectIsAdmin)
-
     const { handleSubmit, errors, control } = useForm({
         validationSchema: SetLeaveSchema,
     })
@@ -52,54 +49,34 @@ const SetVacationDaysForm: React.FC<SetVacationDaysFormProps> = (props) => {
         history.push(goTo(Endpoints.appEndpoints.staff))
     }
 
-    useEffect(() => {
-        if (props.user === undefined) {
-            history.push(Endpoints.appEndpoints.staff)
-        }
-
-        // eslint-disable-next-line
-    }, [props.user])
-
-    useEffect(() => {
-        if (!isAdmin) {
-            history.push(Endpoints.appEndpoints.staff)
-        }
-
-        // eslint-disable-next-line
-    }, [isAdmin])
-
     return (
         <div className={styles.container}>
             <Card variation="dynamic">
-                {props.user && (
-                    <>
-                        <Title>Set Annual Leave</Title>
-                        <span className={styles.user}>{`${props.user.firstName} ${props.user.lastName}`}</span>
-                        <form className={styles.form} onSubmit={handleSubmit(onSubmit)}>
-                            <Controller
-                                as={<Input label="Year" error={errors.year} />}
-                                name="year"
-                                control={control}
-                                defaultValue={currentYear}
-                                min={currentYear - 1}
-                                max={currentYear + 1}
-                                type="number"
-                            />
+                <Title>Set Annual Leave</Title>
+                <span className={styles.user}>{`${props.user.firstName} ${props.user.lastName}`}</span>
+                <form className={styles.form} onSubmit={handleSubmit(onSubmit)}>
+                    <Controller
+                        as={<Input label="Year" error={errors.year} />}
+                        name="year"
+                        control={control}
+                        defaultValue={currentYear}
+                        min={currentYear - 1}
+                        max={currentYear + 1}
+                        type="number"
+                    />
 
-                            <Controller
-                                as={<Input label="Days" error={errors.year} />}
-                                name="days"
-                                control={control}
-                                defaultValue={20}
-                                min={0}
-                                type="number"
-                            />
-                            <Button color="purple" submit>
-                                Submit
-                            </Button>
-                        </form>
-                    </>
-                )}
+                    <Controller
+                        as={<Input label="Days" error={errors.year} />}
+                        name="days"
+                        control={control}
+                        defaultValue={20}
+                        min={0}
+                        type="number"
+                    />
+                    <Button color="purple" submit>
+                        Submit
+                    </Button>
+                </form>
             </Card>
         </div>
     )

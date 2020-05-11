@@ -9,7 +9,7 @@ import CalendarDataAccess from "../../../data_access/CalendarDataAccess"
 import { useDispatch } from "react-redux"
 import Title from "../../common_components/text/Title/Title"
 import Button from "../../common_components/buttons/Button/Button"
-import { formatDate } from "../../../utils/formattingHelpers"
+import { formatDate } from "../../../utils/dateHelpers"
 import Item from "../../common_components/text/Item/Item"
 
 interface VacationRequestSingleProps {

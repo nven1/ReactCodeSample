@@ -1,6 +1,6 @@
 import React from "react"
 import styles from "./Calendar.module.scss"
-import { useParams, Switch, Route, Redirect } from "react-router"
+import { useParams, Route } from "react-router"
 import Endpoints from "../../../environments/endpoints"
 import CalendarManage from "../../calendar_components/CalendarManage/CalendarManage"
 import AddVacationForm from "../../calendar_components/AddVacationForm/AddVacationForm"
@@ -9,7 +9,8 @@ import { isNum } from "../../../utils/navHelpers"
 import { useSelector } from "react-redux"
 import { selectIsAdmin } from "../../../reducers/UserReducer"
 import CalendarMe from "../../calendar_components/CalendarMe/CalendarMe"
-
+import GuardedSwitch from "../../common_components/navigation/GuardedSwitch/GuardedSwitch"
+import IfRoute from "../../common_components/navigation/IfRoute/IfRoute"
 interface CalendarProps {}
 
 const URL = Endpoints.appEndpoints.calendar
@@ -35,12 +36,12 @@ const Calendar: React.FC<CalendarProps> = (props) => {
                 buttons={isAdmin ? toolbarButtons : [toolbarButtons[0]]}
             />
             <div className={styles.page}>
-                <Switch>
-                    <Route exact path={`${URL}`} render={() => <Redirect to={`${URL}/${userTypeHome}`} />} />
+                <GuardedSwitch redirectTo={{ url: URL, to: userTypeHome }}>
+                    <IfRoute if={isAdmin} exact path={`${URL}/manage/:id${isNum}?`} component={CalendarManage} />
                     <Route exact path={`${URL}/me`} component={CalendarMe} />
                     <Route exact path={`${URL}/add`} component={AddVacationForm} />
-                    <Route exact path={`${URL}/manage/:id${isNum}?`} component={CalendarManage} />
-                </Switch>
+                    <Route path="*">404</Route>
+                </GuardedSwitch>
             </div>
         </div>
     )

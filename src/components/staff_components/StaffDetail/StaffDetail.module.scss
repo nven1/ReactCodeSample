@@ -7,19 +7,17 @@
     padding: 0 2em;
     height: 100%;
 
+    button {
+        width: 70%;
+        margin: 1em 0;
+    }
+
     a {
         width: 70%;
         button {
             width: 100%;
             margin: 1em 0;
         }
-    }
-}
-
-.buttonAdjust {
-    width: 70%;
-    button {
-        width: 100%;
     }
 }
 

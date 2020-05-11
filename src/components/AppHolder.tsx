@@ -8,6 +8,7 @@ import UserDataAccess from "../data_access/UserDataAccess"
 import Login from "./screens/Login/Login"
 import Staff from "./screens/Staff/Staff"
 import Calendar from "./screens/Calendar/Calendar"
+import Paysheets from "./screens/Paysheets/Paysheets"
 
 interface AppHolderProps extends RouteComponentProps {
     authenticated: boolean
@@ -36,6 +37,7 @@ const AppHolder: React.FC<AppHolderProps> = (props) => {
             <Route exact path={`${Endpoints.appEndpoints.departments}/:mode?/:edit?`} component={Departments} />
             <Route exact path={`${Endpoints.appEndpoints.staff}/:mode?/:action?`} component={Staff} />
             <Route path={`${Endpoints.appEndpoints.calendar}/:mode?/:id?`} component={Calendar} />
+            <Route path={`${Endpoints.appEndpoints.paysheets}/:mode?/:id?`} component={Paysheets} />
         </>
     )
 

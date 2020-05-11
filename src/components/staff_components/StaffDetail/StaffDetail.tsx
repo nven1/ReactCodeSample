@@ -15,27 +15,13 @@ import Dialog from "../../common_components/containers/Dialog/Dialog"
 import Button from "../../common_components/buttons/Button/Button"
 import UserDataAccess from "../../../data_access/UserDataAccess"
 import { Token } from "../../../utils/storageKeys"
+import { monthNames } from "../../../utils/dateHelpers"
 
 interface StaffDetailProps {
     user: UserType
 }
 
 const URL = Endpoints.appEndpoints.staff
-
-const monthNames = [
-    "January",
-    "February",
-    "March",
-    "April",
-    "May",
-    "June",
-    "July",
-    "August",
-    "September",
-    "October",
-    "November",
-    "December",
-]
 
 type DialogMode = undefined | "reset" | "deactivate"
 
@@ -128,21 +114,17 @@ const StaffDetail: React.FC<StaffDetailProps> = (props) => {
                         <LinkButton to={goTo(URL, mode ?? "", "edit")} color="purple">
                             Edit Info
                         </LinkButton>
-                        <div className={styles.buttonAdjust}>
-                            <Button color="purple" onClick={handleSetDialogState("reset")}>
-                                Reset Password
-                            </Button>
-                        </div>
+                        <Button color="purple" onClick={handleSetDialogState("reset")}>
+                            Reset Password
+                        </Button>
                         {isAdmin && (
                             <LinkButton to={goTo(URL, mode ?? "", "set_leave")} color="purple">
                                 Set Annual Leave
                             </LinkButton>
                         )}
-                        <div className={styles.buttonAdjust}>
-                            <Button color="red" onClick={handleSetDialogState("deactivate")}>
-                                Deactivate
-                            </Button>
-                        </div>
+                        <Button color="red" onClick={handleSetDialogState("deactivate")}>
+                            Deactivate
+                        </Button>
                     </div>
                 </Card>
             )}

@@ -8,7 +8,7 @@ import Subtitle from "../../common_components/text/Subtitle/Subtitle"
 import CalendarDataAccess from "../../../data_access/CalendarDataAccess"
 import Card from "../../common_components/containers/Card/Card"
 import CalendarCore from "../CalendarCore/CalendarCore"
-import { formatDate, addDay } from "../../../utils/formattingHelpers"
+import { formatDate, addDay } from "../../../utils/dateHelpers"
 import Item from "../../common_components/text/Item/Item"
 
 interface CalendarMeProps {}
