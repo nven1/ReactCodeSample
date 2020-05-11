@@ -31,8 +31,9 @@ export interface VacationRequestReviewType {
 }
 
 export interface UserDaysLeft {
-    year: number
-    daysLeftToBook: number
+    currentYear: number
+    previousYear: number
+    total: number
 }
 
 export interface CalendarSelectType {

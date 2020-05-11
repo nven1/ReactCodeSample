@@ -23,11 +23,20 @@ const getMyVacations = (dispatch: Dispatch<any>) => () => {
         .catch((error) => {})
 }
 
-const getUserDaysRemaining = (dispatch: Dispatch<any>) => (id: number, onSuccess: (days: number) => void) => {
+const getUserDaysRemaining = (dispatch: Dispatch<any>) => (id: number, onSuccess: (days: UserDaysLeft) => void) => {
     axios
-        .get<Array<UserDaysLeft>>(`${Endpoints.apiEndpoint}/vacation/${id}`, AuthHeader())
+        .get<UserDaysLeft>(`${Endpoints.apiEndpoint}/users/${id}/vacationDaysAvailable`, AuthHeader())
         .then((response) => {
-            onSuccess(response.data[0].daysLeftToBook)
+            onSuccess(response.data)
+        })
+        .catch((error) => {})
+}
+
+const getMyDaysRemaining = (dispatch: Dispatch<any>) => (onSuccess: (daysRemaining: UserDaysLeft) => void) => {
+    axios
+        .get<UserDaysLeft>(`${Endpoints.apiEndpoint}/users/me/vacationDaysAvailable`, AuthHeader())
+        .then((response) => {
+            onSuccess(response.data)
         })
         .catch((error) => {})
 }
@@ -64,4 +73,12 @@ const requestVacation = (dispatch: Dispatch<any>) => (data: CalendarRequestType,
         })
 }
 
-export default { getVacations, getMyVacations, getUserDaysRemaining, approveVacation, declineVacation, requestVacation }
+export default {
+    getVacations,
+    getMyVacations,
+    getUserDaysRemaining,
+    approveVacation,
+    declineVacation,
+    requestVacation,
+    getMyDaysRemaining,
+}
