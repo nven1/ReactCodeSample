@@ -45,3 +45,8 @@ export interface CalendarRequestType {
     startingDate: string
     endingDate: string
 }
+
+export interface CalendarHoliday {
+    name: string
+    date: string
+}

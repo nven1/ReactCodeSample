@@ -61,7 +61,9 @@ const CalendarOverview: React.FC<CalendarOverviewProps> = (props) => {
     }, [id, requestedVacations])
 
     useEffect(() => {
-        toggleSelectAll()
+        if (approvedVacationUsersIds.length > 0) {
+            setSelectedUsers(approvedVacationUsersIds)
+        }
 
         // eslint-disable-next-line
     }, [approvedVacationUsersIds])
