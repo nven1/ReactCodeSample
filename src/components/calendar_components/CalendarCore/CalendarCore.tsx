@@ -4,6 +4,7 @@ import FullCalendar from "@fullcalendar/react"
 import dayGridPlugin from "@fullcalendar/daygrid"
 import interactionPlugin from "@fullcalendar/interaction"
 import { CalendarEvent, CalendarSelectType } from "../../../types/CalendarTypes"
+import moment from "moment"
 
 interface CalendarCoreProps {
     events: Array<CalendarEvent>
@@ -11,8 +12,21 @@ interface CalendarCoreProps {
     onSelect?: (data: CalendarSelectType) => void
 }
 
+const calendarRange = `${moment().year() + 1}-07-01`
+
 const CalendarCore: React.FC<CalendarCoreProps> = (props) => {
+    const dispatch = useDispatch()
+    const holidays = useSelector(selectHolidays)
+
     const calendarComponentRef = React.createRef<FullCalendar>()
+
+    useEffect(() => {
+        if (holidays.length === 0) {
+            CalendarDataAccess.getHolidays(dispatch)()
+        }
+
+        // eslint-disable-next-line
+    }, [holidays])
 
     useEffect(() => {
         if (props.preview && calendarComponentRef) {
@@ -31,6 +45,12 @@ const CalendarCore: React.FC<CalendarCoreProps> = (props) => {
         }
     }
 
+    const eventRendererOptions = (info: any) => {
+        if (info.event.rendering === "background") {
+            info.el.title = info.event.title
+        }
+    }
+
     return (
         <FullCalendar
             defaultView="dayGridMonth"
@@ -43,12 +63,16 @@ const CalendarCore: React.FC<CalendarCoreProps> = (props) => {
             eventLimit
             selectable={!!props.onSelect}
             select={handleSelect}
+            eventRender={eventRendererOptions}
+            validRange={{
+                end: calendarRange,
+            }}
             views={{
                 timegrid: {
                     eventLimit: 3,
                 },
             }}
-            events={[...props.events, props.preview ?? {}]}
+            events={[...props.events, { ...props.preview, ...previewEventStyle } ?? {}, ...holidays]}
         />
     )
 }

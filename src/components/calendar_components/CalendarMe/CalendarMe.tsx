@@ -3,15 +3,19 @@ import styles from "./CalendarMe.module.scss"
 import { useSelector, useDispatch } from "react-redux"
 import { selectMyVacations } from "../../../reducers/CalendarReducer"
 import { selectMe } from "../../../reducers/UserReducer"
-import { VacationRequestReviewType, CalendarEvent } from "../../../types/CalendarTypes"
+import { VacationRequestReviewType, CalendarEvent, UserDaysLeft } from "../../../types/CalendarTypes"
 import Subtitle from "../../common_components/text/Subtitle/Subtitle"
 import CalendarDataAccess from "../../../data_access/CalendarDataAccess"
 import Card from "../../common_components/containers/Card/Card"
 import CalendarCore from "../CalendarCore/CalendarCore"
 import { formatDate, addDay } from "../../../utils/dateHelpers"
 import Item from "../../common_components/text/Item/Item"
+import moment from "moment"
 
 interface CalendarMeProps {}
+
+const thisYear = moment().format("YYYY")
+const lastYear = moment().subtract(1, "year").format("YYYY")
 
 const CalendarMe: React.FC<CalendarMeProps> = (props) => {
     const dispatch = useDispatch()
@@ -20,11 +24,11 @@ const CalendarMe: React.FC<CalendarMeProps> = (props) => {
     const vacations = useSelector(selectMyVacations)
 
     const [myVacations, setMyVacations] = useState<Array<VacationRequestReviewType>>([])
-    const [daysRemaining, setDaysRemaining] = useState<number>()
+    const [daysRemaining, setDaysRemaining] = useState<UserDaysLeft>()
 
     useEffect(() => {
         if (me) {
-            CalendarDataAccess.getUserDaysRemaining(dispatch)(me.id, onSuccessDaysRemaining)
+            CalendarDataAccess.getMyDaysRemaining(dispatch)(onSuccessDaysRemaining)
             CalendarDataAccess.getMyVacations(dispatch)()
         }
 
@@ -40,7 +44,7 @@ const CalendarMe: React.FC<CalendarMeProps> = (props) => {
         // eslint-disable-next-line
     }, [vacations])
 
-    const onSuccessDaysRemaining = (days: number) => {
+    const onSuccessDaysRemaining = (days: UserDaysLeft) => {
         setDaysRemaining(days)
     }
 
@@ -61,7 +65,7 @@ const CalendarMe: React.FC<CalendarMeProps> = (props) => {
             return myVacations.map((vacation) => {
                 const subtitle = vacation.status === "APPROVED" ? "Approved Leave" : "Requested Leave"
                 return (
-                    <div>
+                    <div key={vacation.id} className={styles.requests}>
                         <Subtitle>{subtitle}</Subtitle>
                         {vacationInfo(vacation)}
                         {vacation.status === "PENDING" && <span className={styles.status}>Awaiting approval</span>}
@@ -91,7 +95,9 @@ const CalendarMe: React.FC<CalendarMeProps> = (props) => {
                 {me && (
                     <>
                         <Subtitle>{`${me.firstName} ${me.lastName}`}</Subtitle>
-                        <Item bold label="Days remaining" children={daysRemaining} />
+                        <Item bold label={lastYear} children={daysRemaining?.previousYear} />
+                        <Item bold label={thisYear} children={daysRemaining?.currentYear} />
+                        <Item bold label="Total days remaining" children={daysRemaining?.total} />
 
                         <div className={styles.content}>{renderRequests()}</div>
                     </>

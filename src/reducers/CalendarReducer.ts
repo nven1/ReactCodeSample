@@ -1,21 +1,27 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit"
 import { RootState } from "../app/store"
-import { VacationType, CalendarEvent, VacationRequestReviewType } from "../types/CalendarTypes"
+import { VacationType, CalendarEvent, VacationRequestReviewType, CalendarHoliday } from "../types/CalendarTypes"
+import { holidayEventStyle } from "../utils/eventStylings"
 
 export interface CalendarState {
     vacations: Array<VacationType>
     myVacations: Array<VacationType>
+    holidays: Array<CalendarHoliday>
 }
 
 const initialState: CalendarState = {
     vacations: [],
     myVacations: [],
+    holidays: [],
 }
 
 export const slice = createSlice({
     name: "calendar",
     initialState,
     reducers: {
+        getHolidaysAction: (state, action: PayloadAction<CalendarHoliday[]>) => {
+            state.holidays = action.payload
+        },
         getAllVacationsAction: (state, action: PayloadAction<VacationType[]>) => {
             state.vacations = action.payload
         },
@@ -25,7 +31,7 @@ export const slice = createSlice({
     },
 })
 
-export const { getAllVacationsAction, getMyVacationsAction } = slice.actions
+export const { getAllVacationsAction, getMyVacationsAction, getHolidaysAction } = slice.actions
 
 export const selectMyVacations = (state: RootState) =>
     state.calendar.myVacations
@@ -69,6 +75,11 @@ export const selectRequestedVacations = (state: RootState) =>
                 status: requested.status,
             } as VacationRequestReviewType
         })
+
+export const selectHolidays = (state: RootState) =>
+    state.calendar.holidays.map((holiday) => {
+        return { title: holiday.name, start: holiday.date, ...holidayEventStyle }
+    })
 
 // returns list of ids of users with approved vacation (without duplicates)
 export const selectApprovedVacationUsersIds = (state: RootState) =>

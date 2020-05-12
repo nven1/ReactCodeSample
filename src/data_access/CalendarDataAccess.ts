@@ -2,8 +2,8 @@ import { Dispatch } from "redux"
 import axios from "axios"
 import Endpoints from "../environments/endpoints"
 import { AuthHeader } from "../utils/authHeader"
-import { getAllVacationsAction, getMyVacationsAction } from "../reducers/CalendarReducer"
-import { VacationType, UserDaysLeft, CalendarRequestType } from "../types/CalendarTypes"
+import { getAllVacationsAction, getMyVacationsAction, getHolidaysAction } from "../reducers/CalendarReducer"
+import { VacationType, UserDaysLeft, CalendarRequestType, CalendarHoliday } from "../types/CalendarTypes"
 
 const getVacations = (dispatch: Dispatch<any>) => () => {
     axios
@@ -23,11 +23,20 @@ const getMyVacations = (dispatch: Dispatch<any>) => () => {
         .catch((error) => {})
 }
 
-const getUserDaysRemaining = (dispatch: Dispatch<any>) => (id: number, onSuccess: (days: number) => void) => {
+const getUserDaysRemaining = (dispatch: Dispatch<any>) => (id: number, onSuccess: (days: UserDaysLeft) => void) => {
     axios
-        .get<Array<UserDaysLeft>>(`${Endpoints.apiEndpoint}/vacation/${id}`, AuthHeader())
+        .get<UserDaysLeft>(`${Endpoints.apiEndpoint}/users/${id}/vacationDaysAvailable`, AuthHeader())
         .then((response) => {
-            onSuccess(response.data[0].daysLeftToBook)
+            onSuccess(response.data)
+        })
+        .catch((error) => {})
+}
+
+const getMyDaysRemaining = (dispatch: Dispatch<any>) => (onSuccess: (daysRemaining: UserDaysLeft) => void) => {
+    axios
+        .get<UserDaysLeft>(`${Endpoints.apiEndpoint}/users/me/vacationDaysAvailable`, AuthHeader())
+        .then((response) => {
+            onSuccess(response.data)
         })
         .catch((error) => {})
 }
@@ -39,7 +48,9 @@ const approveVacation = (dispatch: Dispatch<any>) => (id: number, onSuccess: () 
             getVacations(dispatch)()
             onSuccess()
         })
-        .catch((error) => {})
+        .catch((error) => {
+            alert(error.response.data.errorMessage)
+        })
 }
 
 const declineVacation = (dispatch: Dispatch<any>) => (id: number, onSuccess: () => void) => {
@@ -64,4 +75,22 @@ const requestVacation = (dispatch: Dispatch<any>) => (data: CalendarRequestType,
         })
 }
 
-export default { getVacations, getMyVacations, getUserDaysRemaining, approveVacation, declineVacation, requestVacation }
+const getHolidays = (dispatch: Dispatch<any>) => () => {
+    axios
+        .get<Array<CalendarHoliday>>(`${Endpoints.apiEndpoint}/holidays`, AuthHeader())
+        .then((response) => {
+            dispatch(getHolidaysAction(response.data))
+        })
+        .catch((error) => {})
+}
+
+export default {
+    getVacations,
+    getMyVacations,
+    getUserDaysRemaining,
+    approveVacation,
+    declineVacation,
+    requestVacation,
+    getMyDaysRemaining,
+    getHolidays,
+}

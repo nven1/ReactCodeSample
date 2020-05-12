@@ -22,7 +22,7 @@ const VacationRequestList: React.FC<VacationRequestListProps> = (props) => {
 
     const list = props.requests.map((request) => {
         return (
-            <Item label={request.title} bold>
+            <Item key={request.id} label={request.title} bold>
                 <Button color="purple" size="small" onClick={handleClick(request.id)}>
                     Review
                 </Button>

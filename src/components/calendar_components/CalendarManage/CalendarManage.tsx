@@ -49,7 +49,7 @@ const CalendarOverview: React.FC<CalendarOverviewProps> = (props) => {
             if (request) {
                 setTempEvent({
                     id: request.id,
-                    title: `${request.user.firstName} ${request.user.lastName}`,
+                    title: "Preview",
                     start: request.start,
                     end: addDay(request.end),
                     extendedProps: request.user,
@@ -61,7 +61,9 @@ const CalendarOverview: React.FC<CalendarOverviewProps> = (props) => {
     }, [id, requestedVacations])
 
     useEffect(() => {
-        toggleSelectAll()
+        if (approvedVacationUsersIds.length > 0) {
+            setSelectedUsers(approvedVacationUsersIds)
+        }
 
         // eslint-disable-next-line
     }, [approvedVacationUsersIds])
@@ -129,12 +131,18 @@ const CalendarOverview: React.FC<CalendarOverviewProps> = (props) => {
     return (
         <div className={styles.container}>
             <div className={styles.calendarContainer}>
-                <div className={styles.calendarFilter}>
-                    <Button color={selectedUsers.length > 0 ? "red" : "purple"} size="small" onClick={toggleSelectAll}>
-                        {selectedUsers.length > 0 ? "DESELECT ALL" : "SELECT ALL"}
-                    </Button>
-                    {renderUsersinFilter()}
-                </div>
+                {approvedVacations.length > 0 && (
+                    <div className={styles.calendarFilter}>
+                        <Button
+                            color={selectedUsers.length > 0 ? "red" : "purple"}
+                            size="small"
+                            onClick={toggleSelectAll}
+                        >
+                            {selectedUsers.length > 0 ? "DESELECT ALL" : "SELECT ALL"}
+                        </Button>
+                        {renderUsersinFilter()}
+                    </div>
+                )}
                 <div className={styles.calendar}>
                     <CalendarCore events={renderVacationsOnCalendar()} preview={tempEvent} />
                 </div>
