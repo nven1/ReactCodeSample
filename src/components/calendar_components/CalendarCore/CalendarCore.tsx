@@ -4,6 +4,7 @@ import FullCalendar from "@fullcalendar/react"
 import dayGridPlugin from "@fullcalendar/daygrid"
 import interactionPlugin from "@fullcalendar/interaction"
 import { CalendarEvent, CalendarSelectType } from "../../../types/CalendarTypes"
+import moment from "moment"
 
 interface CalendarCoreProps {
     events: Array<CalendarEvent>
@@ -11,7 +12,7 @@ interface CalendarCoreProps {
     onSelect?: (data: CalendarSelectType) => void
 }
 
-const calendarRange = `${new Date().getFullYear() + 1}-07-01`
+const calendarRange = `${moment().year() + 1}-07-01`
 
 const CalendarCore: React.FC<CalendarCoreProps> = (props) => {
     const calendarComponentRef = React.createRef<FullCalendar>()
