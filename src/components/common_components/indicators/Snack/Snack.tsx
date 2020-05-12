@@ -4,7 +4,7 @@ import { CSSTransition } from "react-transition-group"
 import { selectError, setErrorAction } from "../../../../reducers/ErrorReducer"
 import { useSelector, useDispatch } from "react-redux"
 
-const duration = 3000
+const duration = 8000
 
 const Snack: React.FC = () => {
     const dispatch = useDispatch()
