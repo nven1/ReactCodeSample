@@ -15,10 +15,6 @@
     margin: 2em 0;
 }
 
-.item {
-    @extend %cardItem;
-}
-
 .status {
     @extend %center;
     margin-top: 1em;

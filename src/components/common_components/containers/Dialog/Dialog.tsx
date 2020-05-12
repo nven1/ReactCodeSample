@@ -2,7 +2,7 @@ import React from "react"
 import styles from "./Dialog.module.scss"
 import ClickAwayListener from "react-click-away-listener"
 
-interface DialogProps {
+export interface DialogProps {
     open: boolean
     onClose: () => void
 }

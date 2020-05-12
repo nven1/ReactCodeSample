@@ -45,17 +45,6 @@
     }
 }
 
-.item {
-    display: grid;
-    grid-template-columns: 1fr 30% 30%;
-
-    padding: 0.3em 0;
-    &:first-child {
-        @extend %textOverflow;
-        max-width: 40%;
-    }
-}
-
 .isManager {
     margin: 0 2em 1em;
 }
