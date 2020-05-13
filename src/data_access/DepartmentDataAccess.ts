@@ -4,7 +4,7 @@ import Endpoints from "../environments/endpoints"
 import { addDepartmentAction, getAllDepartmentsAction } from "../reducers/DepartmentReducer"
 import { DepartmentRequestType, DepartmentType } from "../types/DepartmentTypes"
 import { AuthHeader } from "../utils/authHeader"
-import { showError } from "./ErrorDataAccess"
+import { showError } from "../utils/errorHandlers"
 
 const getDepartments = (dispatch: Dispatch<any>) => () => {
     axios

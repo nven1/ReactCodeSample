@@ -13,7 +13,7 @@ import {
 import DepartmentDataAccess from "./DepartmentDataAccess"
 import { AuthHeader } from "../utils/authHeader"
 import { ResetPasswordType } from "../components/staff_components/StaffDetail/StaffDetail"
-import { showError } from "./ErrorDataAccess"
+import { showError } from "../utils/errorHandlers"
 
 const getMyUser = (dispatch: Dispatch<any>) => () => {
     axios

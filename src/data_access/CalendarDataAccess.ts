@@ -4,7 +4,7 @@ import Endpoints from "../environments/endpoints"
 import { AuthHeader } from "../utils/authHeader"
 import { getAllVacationsAction, getMyVacationsAction, getHolidaysAction } from "../reducers/CalendarReducer"
 import { VacationType, UserDaysLeft, CalendarRequestType, CalendarHoliday } from "../types/CalendarTypes"
-import { showError } from "./ErrorDataAccess"
+import { showError } from "../utils/errorHandlers"
 
 const getVacations = (dispatch: Dispatch<any>) => () => {
     axios
