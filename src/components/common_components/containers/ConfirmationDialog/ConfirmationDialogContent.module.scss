@@ -1,0 +1,25 @@
+@import "../../../../styles/index.scss";
+
+.container {
+    display: flex;
+    flex-direction: column;
+    height: max-content;
+    width: 25em;
+    background-color: $white;
+    text-align: center;
+
+    button {
+        margin: 0.5em 8em 3em;
+    }
+}
+
+.closeContainer {
+    display: flex;
+    justify-content: flex-end;
+    position: sticky;
+    top: 0;
+    pointer-events: none;
+    svg {
+        pointer-events: all;
+    }
+}

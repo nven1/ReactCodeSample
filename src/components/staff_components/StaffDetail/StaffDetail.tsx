@@ -16,6 +16,7 @@ import Button from "../../common_components/buttons/Button/Button"
 import UserDataAccess from "../../../data_access/UserDataAccess"
 import { Token } from "../../../utils/storageKeys"
 import { monthNames } from "../../../utils/dateHelpers"
+import ConfirmationDialogContent from "../../common_components/containers/ConfirmationDialog/ConfirmationDialogContent"
 
 interface StaffDetailProps {
     user: UserType
@@ -70,21 +71,15 @@ const StaffDetail: React.FC<StaffDetailProps> = (props) => {
     }
 
     const resetPasswordContent = (
-        <div className={styles.dialog}>
-            <Subtitle>{`Reset password for ${props.user.firstName} ${props.user.lastName}?`}</Subtitle>
-            <Button color="red" onClick={handleResetPassword}>
-                CONFIRM
-            </Button>
-        </div>
+        <ConfirmationDialogContent confirmAction={handleResetPassword} onClose={handleSetDialogState(undefined)}>
+            {`Reset password for ${props.user.firstName} ${props.user.lastName}?`}
+        </ConfirmationDialogContent>
     )
 
     const deactivateContent = (
-        <div className={styles.dialog}>
-            <Subtitle>{`Deactivate ${props.user.firstName} ${props.user.lastName}?`}</Subtitle>
-            <Button color="red" onClick={handleDeactivate}>
-                CONFIRM
-            </Button>
-        </div>
+        <ConfirmationDialogContent confirmAction={handleDeactivate} onClose={handleSetDialogState(undefined)}>
+            {`Deactivate ${props.user.firstName} ${props.user.lastName}?`}
+        </ConfirmationDialogContent>
     )
 
     const role = `${props.user.isManager ? "Head of" : "Staff in"} ${props.user.department.name}`
@@ -130,7 +125,7 @@ const StaffDetail: React.FC<StaffDetailProps> = (props) => {
             )}
             <BackgroundImage image={props.user.department.image} />
             <Dialog open={!!dialogState} onClose={handleSetDialogState(undefined)}>
-                <Card onClose={handleSetDialogState(undefined)}>{renderDialog()}</Card>
+                {renderDialog()}
             </Dialog>
         </>
     )
