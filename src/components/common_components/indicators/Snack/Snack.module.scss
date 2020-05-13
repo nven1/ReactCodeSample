@@ -1,0 +1,51 @@
+@import "../../../../styles/index.scss";
+
+.transition-enter {
+    opacity: 0.5;
+    transform: scale(0.8) translateY(5em);
+}
+
+.transition-enter-active {
+    opacity: 1;
+    transform: translateY(0);
+    transition: opacity 300ms, transform 300ms;
+}
+
+.transition-exit {
+    opacity: 0.3;
+}
+
+.transition-exit-active {
+    opacity: 0;
+    transform: scale(0.8) translateY(5em);
+    transition: opacity 200ms, transform 200ms;
+}
+
+.container {
+    position: absolute;
+    display: grid;
+    justify-content: center;
+    left: 0;
+    width: 100%;
+    height: 8em;
+    bottom: 0;
+}
+
+.snack {
+    z-index: 1000;
+    height: max-content;
+    width: 20em;
+    padding: 1em 2em;
+    background-color: $redPrimary;
+    color: $white;
+    font-weight: 400;
+    border-radius: 100px;
+    box-shadow: $shadow;
+    text-align: center;
+
+    &:hover {
+        transition: box-shadow 300ms ease-in-out;
+        cursor: pointer;
+        box-shadow: 0px 3px 30px rgba(0, 0, 0, 0.45);
+    }
+}

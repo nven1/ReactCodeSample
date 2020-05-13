@@ -13,6 +13,7 @@ import {
 import DepartmentDataAccess from "./DepartmentDataAccess"
 import { AuthHeader } from "../utils/authHeader"
 import { ResetPasswordType } from "../components/staff_components/StaffDetail/StaffDetail"
+import { showError } from "../utils/errorHandlers"
 
 const getMyUser = (dispatch: Dispatch<any>) => () => {
     axios
@@ -34,7 +35,7 @@ const reassignUser = (dispatch: Dispatch<any>) => (
             DepartmentDataAccess.getDepartments(dispatch)()
             onSuccess()
         })
-        .catch((error) => {})
+        .catch((error) => showError(dispatch)(error))
 }
 
 const clearUserReducer = (dispatch: Dispatch<any>) => () => {
@@ -67,7 +68,7 @@ const createUser = (dispatch: Dispatch<any>) => (user: UserCreateRequestType, on
             DepartmentDataAccess.getDepartments(dispatch)()
             onSuccess()
         })
-        .catch()
+        .catch((error) => showError(dispatch)(error))
 }
 
 const updateUser = (dispatch: Dispatch<any>) => (id: number, user: UserUpdateRequestType, onSuccess: () => void) => {
@@ -78,7 +79,7 @@ const updateUser = (dispatch: Dispatch<any>) => (id: number, user: UserUpdateReq
             DepartmentDataAccess.getDepartments(dispatch)()
             onSuccess()
         })
-        .catch()
+        .catch((error) => showError(dispatch)(error))
 }
 
 const deactivateUser = (dispatch: Dispatch<any>) => (id: number, onSuccess: () => void) => {
@@ -114,7 +115,7 @@ const setNumberOfVacationDays = (dispatch: Dispatch<any>) => (
             onSuccess()
         })
         .catch((error) => {
-            alert(error.response.data.errorMessage)
+            showError(dispatch)(error)
         })
 }
 

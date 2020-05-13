@@ -9,6 +9,7 @@ import Login from "./screens/Login/Login"
 import Staff from "./screens/Staff/Staff"
 import Calendar from "./screens/Calendar/Calendar"
 import Paysheets from "./screens/Paysheets/Paysheets"
+import Snack from "./common_components/indicators/Snack/Snack"
 
 interface AppHolderProps extends RouteComponentProps {
     authenticated: boolean
@@ -45,6 +46,7 @@ const AppHolder: React.FC<AppHolderProps> = (props) => {
         <>
             {props.authenticated && <Header />}
             <Switch>{props.authenticated ? loggedIn : notLoggedIn}</Switch>
+            <Snack />
         </>
     )
 }

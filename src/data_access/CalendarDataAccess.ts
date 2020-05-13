@@ -4,6 +4,7 @@ import Endpoints from "../environments/endpoints"
 import { AuthHeader } from "../utils/authHeader"
 import { getAllVacationsAction, getMyVacationsAction, getHolidaysAction } from "../reducers/CalendarReducer"
 import { VacationType, UserDaysLeft, CalendarRequestType, CalendarHoliday } from "../types/CalendarTypes"
+import { showError } from "../utils/errorHandlers"
 
 const getVacations = (dispatch: Dispatch<any>) => () => {
     axios
@@ -49,7 +50,7 @@ const approveVacation = (dispatch: Dispatch<any>) => (id: number, onSuccess: () 
             onSuccess()
         })
         .catch((error) => {
-            alert(error.response.data.errorMessage)
+            showError(dispatch)(error)
         })
 }
 
@@ -71,7 +72,7 @@ const requestVacation = (dispatch: Dispatch<any>) => (data: CalendarRequestType,
             onSuccess()
         })
         .catch((error) => {
-            alert(error.response.data.errorMessage)
+            showError(dispatch)(error)
         })
 }
 
