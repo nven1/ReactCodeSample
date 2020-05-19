@@ -7,11 +7,13 @@
     margin: 3em;
     display: flex;
     flex-direction: column;
+    height: max-content;
     div {
+        width: 100%;
         margin-bottom: 2em;
     }
     button {
-        margin: 0 3em;
-        padding: 1.2em;
+        display: grid;
+        padding: 1.2em 3em;
     }
 }

@@ -1,0 +1,71 @@
+@import "../../../styles/index.scss";
+
+form {
+    display: grid;
+    align-content: flex-start;
+    height: 100%;
+    row-gap: 1em;
+}
+
+.dualButton {
+    width: 100%;
+    display: flex;
+    div {
+        margin: 0 3em;
+        width: 100%;
+        button {
+            width: 50%;
+            padding-top: 0.8em;
+            padding-bottom: 0.8em;
+        }
+        button:first-child {
+            border-top-right-radius: 0;
+            border-bottom-right-radius: 0;
+        }
+        button:last-child {
+            border-top-left-radius: 0;
+            border-bottom-left-radius: 0;
+        }
+    }
+}
+
+.uploadSection {
+    display: flex;
+    margin: 0 3em;
+    align-items: center;
+    label {
+        @extend %buttonPreset;
+        background-color: $purplePrimary;
+        padding: 0.5em 1.5em;
+        color: $white;
+        font-size: 0.8em;
+        font-weight: 500;
+        &:hover {
+            transition: 200ms ease-in-out;
+            background-color: $purpleSecondary;
+        }
+        input {
+            display: none;
+        }
+    }
+    span {
+        @extend %textOverflow;
+        margin-left: 0.5em;
+        color: $purplePrimary;
+        font-size: 0.8em;
+    }
+}
+
+.errorUpload {
+    @extend .uploadSection;
+    label {
+        background-color: $redPrimary;
+        &:hover {
+            background-color: $purplePrimary;
+        }
+    }
+}
+
+.submit {
+    @extend %center;
+}
