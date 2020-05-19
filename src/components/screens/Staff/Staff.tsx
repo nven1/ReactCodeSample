@@ -52,7 +52,7 @@ const Staff: React.FC<StaffProps> = (props) => {
             <Toolbar url={URL} label="Staff" actionLabel={toolbarActionButtonLabel()} onAction={"add"} />
             <div className={styles.content}>
                 <GuardedSwitch>
-                    <Route exact path={URL} render={() => <StaffOverview users={users} />} />
+                    <Route exact path={URL} render={() => <StaffOverview users={users} linkTo={URL} />} />
                     <IfRoute if={isAdmin} exact path={`${URL}/add`} component={AddStaffForm} />
                     <IfRoute
                         if={!!user}
