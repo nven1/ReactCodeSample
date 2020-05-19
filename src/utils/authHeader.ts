@@ -1,12 +1,12 @@
 import { Token } from "./storageKeys"
 
-export const AuthHeader = (formData?: boolean) => {
+export const AuthHeader = (contentType?: string) => {
     const token = localStorage.getItem(Token)
-    if (formData) {
+    if (contentType) {
         return {
             headers: {
                 Authorization: `Bearer ${token}`,
-                "content-type": "multipart/form-data",
+                "content-type": contentType,
             },
         }
     }

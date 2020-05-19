@@ -38,7 +38,7 @@ const downloadPDF = (dispatch: Dispatch<any>) => (paysheetId: number) => {
 
 const uploadPDF = (dispatch: Dispatch<any>) => (paysheet: any, onSuccess: () => void) => {
     axios
-        .post(`${Endpoints.apiEndpoint}/payment-list/`, paysheet, AuthHeader(true))
+        .post(`${Endpoints.apiEndpoint}/payment-list/`, paysheet, AuthHeader("multipart/form-data"))
         .then((response) => {
             onSuccess()
         })
