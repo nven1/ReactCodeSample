@@ -2,6 +2,10 @@
 
 .container {
     @extend .normal;
+    display: grid;
+    grid-template-columns: max-content 1fr 0.5em;
+    align-items: baseline;
+    align-self: center;
     padding: 0.6rem 0em;
     border-radius: 300px;
     background-color: $greyPrimary;
@@ -10,6 +14,7 @@
     label {
         padding: 0 1em;
         opacity: 0.8;
+        height: 100%;
     }
 
     input {
