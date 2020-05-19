@@ -3,6 +3,7 @@ import userReducer from "../reducers/UserReducer"
 import departmentReducer from "../reducers/DepartmentReducer"
 import calendarReducer from "../reducers/CalendarReducer"
 import errorReducer from "../reducers/ErrorReducer"
+import paysheetsReducer from "../reducers/PaysheetsReducer"
 
 export const store = configureStore({
     reducer: {
@@ -10,6 +11,7 @@ export const store = configureStore({
         departments: departmentReducer,
         calendar: calendarReducer,
         error: errorReducer,
+        paysheets: paysheetsReducer,
     },
 })
 

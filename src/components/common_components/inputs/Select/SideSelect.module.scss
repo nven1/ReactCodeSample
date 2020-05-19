@@ -1,0 +1,34 @@
+@import "../../../../styles/index.scss";
+
+.sideSelect {
+    display: flex;
+    justify-content: space-between;
+    background-color: $greyPrimary;
+    border-radius: 100px;
+    padding: 0.5em;
+
+    button {
+        @extend %center;
+        @extend %buttonPreset;
+        align-items: center;
+        height: 2em;
+        width: 2em;
+        background-color: $greyPrimary;
+
+        &:hover:enabled {
+            color: $greyPrimary;
+            background-color: $purplePrimary;
+            transition: 300ms ease-out;
+        }
+    }
+
+    span {
+        @extend %textOverflow;
+        text-align: center;
+        color: $purplePrimary;
+    }
+}
+
+.cardFit {
+    margin: 0 3em;
+}
