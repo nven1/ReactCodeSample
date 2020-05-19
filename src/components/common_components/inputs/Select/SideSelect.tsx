@@ -40,7 +40,7 @@ const SideSelect: React.FC<SideSelectProps> = (props) => {
     const isNotFirst = selectedIndex > 0
     const isNotLast = selectedIndex < props.options.length - 1
 
-    const handleNext = (e: any) => {
+    const handleNext = (e: React.MouseEvent<HTMLButtonElement>) => {
         e.preventDefault()
         e.stopPropagation()
         if (isNotLast) {
@@ -48,7 +48,7 @@ const SideSelect: React.FC<SideSelectProps> = (props) => {
         }
     }
 
-    const handlePrevious = (e: any) => {
+    const handlePrevious = (e: React.MouseEvent<HTMLButtonElement>) => {
         e.preventDefault()
         e.stopPropagation()
         if (isNotFirst) {
@@ -56,7 +56,7 @@ const SideSelect: React.FC<SideSelectProps> = (props) => {
         }
     }
 
-    const prevent = (e: any) => {
+    const prevent = (e: React.MouseEvent<HTMLDivElement>) => {
         e.preventDefault()
         e.stopPropagation()
     }
