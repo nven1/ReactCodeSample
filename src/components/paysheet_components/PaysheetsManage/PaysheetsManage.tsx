@@ -7,6 +7,7 @@ import { useParams } from "react-router"
 import UserPaysheets from "../UserPaysheets/UserPaysheets"
 import { selectAllPaysheets } from "../../../reducers/PaysheetsReducer"
 import PaysheetsDataAccess from "../../../data_access/PaysheetsDataAccess"
+import Endpoints from "../../../environments/endpoints"
 
 interface PaysheetsManageProps {}
 
@@ -39,7 +40,7 @@ const PaysheetsManage: React.FC<PaysheetsManageProps> = (props) => {
 
     return (
         <div className={styles.container}>
-            <StaffOverview users={users} />
+            <StaffOverview users={users} linkTo={`${Endpoints.appEndpoints.paysheets}/manage`} />
             {id && <UserPaysheets paysheets={getPaysheetsById()} title={getUserName()} />}
         </div>
     )

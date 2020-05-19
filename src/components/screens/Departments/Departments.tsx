@@ -52,7 +52,7 @@ const Departments: React.FC<DepartmentsProps> = (props) => {
     }
 
     const handleAddDepartment = () => {
-        navigate(departments.length.toString())()
+        navigate("")()
     }
 
     const toolbarResolver = (): string => {
