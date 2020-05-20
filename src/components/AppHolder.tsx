@@ -10,6 +10,7 @@ import Staff from "./screens/Staff/Staff"
 import Calendar from "./screens/Calendar/Calendar"
 import Paysheets from "./screens/Paysheets/Paysheets"
 import Snack from "./common_components/indicators/Snack/Snack"
+import Profile from "./screens/Profile/Profile"
 
 interface AppHolderProps extends RouteComponentProps {
     authenticated: boolean
@@ -39,6 +40,7 @@ const AppHolder: React.FC<AppHolderProps> = (props) => {
             <Route exact path={`${Endpoints.appEndpoints.staff}/:mode?/:action?`} component={Staff} />
             <Route path={`${Endpoints.appEndpoints.calendar}/:mode?/:id?`} component={Calendar} />
             <Route path={`${Endpoints.appEndpoints.paysheets}/:mode?/:id?`} component={Paysheets} />
+            <Route path={Endpoints.appEndpoints.user} component={Profile} />
         </>
     )
 

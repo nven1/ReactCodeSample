@@ -35,7 +35,7 @@ const Header: React.FC<HeaderProps> = (props) => {
             <NavButton to={Endpoints.extEndpoints.wiki} external>
                 Wiki
             </NavButton>
-            <NavButtonDropdown to={Endpoints.appEndpoints.user}>{me?.firstName}</NavButtonDropdown>
+            <NavButton to={Endpoints.appEndpoints.user}>{me?.firstName}</NavButton>
             <Button color="red" onClick={handleLogout}>
                 Logout
             </Button>
