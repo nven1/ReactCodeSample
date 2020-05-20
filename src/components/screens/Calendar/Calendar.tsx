@@ -7,7 +7,7 @@ import AddVacationForm from "../../calendar_components/AddVacationForm/AddVacati
 import Toolbar, { ToolbarButtonItemType } from "../../common_components/bars/Toolbar/Toolbar"
 import { isNum } from "../../../utils/navHelpers"
 import { useSelector } from "react-redux"
-import { selectIsAdmin } from "../../../reducers/UserReducer"
+import { selectIsVacationManager } from "../../../reducers/UserReducer"
 import CalendarMe from "../../calendar_components/CalendarMe/CalendarMe"
 import GuardedSwitch from "../../common_components/navigation/GuardedSwitch/GuardedSwitch"
 import IfRoute from "../../common_components/navigation/IfRoute/IfRoute"
@@ -17,14 +17,14 @@ const URL = Endpoints.appEndpoints.calendar
 
 const Calendar: React.FC<CalendarProps> = (props) => {
     const { mode } = useParams()
-    const isAdmin = useSelector(selectIsAdmin)
+    const isVacationManager = useSelector(selectIsVacationManager)
 
     const toolbarButtons: Array<ToolbarButtonItemType> = [
         { key: "me", text: "Me" },
         { key: "manage", text: "Manage" },
     ]
 
-    const userTypeHome = isAdmin ? "manage" : "me"
+    const userTypeHome = isVacationManager ? "manage" : "me"
 
     return (
         <div className={styles.container}>
@@ -33,11 +33,16 @@ const Calendar: React.FC<CalendarProps> = (props) => {
                 label="Calendar"
                 actionLabel={mode === "add" ? "" : "Add leave"}
                 onAction="add"
-                buttons={isAdmin ? toolbarButtons : [toolbarButtons[0]]}
+                buttons={isVacationManager ? toolbarButtons : [toolbarButtons[0]]}
             />
             <div className={styles.page}>
                 <GuardedSwitch redirectTo={{ url: URL, to: userTypeHome }}>
-                    <IfRoute if={isAdmin} exact path={`${URL}/manage/:id${isNum}?`} component={CalendarManage} />
+                    <IfRoute
+                        if={isVacationManager}
+                        exact
+                        path={`${URL}/manage/:id${isNum}?`}
+                        component={CalendarManage}
+                    />
                     <Route exact path={`${URL}/me`} component={CalendarMe} />
                     <Route exact path={`${URL}/add`} component={AddVacationForm} />
                     <Route path="*">404</Route>
