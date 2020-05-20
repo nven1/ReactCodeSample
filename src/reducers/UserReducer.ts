@@ -36,9 +36,21 @@ export const slice = createSlice({
 export const { getMyUserAction, clearUserReducerAction, getUsersAction, getRolesAction } = slice.actions
 
 export const selectMe = (state: RootState) => state.users.me
+
 export const selectIsAdmin = (state: RootState) =>
-    !!state.users.me?.roles.filter((role) => role.name === ("admin" || "departmentManager")).length
+    !!state.users.me?.roles.filter((role) => role.name === "admin").length
+
+export const selectIsDepartmentManager = (state: RootState) =>
+    !!state.users.me?.roles.filter((role) => role.name === ("departmentManager" || "admin")).length
+
+export const selectIsVacationManager = (state: RootState) =>
+    !!state.users.me?.roles.filter((role) => role.name === ("vacationManager" || "admin")).length
+
+export const selectIsPaysheetManager = (state: RootState) =>
+    !!state.users.me?.roles.filter((role) => role.name === ("paymentListManager" || "admin")).length
+
 export const selectUsers = (state: RootState) => state.users.users
+
 export const selectRoles = (state: RootState) => state.users.roles
 
 export default slice.reducer
