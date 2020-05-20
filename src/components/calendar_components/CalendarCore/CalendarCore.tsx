@@ -66,6 +66,7 @@ const CalendarCore: React.FC<CalendarCoreProps> = (props) => {
             firstDay={1}
             eventLimit
             selectable={!!props.onSelect}
+            selectConstraint={{ start: moment().toISOString() }}
             select={handleSelect}
             eventRender={eventRendererOptions}
             validRange={{
