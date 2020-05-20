@@ -103,7 +103,7 @@ const StaffDetail: React.FC<StaffDetailProps> = (props) => {
                 </div>
             </Card>
 
-            {(isAdmin || props.user.id === me?.id) && (
+            {isAdmin && (
                 <Card>
                     <div className={styles.manageContent}>
                         <LinkButton to={goTo(URL, mode ?? "", "edit")} color="purple">
