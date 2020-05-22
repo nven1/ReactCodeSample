@@ -1,7 +1,7 @@
 import React, { useEffect } from "react"
 import styles from "./Paysheets.module.scss"
 import { useSelector, useDispatch } from "react-redux"
-import { selectIsAdmin, selectUsers } from "../../../reducers/UserReducer"
+import { selectUsers, selectIsPaysheetManager } from "../../../reducers/UserReducer"
 import Toolbar, { ToolbarButtonItemType } from "../../common_components/bars/Toolbar/Toolbar"
 import Endpoints from "../../../environments/endpoints"
 import { Route } from "react-router"
@@ -27,7 +27,7 @@ const toolbarButtons: Array<ToolbarButtonItemType> = [
 const Paysheets: React.FC<PaysheetsProps> = (props) => {
     const dispatch = useDispatch()
 
-    const isAdmin = useSelector(selectIsAdmin)
+    const isPaysheetManager = useSelector(selectIsPaysheetManager)
     const users = useSelector(selectUsers)
 
     useEffect(() => {
@@ -38,16 +38,26 @@ const Paysheets: React.FC<PaysheetsProps> = (props) => {
         // eslint-disable-next-line
     }, [])
 
-    const userTypeHome = isAdmin ? "manage" : "me"
+    const userTypeHome = isPaysheetManager ? "manage" : "me"
 
     return (
         <div className={styles.container}>
-            <Toolbar label="Paysheets" url={URL} buttons={isAdmin ? toolbarButtons : [toolbarButtons[0]]} />
+            <Toolbar label="Paysheets" url={URL} buttons={isPaysheetManager ? toolbarButtons : [toolbarButtons[0]]} />
             <div className={styles.page}>
                 <GuardedSwitch redirectTo={{ url: URL, to: userTypeHome }}>
                     <Route exact path={`${URL}/me`} component={PaysheetsMe} />
-                    <IfRoute if={isAdmin} exact path={`${URL}/manage/:id${isNum}?`} component={PaysheetsManage} />
-                    <IfRoute if={isAdmin} exact path={`${URL}/add/:id${isNum}`} render={() => <AddPaysheetForm />} />
+                    <IfRoute
+                        if={isPaysheetManager}
+                        exact
+                        path={`${URL}/manage/:id${isNum}?`}
+                        component={PaysheetsManage}
+                    />
+                    <IfRoute
+                        if={isPaysheetManager}
+                        exact
+                        path={`${URL}/add/:id${isNum}`}
+                        render={() => <AddPaysheetForm />}
+                    />
                     <Route path="*">404</Route>
                 </GuardedSwitch>
             </div>

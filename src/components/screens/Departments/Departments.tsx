@@ -6,7 +6,7 @@ import { selectDepartments } from "../../../reducers/DepartmentReducer"
 import Department from "../../departments_components/Department/Department"
 import OverflowButton from "../../departments_components/OverflowButton/OverflowButton"
 import AddDepartmentForm from "../../departments_components/AddDepartmentForm/AddDepartmentForm"
-import { selectIsAdmin } from "../../../reducers/UserReducer"
+import { selectIsDepartmentManager } from "../../../reducers/UserReducer"
 import DepartmentDataAccess from "../../../data_access/DepartmentDataAccess"
 import { useParams, Route, useHistory } from "react-router"
 import Endpoints from "../../../environments/endpoints"
@@ -23,7 +23,7 @@ const Departments: React.FC<DepartmentsProps> = (props) => {
     const history = useHistory()
 
     const departments = useSelector(selectDepartments)
-    const isAdmin = useSelector(selectIsAdmin)
+    const isDepartmentManager = useSelector(selectIsDepartmentManager)
 
     const { mode, edit } = useParams()
 
@@ -46,7 +46,7 @@ const Departments: React.FC<DepartmentsProps> = (props) => {
     const renderSingle = () => {
         const dp = departments.filter((dp) => dp.id === Number(mode))[0]
         if (dp) {
-            return <Department department={dp} edit={edit === "edit" && isAdmin} />
+            return <Department department={dp} edit={edit === "edit" && isDepartmentManager} />
         }
         history.push(URL)
     }
@@ -65,7 +65,7 @@ const Departments: React.FC<DepartmentsProps> = (props) => {
     }
 
     const toolbarActionButtonLabel = (): string | undefined => {
-        if (isAdmin) {
+        if (isDepartmentManager) {
             if (!mode) {
                 return "Add department"
             } else if (!isNaN(Number(mode))) {
@@ -92,9 +92,9 @@ const Departments: React.FC<DepartmentsProps> = (props) => {
                 <GuardedSwitch>
                     <Route exact path={URL} render={renderAll} />
                     <Route exact path={`${URL}/:mode${isNum}`} render={renderSingle} />
-                    <IfRoute if={isAdmin} exact path={`${URL}/:mode${isNum}/edit`} render={renderSingle} />
+                    <IfRoute if={isDepartmentManager} exact path={`${URL}/:mode${isNum}/edit`} render={renderSingle} />
                     <IfRoute
-                        if={isAdmin}
+                        if={isDepartmentManager}
                         exact
                         path={`${URL}/add`}
                         render={() => <AddDepartmentForm onSubmit={handleAddDepartment} />}
