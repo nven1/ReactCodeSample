@@ -11,7 +11,7 @@ export interface UsersState {
 const initialState: UsersState = {
     me: undefined,
     users: [],
-    roles: []
+    roles: [],
 }
 
 export const slice = createSlice({
@@ -29,8 +29,8 @@ export const slice = createSlice({
         },
         getRolesAction: (state, action: PayloadAction<Array<RoleType>>) => {
             state.roles = action.payload
-        }
-    }
+        },
+    },
 })
 
 export const { getMyUserAction, clearUserReducerAction, getUsersAction, getRolesAction } = slice.actions
@@ -39,13 +39,13 @@ export const selectMe = (state: RootState) => state.users.me
 export const selectUsers = (state: RootState) => state.users.users
 export const selectRoles = (state: RootState) => state.users.roles
 
-export const selectIsAdmin = (state: RootState) => !!state.users.me?.roles.filter(role => role.name === "admin").length
+export const selectIsAdmin = (state: RootState) => checkIfExists(state, "")
 export const selectIsDepartmentManager = (state: RootState) => checkIfExists(state, "departmentManager")
 export const selectIsVacationManager = (state: RootState) => checkIfExists(state, "vacationManager")
 export const selectIsPaysheetManager = (state: RootState) => checkIfExists(state, "paymentListManager")
 
 const checkIfExists = (state: RootState, param: string): boolean => {
-    return !!state.users.me?.roles.some(role => role.name === param || role.name === "admin")
+    return !!state.users.me?.roles.some((role) => role.name === param || role.name === "admin")
 }
 
 export default slice.reducer
